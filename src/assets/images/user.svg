@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42.734" height="42.734" viewBox="0 0 42.734 42.734">
+  <g id="Rectangle_12" data-name="Rectangle 12" transform="matrix(-0.839, -0.545, 0.545, -0.839, 25.909, 42.734)" fill="#fff" stroke="#d8d8d8" stroke-width="1">
+    <path d="M10,0H30.893a0,0,0,0,1,0,0V20.893a10,10,0,0,1-10,10H9a9,9,0,0,1-9-9V10A10,10,0,0,1,10,0Z" stroke="none"/>
+    <path d="M10,.5H30.393a0,0,0,0,1,0,0V20.893a9.5,9.5,0,0,1-9.5,9.5H9a8.5,8.5,0,0,1-8.5-8.5V10A9.5,9.5,0,0,1,10,.5Z" fill="none"/>
+  </g>
+</svg>

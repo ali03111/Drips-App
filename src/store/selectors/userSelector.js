@@ -1,0 +1,9 @@
+export const selectUserState = (state) => state.UserReducer;
+export const selectUser = (state) => state.UserReducer.user;
+export const selectUserType = (state) => state.UserReducer.userType;
+export const selectSchedule = (state) => state.UserReducer.schedule;
+export const selectNotifications = (state) => state.UserReducer.notifications;
+export const selectMessages = (state) => state.ChatReducer;
+export const selectCards = (state) => state.UserReducer.cards;
+export const selectAccount = (state) => state.UserReducer.account;
+export const selectConsultantState = (state) => state.ConsultantReducer;

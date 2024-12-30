@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "782258481386",
+    "project_id": "drips-medical",
+    "storage_bucket": "drips-medical.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782258481386:android:d580aa5659462b00df4f93",
+        "android_client_info": {
+          "package_name": "com.app.drips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782258481386-mfm6or8m735941untbskr7a0dklpijo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBINa1RJ-zKKBSsSpUvNNDILF6fSITK-wY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782258481386-mfm6or8m735941untbskr7a0dklpijo0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782258481386-d39q9gks33lu73u65qpbi6tbuqjq11oe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.drips"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
