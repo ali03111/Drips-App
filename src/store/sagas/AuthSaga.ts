@@ -109,6 +109,7 @@ export function* register(action: any): any {
     setItem('signup_data', authObj);
     navigate('ContactInfo' as never);
   } else {
+    console.log("kjsbdvjksbkvbsdklvbsdklbvdklsbvkldsbvklsdblvksdblkvksldbvksdbvsdv",response)
     // store.dispatch(showToast("Something went wrong"));
     errorHandler(response)
   }
