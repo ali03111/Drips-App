@@ -84,6 +84,7 @@ export const IMAGES = {
   tick: require("../src/assets/images/tick.png"),
   avatar: require("../src/assets/images/avatar.png"),
   avatar_placeholder: require("../src/assets/images/avatar_placeholder.png"),
+  trashImg: require("../src/assets/images/trashRed.png"),
 
   doctor1: require("../src/assets/images/doctor1.png"),
   doctor2: require("../src/assets/images/doctor2.png"),

@@ -7,37 +7,84 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { IMAGES, COLORS } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
-import { navigate } from "../../navigation/RootNavigation";
-import { updateAppStates } from "../../store/actions/AppActions";
-import { CheckBox } from "../../components/icons";
+import * as Validator from "../../utils/Validator";
 import { userUserDataAction } from "../../store/actions/UserActions";
+import { CheckBox } from "../../components/icons";
 
-const AlergyInfo = (props) => {
-  const signupStep = "step2";
+const Medication = (props) => {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(null);
+
+  const [form, setForm] = useState([
+    {
+      label: "Surgical History",
+      placeholder: "Current Medications ...",
+      type: "text",
+      value: "",
+      error: "",
+      keyboardType: "default",
+      refName: "medical_history",
+      multiline: false,
+      maxLength: 100,
+    },
+  ]);
+
+  const [medications, setMedications] = useState([{ alergic: "" }]);
   const [dummy, setDummy] = useState(0);
-  const [allergies, setAllergies] = useState([{ alergic: "" }]);
+  const signupStep = "step7";
+  const [errors, setErrors] = useState({});
+
+  // const _onSubmit = async () => {
+  //   let validateData = {};
+  //   form.forEach((i) => {
+  //     validateData[i.refName] = i.value;
+  //   });
+  //   Validator.validate(validateData).then((err) => {
+  //     if (!err) {
+  //       dispatch(
+  //         userUserDataAction(
+  //           signupStep,
+  //           { Current_medication1: validateData.medical_history },
+  //           "SelfAssessment"
+  //         )
+  //       );
+  //     } else {
+  //       setErrors(err);
+  //     }
+  //   });
+  // };
 
   const _onSubmit = async () => {
     if (!select) return;
-    dispatch(
-      userUserDataAction(
-        signupStep,
-        {
-          Is_allergies: select.toLowerCase(),
-          allergies: select == "Yes" ? allergies.map((res) => res.alergic) : [],
-        },
-        "MedicalHistory"
-      )
-    );
+
+    //         dispatch(
+    //     userUserDataAction(
+    //       signupStep,
+    //       { Current_medication1: validateData.medical_history },
+    //       "SelfAssessment"
+    //     )
+    //   );
+    // dispatch(
+    //   userUserDataAction(
+    //     signupStep,
+    //     {
+    //       Is_allergies: select.toLowerCase(),
+    //       allergies: select == "Yes" ? allergies.map((res) => res.alergic) : [],
+    //     },
+    //     "MedicalHistory"
+    //   )
+    // );
+  };
+
+  const isInValid = () => {
+    return form.filter((i) => i.value === "").length > 0;
   };
 
   return (
@@ -54,11 +101,6 @@ const AlergyInfo = (props) => {
               style={{ width: "70%", height: 100 }}
               resizeMode={"contain"}
             />
-
-            <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
-              Allergies
-            </Typography>
-
             <ScrollView
               contentContainerStylestyle={{
                 borderWidth: 1,
@@ -69,15 +111,19 @@ const AlergyInfo = (props) => {
               }}
               showsVerticalScrollIndicator={false}
             >
-              <Typography align="center">
-                Are you allergic to any Medication or do you have any type of
-                allergies?
+              <Typography color={COLORS.primary} style={{ marginTop: 10 }}>
+                Current Medication
+              </Typography>
+
+              <Typography size={12} textType="light" style={{ marginTop: 10 }}>
+                Are you currently taking any medication
               </Typography>
 
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-around",
+                  justifyContent: "space-between",
+                  width: "50%",
                 }}
               >
                 {["Yes", "No"].map((i, index) => (
@@ -85,7 +131,10 @@ const AlergyInfo = (props) => {
                     key={index}
                     activeOpacity={1}
                     style={styles.options}
-                    onPress={() => setSelect(i)}
+                    onPress={() => {
+                      if (i == "No") setMedications([]);
+                      setSelect(i);
+                    }}
                   >
                     <CheckBox selected={i === select} />
                     <Typography>{` ${i}`}</Typography>
@@ -94,9 +143,16 @@ const AlergyInfo = (props) => {
               </View>
               {select == "Yes" && (
                 <>
+                  <Typography
+                    size={12}
+                    textType="light"
+                    style={{ marginVertical: 10 }}
+                  >
+                    List all active medication you take:
+                  </Typography>
                   <TouchableOpacity
                     onPress={() =>
-                      setAllergies([...allergies, { alergic: "" }])
+                      setMedications([...medications, { alergic: "" }])
                     }
                   >
                     <Typography
@@ -105,7 +161,7 @@ const AlergyInfo = (props) => {
                       Add more +
                     </Typography>
                   </TouchableOpacity>
-                  {allergies.map((res, index) => {
+                  {medications.map((res, index) => {
                     return (
                       <View
                         key={index}
@@ -116,9 +172,9 @@ const AlergyInfo = (props) => {
                         }}
                       >
                         <InputText
-                          placeholder={`Enter allergies`}
+                          placeholder={`Enter medications`}
                           onChangeText={(text) => {
-                            setAllergies((prevAllergies) =>
+                            setMedications((prevAllergies) =>
                               prevAllergies.map((allergy, i) =>
                                 i === index
                                   ? { ...allergy, alergic: text }
@@ -126,19 +182,16 @@ const AlergyInfo = (props) => {
                               )
                             );
                           }}
-                          value={allergies[index]?.alergic}
+                          value={medications[index]?.alergic}
                           autoCapitalize={"none"}
                           returnKeyType={"done"}
-                          // onSubmitEditing={() =>
-                          //   PasswordInput.current && PasswordInput.current.focus()
-                          // }
                           style={{ width: "85%" }}
                           allowSpacing={false}
                         />
                         <TouchableOpacity
                           onPress={() => {
                             setDummy(dummy + 1);
-                            allergies.splice(index, 1);
+                            medications.splice(index, 1);
                           }}
                         >
                           <Image
@@ -153,12 +206,11 @@ const AlergyInfo = (props) => {
                 </>
               )}
             </ScrollView>
-
             <View style={{ marginTop: 10 }}>
               <Button
-                disabled={!select}
+                disabled={isInValid()}
                 label={"Next"}
-                onPress={() => _onSubmit()}
+                onPress={_onSubmit}
               />
               <Button
                 label={"Back"}
@@ -189,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlergyInfo;
+export default Medication;
