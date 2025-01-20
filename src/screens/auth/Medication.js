@@ -64,23 +64,24 @@ const Medication = (props) => {
   const _onSubmit = async () => {
     if (!select) return;
 
-    //         dispatch(
-    //     userUserDataAction(
-    //       signupStep,
-    //       { Current_medication1: validateData.medical_history },
-    //       "SelfAssessment"
-    //     )
-    //   );
-    // dispatch(
+    //       dispatch(
     //   userUserDataAction(
     //     signupStep,
-    //     {
-    //       Is_allergies: select.toLowerCase(),
-    //       allergies: select == "Yes" ? allergies.map((res) => res.alergic) : [],
-    //     },
-    //     "MedicalHistory"
+    //     { Current_medication1: validateData.medical_history },
+    //     "SelfAssessment"
     //   )
     // );
+    dispatch(
+      userUserDataAction(
+        signupStep,
+        {
+          is_current_medication: select.toLowerCase(),
+          Current_medication1:
+            select == "Yes" ? medications.map((res) => res.alergic) : [],
+        },
+        "SelfAssessment"
+      )
+    );
   };
 
   const isInValid = () => {
@@ -207,11 +208,7 @@ const Medication = (props) => {
               )}
             </ScrollView>
             <View style={{ marginTop: 10 }}>
-              <Button
-                disabled={isInValid()}
-                label={"Next"}
-                onPress={_onSubmit}
-              />
+              <Button disabled={!select} label={"Next"} onPress={_onSubmit} />
               <Button
                 label={"Back"}
                 onPress={() => props.navigation.goBack()}
