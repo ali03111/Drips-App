@@ -56,6 +56,7 @@ export function* authenticate(action: any): any {
 export function* updateUserData(action: any): any {
   console.log("actionactionactionactionactionactionactionaction",action,selectAppReducer)
   const { user } = yield select( selectUserState );
+  const appState = yield select( selectAppState );
   yield put( enableLoader() );
   let response:any = {};
   if(action.payload.pic || action.payload.formData){
@@ -83,8 +84,19 @@ export function* updateUserData(action: any): any {
     setItem('signup_step', action.step);
     if(!action.payload.pic)
       navigate(action.routeName as never);
-    else
-      reset('Login')
+    else{
+    onUserLogin({
+      userID:resData?.id,
+      userName:resData?.name,
+    })
+    const authObj: any = {
+      'user': { ...resData, ...resData,user_id:resData.id },
+      'token': resData.token,
+      'userType': appState.userType,
+      // 'providerType': data.service_provider_type,
+    };
+    setItem('user_data', authObj);
+    yield put( updateUserStates(authObj) );}
   } else {
     errorHandler(response)
   }

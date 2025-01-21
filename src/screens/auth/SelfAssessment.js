@@ -95,7 +95,7 @@ const SelfAssessment = (props) => {
     );
     Validator.validate(validateData).then((err) => {
       if (!err) {
-        dispatch(userUserDataAction(signupStep, validateData, "UploadProfile"));
+        dispatch(userUserDataAction(signupStep, validateData, "BloodType"));
       } else {
         setErrors(err);
       }

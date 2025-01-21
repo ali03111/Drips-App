@@ -13,6 +13,7 @@ import Signup from "../screens/auth/Signup";
 import Verification from "../screens/auth/Verification";
 import ContactInfo from "../screens/auth/ContactInfo";
 import AlergyInfo from "../screens/auth/AlergyInfo";
+import BloodType from "../screens/auth/BloodType";
 import MedicalHistory from "../screens/auth/MedicalHistory";
 import SurgicalHistory from "../screens/auth/SurgicalHistory";
 import FamilyHistory from "../screens/auth/FamilyHistory";
@@ -104,6 +105,7 @@ const AuthNavigation = () => {
       <Stack.Screen name="Verification" component={Verification} />
       <Stack.Screen name="ContactInfo" component={ContactInfo} />
       <Stack.Screen name="AlergyInfo" component={AlergyInfo} />
+      <Stack.Screen name="BloodType" component={BloodType} />
       <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
       <Stack.Screen name="SurgicalHistory" component={SurgicalHistory} />
       <Stack.Screen name="FamilyHistory" component={FamilyHistory} />
