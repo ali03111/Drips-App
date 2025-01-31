@@ -398,6 +398,8 @@ PODS:
   - RNCCheckbox (0.5.16):
     - BEMCheckBox (~> 1.4)
     - React-Core
+  - RNCPicker (2.11.0):
+    - React-Core
   - RNDateTimePicker (6.7.5):
     - React-Core
   - RNDeviceInfo (10.8.0):
@@ -426,12 +428,11 @@ PODS:
     - RNNotifee/NotifeeCore (= 5.7.0)
   - RNNotifee/NotifeeCore (5.7.0):
     - React-Core
-  - RNReanimated (3.4.2):
+  - RNReanimated (2.17.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
     - glog
-    - hermes-engine
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -441,7 +442,6 @@ PODS:
     - React-Core/RCTWebSocket
     - React-CoreModules
     - React-cxxreact
-    - React-hermes
     - React-jsi
     - React-jsiexecutor
     - React-jsinspector
@@ -527,6 +527,7 @@ DEPENDENCIES:
   - "RNCallKeep (from `../node_modules/@zegocloud/react-native-callkeep`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -654,6 +655,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCCheckbox:
     :path: "../node_modules/@react-native-community/checkbox"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
@@ -744,6 +747,7 @@ SPEC CHECKSUMS:
   RNCallKeep: 7c86d916fbc6b2184a5cf47967a240928994547e
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
   RNCCheckbox: 75255b03e604bbcc26411eb31c4cbe3e3865f538
+  RNCPicker: 4f6d5e8d107064be32dfc8f1bcb5a3741135db0b
   RNDateTimePicker: 65e1d202799460b286ff5e741d8baf54695e8abd
   RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
   RNFBApp: d59efa0872fff4e27de03cca3c528c203a436ae5
@@ -751,7 +755,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNNotifee: 5155e0a5e0a97d0c839030d8192783cd63053999
-  RNReanimated: aa8bda648be0174b2b83246ab9cd2644b46ca3c1
+  RNReanimated: bec7736122a268883bdede07f1bf9cf4b40158db
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: 03e4d258ca355d7836a0a5dd4d4dc63c1eb49cbb

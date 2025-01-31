@@ -57,7 +57,7 @@ export const onUserLogout = async () => {
   return ZegoUIKitPrebuiltCallService.uninit();
 };
 export const onUserLogin = async ({ userID, userName, userType }) => {
-  console.log("ZegoUIKitPrebuiltCallService ===> ", userName);
+  console.log("ZegoUIKitPrebuiltCallService ===> ", userName, userID);
   return ZegoUIKitPrebuiltCallService.init(
     ZegoConfig.APP_ID,
     ZegoConfig.APP_SIGN,

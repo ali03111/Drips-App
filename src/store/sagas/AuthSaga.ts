@@ -33,6 +33,7 @@ export function* authenticate(action: any): any {
 
   if(response.code === '200' ){
     const data = response.data;
+   console.log("datadatadatadatadatadatadatadatadata",data)
     onUserLogin({
       userID:data.id,
       userName:data.name,
@@ -74,7 +75,8 @@ export function* updateUserData(action: any): any {
   }
   yield put( disableLoader() );
   if(response.code === '200' ){
-    const resData = response.user;
+    const resData = response.data;
+    console.log("resDataresDataresDataresDataresDataresData",JSON.stringify(response))
     const authObj: any = {
       'user': {...user,...resData},
       'userType': store.getState().AppReducer.userType
@@ -103,7 +105,7 @@ export function* updateUserData(action: any): any {
 } 
 
 export function* register(action: any): any {
-
+console.log("lsdbsbdlkvbsdlkvbslkdvbklsbvlksdbvklsdblvksbklvbklds",JSON.stringify(action))
   const { fcmToken } = yield select( selectAppState );
   yield put( enableLoader() );
   const response = yield call( registerApi, {
