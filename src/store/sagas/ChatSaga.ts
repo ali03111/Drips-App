@@ -38,6 +38,8 @@ export function* createMessageSaga({ payload }: any): any {
   }  
   const response = yield call(createMessageApi, body);
 
+  console.log('kjsdbvjksdkjvsbdkjvbsdkvbklsdbklsdbvlksd',JSON.stringify(response))
+
   if (response.code === '200') {
     const msg = {...payload,created_at:new Date()};
     // yield put(getChatDetailsAction({id:payload.consultant_id}));

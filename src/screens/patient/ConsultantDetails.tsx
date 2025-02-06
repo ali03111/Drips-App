@@ -42,7 +42,8 @@ const ConsultantDetails = (props) => {
   console.log("ConsultantDetails item ==> ", item);
 
   let imagePath =
-    (item.pic && { uri: IMAGE_URL + item.pic }) || IMAGES.avatar_placeholder;
+    (item.doctorimage && { uri: IMAGE_URL + item.doctorimage }) ||
+    IMAGES.avatar_placeholder;
   const updatePaymentUrl = (type: string) => {
     //https://portal.dripsmedical.com/paynow/573?type=chat
     let url = `${PAYMENT_URL}/${item.id}?type=${type}`;
@@ -51,7 +52,11 @@ const ConsultantDetails = (props) => {
     setPaymentUrl(url);
     setPayment(true);
   };
-
+  console.log(
+    "jklsdbvklsbdklvsdklvbsdklvbskdlbv",
+    item,
+    IMAGE_URL + item.doctorimage
+  );
   const _fetchDoctorDetails = () => {
     const physicianId = item.doctor_id;
     let data = {
@@ -94,6 +99,8 @@ const ConsultantDetails = (props) => {
     updatePaymentUrl("chat");
   };
   const _onChatPress = async () => {
+    console.log("itemitemitemitemitemitemitemitemitemitemitemitemitem", item);
+
     await dispatch(getChatDetailsAction(item));
     // updatePaymentUrl('chat',{item})
   };

@@ -44,15 +44,31 @@ const EditMedicalHistory = (props) => {
     dispatch(fetchMedicalHistory());
   };
 
+  console.log(
+    "medicalDetailsmedicalDetailsmedicalDetailsmedicalDetailsmedicalDetails",
+    medicalDetails
+  );
+
+  function flattenArray<T>(arr: T): T {
+    if (Array.isArray(arr) && arr.length === 1 && Array.isArray(arr[0])) {
+      return arr[0] as T;
+    }
+    return arr;
+  }
+
   useEffect(() => {
     updateState({
       surgicalHistory:
-        (medicalDetails.Surgeries1 && medicalDetails.Surgeries1) || [],
+        (medicalDetails.Surgeries1.length > 0 &&
+          flattenArray(medicalDetails.Surgeries1)) ||
+        [],
       pastMedicalHistory:
         (medicalDetails.past_medical_history &&
-          medicalDetails.past_medical_history) ||
+          flattenArray(medicalDetails.past_medical_history)) ||
         [],
-      allergies: (medicalDetails.allergies && medicalDetails.allergies) || [],
+      allergies:
+        (medicalDetails.allergies && flattenArray(medicalDetails.allergies)) ||
+        [],
     });
   }, []);
 
@@ -144,6 +160,13 @@ const EditMedicalHistory = (props) => {
         break;
     }
   };
+
+  console.log(
+    "surgicalHistorysurgicalHistorysurgicalHistorysurgicalHistorysurgicalHistorysurgicalHistorysurgicalHistory",
+    pastMedicalHistory,
+    surgicalHistory,
+    allergies
+  );
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>

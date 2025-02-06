@@ -42,6 +42,8 @@ const ProfileSettings = (props) => {
   const actionSheet: any = useRef();
   const [modalState, setModalState] = useState(false);
 
+  console.log("useruseruseruseruseruseruser", user);
+
   const inputRefs: any = useRef([]);
   const [errors, setErrors] = useState({});
   const [userProfile, setProfile] = useState({
@@ -103,7 +105,7 @@ const ProfileSettings = (props) => {
       placeholder: "Date Of Birth",
       type: "datetime",
       mode: "date",
-      value: user.DOB,
+      value: user?.dob,
       error: "",
       keyboardType: "default",
       refName: "DOB",
@@ -115,7 +117,7 @@ const ProfileSettings = (props) => {
       label: "Gender",
       placeholder: "Gender",
       type: "text",
-      value: startCase(user.Gender),
+      value: startCase(user?.gender),
       error: "",
       keyboardType: "default",
       refName: "Gender",

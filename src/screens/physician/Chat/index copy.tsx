@@ -23,8 +23,6 @@ import {
 } from "../../../store/actions/ChatActions";
 import { RootState } from "../../../store/reducers";
 import ChatBubble from "./ChatBubble";
-import { errorHandler } from "../../../utils/utils";
-import { messageApi } from "../../../store/services/Services";
 
 const ChatConsole = ({ onSend }) => {
   const [value, setValue] = useState("");
@@ -118,33 +116,6 @@ const Chat = (props) => {
     }, 4000);
   };
   let listRef = createRef<FlatList>();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getChatData();
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getChatData = async () => {
-    const response = await messageApi(apointmentItem.id);
-
-    if (response.code === "200" || response.code === 200) {
-      // yield put( resetUnread( id ) );
-      newMessages(response.data);
-      listRef.current?.scrollToEnd({ animated: true });
-      // dispatch(
-      //   updateChatStates({
-      //     apointmentItem,
-      //     appointmentId: apointmentItem.id,
-      //     messages: response.data,
-      //   })
-      // );
-    } else {
-      errorHandler(response);
-    }
-  };
-
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>

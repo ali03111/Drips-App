@@ -47,10 +47,13 @@ const Consultations = (props) => {
   const { title = "Scheduled Consultations" } = props.route.params || {};
 
   const getData = () => {
-    if (searchText === "") return physicianPatients;
-    return physicianPatients.filter((i) =>
-      i.name.toLowerCase().includes(searchText.toLocaleLowerCase())
-    );
+    if (!searchText) return physicianPatients; // Handles empty, null, or undefined values
+    return physicianPatients.filter((i) => {
+      if (i.name != null) {
+        i.name.toLowerCase().includes(searchText.toLocaleLowerCase());
+      } else
+        i.doctorname.toLowerCase().includes(searchText.toLocaleLowerCase());
+    });
   };
   const _renderTime = (item: any) => {
     let date = `${item.date} ${item.timing}`;

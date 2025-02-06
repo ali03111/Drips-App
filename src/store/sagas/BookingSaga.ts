@@ -15,6 +15,7 @@ export function* createBookReq(action: any): any {
     bookApointmentApi,
     action.payload
   );
+  console.log("responseresponseresponseresponseresponseresponse",response)
   yield put(disableLoader());
   if(response.code === '200' ){
     yield put(showToast('Booking Created Successfully!'));

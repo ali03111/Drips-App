@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Button as RNButton,
@@ -20,10 +20,10 @@ import {
   ImageUploader,
   InnerHeader,
   InputDateTime,
+  InputText,
   Typography,
 } from "../../components/atoms";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { useState } from "react";
 import {
   createConsultReqAction,
   fetchPatientDetailsAction,
@@ -31,21 +31,16 @@ import {
   updateConsultantData,
   updateDeviceAction,
 } from "../../store/actions/UserActions";
-import { RootState } from "../../store/reducers";
 import { showToast } from "../../store/actions/AppActions";
 import moment from "moment";
 import messaging from "@react-native-firebase/messaging";
 import { getUniqueId } from "react-native-device-info";
 import { onUserLogin } from "../../utils/ZegoCloudConfig";
-let initialState = {
+
+const initialState = {
   bookingType: "On Demand",
-  symptoms: [] as {
-    selected: boolean;
-    name: string;
-  }[],
-  selectedImage: {
-    uri: "",
-  } as any,
+  symptoms: [],
+  selectedImage: { uri: "" },
   date: moment().format(consultFormDateFormat),
   timing: moment().format(consultFormTimingFormat),
   start_date: moment().format(consultFormDateFormat),
@@ -53,46 +48,27 @@ let initialState = {
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  const [
-    { bookingType, symptoms, selectedImage, start_date, date, timing },
-    setState,
-  ] = useState(initialState);
-  const updateState = (state: {}) =>
-    setState((prevState) => ({ ...prevState, ...state }));
-  const userData = useSelector((state: RootState) => state.UserReducer.user);
-  const symptomsData = useSelector(
-    (state: RootState) => state.UserReducer.symptoms
-  );
-  const _fetchSymptoms = async () => {
-    dispatch(fetchSymptomsAction());
-    dispatch(fetchPatientDetailsAction());
-  };
+  const [state, setState] = useState(initialState);
+  const { bookingType, symptoms, selectedImage, start_date, date, timing } =
+    state;
+
+  const [textBoxText, setTextBoxText] = useState(null);
+
+  const updateState = (newState) =>
+    setState((prevState) => ({ ...prevState, ...newState }));
+
+  const userData = useSelector((state) => state.UserReducer.user);
+  const symptomsData = useSelector((state) => state.UserReducer.symptoms);
 
   useEffect(() => {
     if (symptomsData.length !== symptoms.length) {
-      let _symptoms = symptomsData.map((i: any) => {
-        return { ...i, selected: false };
-      });
-      updateState({ symptoms: _symptoms });
+      let updatedSymptoms = symptomsData.map((i) => ({
+        ...i,
+        selected: false,
+      }));
+      updateState({ symptoms: updatedSymptoms });
     }
   }, [symptomsData]);
-
-  const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-    if (enabled) {
-      const token = await messaging().getToken();
-      let deviceId = await getUniqueId();
-      let body = {
-        device_id: deviceId,
-        firebase_token: token,
-      };
-      dispatch(updateDeviceAction(body));
-    }
-  };
 
   useEffect(() => {
     onUserLogin({
@@ -100,43 +76,48 @@ const Home = (props) => {
       userName: userData.name,
       userType: "patient",
     });
-    _fetchSymptoms();
-    // requestUserPermission();
+    dispatch(fetchSymptomsAction());
+    dispatch(fetchPatientDetailsAction());
   }, []);
 
   const _onSubmit = () => {
-    let problem = symptoms
-      .filter((i) => i.selected)
-      .map((i) => {
-        return i.name;
-      });
+    let problem = symptoms.filter((i) => i.selected).map((i) => i.name);
+
     if (problem.length === 0) {
-      dispatch(showToast("Please select atleast one symptom to continue"));
+      dispatch(showToast("Please select at least one symptom to continue"));
       return;
     } else if (selectedImage.uri === "") {
-      dispatch(showToast("Please add image to continue"));
+      dispatch(showToast("Please add an image to continue"));
       return;
     }
-    let body: any = new FormData();
+
+    // console.log("skjvjksdblkvadbklvbsdklvblksdv", problem.join(","));
+
+    let body = new FormData();
     if (selectedImage.uri) {
       body.append("images", selectedImage);
     }
     body.append("patient_id", userData.user_id);
-    body.append("problem", problem.join(","));
+    body.append("problem", [...problem, textBoxText].join(","));
     body.append("start_date", start_date);
     body.append("date", date);
     body.append("timing", timing);
+
     let _data = {
       patient_id: userData.user_id,
-      problem: problem.join(","),
+      problem: [...problem, textBoxText].join(","),
       booking_type: bookingType,
       start_date,
       date,
       timing,
     };
-    dispatch(updateConsultantData({ apointmentData: _data }));
+    dispatch(updateConsultantData({ appointmentData: _data }));
     dispatch(createConsultReqAction(body));
   };
+
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+  }
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -146,29 +127,27 @@ const Home = (props) => {
           style={styles.container}
           contentContainerStyle={{ padding: 20 }}
         >
-          {/* <RNButton
-            title="Call Me"
-            onPress={() => reset("VideoCall" as never)}
-          ></RNButton> */}
           <Typography size={20} textType="semiBold">
             Request A Consultation
           </Typography>
 
           <View style={{ marginTop: 20 }}>
-            <Typography>What are your symptoms?</Typography>
+            <Typography>Symptoms</Typography>
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {symptoms.map((i, index) => (
                 <Pressable
+                  key={i.id}
                   onPress={() => {
-                    let _symptoms = [...symptoms];
-                    _symptoms[index].selected = !_symptoms[index].selected;
-                    updateState({
-                      symptoms: _symptoms,
-                    });
+                    let updatedSymptoms = symptoms.map((symptom, idx) =>
+                      idx === index
+                        ? { ...symptom, selected: !symptom.selected }
+                        : symptom
+                    );
+                    updateState({ symptoms: updatedSymptoms });
                   }}
                   style={{
                     flexDirection: "row",
-                    alignItems: "center",
+                    // alignItems: "center",
                     width: "45%",
                     marginVertical: 8,
                   }}
@@ -179,26 +158,36 @@ const Home = (props) => {
                       style={{ marginRight: 5 }}
                       color="#4bd1fd"
                       name={i.selected ? "check" : "square"}
-                      onValueChange={(newValue) => {}}
-                      boxType={"square"}
                     />
                   </View>
-                  <Typography style={{ flex: 1 }} textType="light">
-                    {i.name}
+                  <Typography style={{ width: "86%" }} textType="light">
+                    {capitalizeFirstLetter(i.name)}
                   </Typography>
                 </Pressable>
               ))}
             </View>
           </View>
-
+          {symptoms.find((res) => res.name == "Other")?.selected == true && (
+            <InputText
+              onChangeText={(text) => setTextBoxText(text)}
+              value={textBoxText}
+              //  error={errors.email}
+              autoCapitalize={"none"}
+              //  keyboardType={"email-address"}
+              returnKeyType={"done"}
+              // inputRef={textBoxText}
+              //  onSubmitEditing={() =>
+              //    PasswordInput.current && PasswordInput.current.focus()
+              //  }
+              //  allowSpacing={false}
+            />
+          )}
           <View style={{ marginTop: 30 }}>
-            <Typography>Upload Photo (Presenting Complain)</Typography>
+            <Typography>Upload Photo (Presenting Complaint)</Typography>
             <ImageUploader
               title={"Upload Photo"}
               uri={null}
-              onSelect={(e: any) => {
-                updateState({ selectedImage: e });
-              }}
+              onSelect={(e) => updateState({ selectedImage: e })}
             />
           </View>
 
@@ -207,6 +196,7 @@ const Home = (props) => {
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {["On Demand", "Scheduled"].map((i) => (
                 <Pressable
+                  key={i}
                   onPress={() => updateState({ bookingType: i })}
                   style={{
                     flexDirection: "row",
@@ -221,8 +211,6 @@ const Home = (props) => {
                       style={{ marginRight: 5 }}
                       color="#4bd1fd"
                       name={bookingType === i ? "check" : "square"}
-                      onValueChange={(newValue) => {}}
-                      boxType={"square"}
                     />
                   </View>
                   <Typography textType="light">{i}</Typography>
@@ -230,33 +218,23 @@ const Home = (props) => {
               ))}
             </View>
           </View>
-          {bookingType === "Scheduled" && (
-            <>
-              <View style={{ marginTop: 20 }}>
-                <Typography>Select Date</Typography>
-                <InputDateTime
-                  minDate={new Date()}
-                  onChange={(text: string) => {
-                    updateState({
-                      date: moment(text, "MM-DD-YYYY").format("YYYY-MM-DD"),
-                    });
-                  }}
-                  mode={"date"}
-                />
-              </View>
-
-              <View style={{ marginTop: 20 }}>
-                <Typography>Select Time</Typography>
-                <InputDateTime
-                  onChange={(text: string) => {
-                    updateState({ time: text });
-                  }}
-                  mode={"time"}
-                />
-              </View>
-            </>
+          {bookingType == "Scheduled" && (
+            <InputDateTime
+              label={"Please select date"}
+              style={{ marginVertical: 10, padding: 15 }}
+              onChange={(text) => {
+                updateState({ start_date: text });
+              }}
+            />
           )}
-
+          <InputDateTime
+            label={"Please select time"}
+            mode={"time"}
+            style={{ marginVertical: 10, padding: 15 }}
+            onChange={(text) => {
+              updateState({ timing: text });
+            }}
+          />
           <View style={{ marginTop: 20 }}>
             <Button label={"Update"} onPress={() => _onSubmit()} />
           </View>
@@ -267,19 +245,7 @@ const Home = (props) => {
 };
 
 const styles = StyleSheet.create({
-  iconBox: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-    borderRadius: 5,
-  },
-  mainContainer: {
-    flex: 1,
-    backgroundColor: COLORS.primary,
-  },
+  mainContainer: { flex: 1, backgroundColor: COLORS.primary },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -289,12 +255,3 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-
-const SYMPTOMS = [
-  "Fever",
-  "Nasal Congestion",
-  "Tinnitus",
-  "Shortness Of Breath",
-  "Heart Burn",
-  "Missed Period",
-];

@@ -55,6 +55,7 @@ const PhysicianDetail = (props) => {
     for (const [key, value] of Object.entries<any>(_bookingDetails)) {
       body.append(key, value);
     }
+    console.log("bodybodybodybodybodybody", body);
     dispatch(createBookingReqAction(body));
   };
 

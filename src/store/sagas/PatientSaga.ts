@@ -27,7 +27,7 @@ export function* getSymptoms(): any {
   yield put(disableLoader());
   if(response.code === '200' ){
     yield put(showToast('Symptoms fetched successfully!'));
-    yield put( updateUserStates({ symptoms: response.data }) );
+    yield put( updateUserStates({ symptoms: [...response.data,{ id: 5457, name: "Other", selected: false }] }) );
   } else {
     errorHandler(response);
   }
@@ -117,15 +117,16 @@ export function* getMedicalHistoryReq(): any {
   );
   yield put(disableLoader());
   if(response.status && response.code === '200'){
+    console.log("ljksdbvklsdbklbsdklvbsdklvbklsdbklsdbksdblk;dsbl;vk",response.data)
     // yield put(showToast('Medical History Fetched Successfully!'));
     const convertStringToArray = (string:string)=> {
-      if(string.length <= 0) return []
+      if(string.length <= 0 || string == null) return []
       return string.includes(',') ? string.split(',') : [string]
     }
     let data = {
-      allergies:convertStringToArray(response.data.allergies) || [],
-      Surgeries1:convertStringToArray(response.data.surgicalHistory)||[],
-      past_medical_history:convertStringToArray(response.data.MedicalHistory)||[],
+      allergies:convertStringToArray(response.data.allergies ?? []) || [],
+      Surgeries1:convertStringToArray(response.data.surgicalHistory?? [])||[],
+      past_medical_history:convertStringToArray(response.data.MedicalHistory?? [])||[],
     }
     console.log('medical history response ===>',data);
     
