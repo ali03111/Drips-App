@@ -34,7 +34,7 @@ export const InputDateTime = (props: any) => {
           <Typography style={{ flex: 1 }}>
             {props.value ||
               moment(new Date(value)).format(
-                mode == "date" ? "DD-MM-YYYY" : "hh:mm A"
+                mode == "date" ? "YYYY-MM-DD" : "hh:mm A"
               )}
           </Typography>
         ) : (
@@ -52,7 +52,10 @@ export const InputDateTime = (props: any) => {
           date={value || new Date()}
           is24Hour={is24Hour}
           onConfirm={(e: any) => {
-            let date = moment(e).format("MM-DD-YYYY");
+            let date =
+              mode == "date"
+                ? moment(e).format("YYYY-MM-DD")
+                : moment(e).format("hh:mm A");
             setValue(e);
             onChange(date);
             setVisible(false);

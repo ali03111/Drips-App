@@ -23,7 +23,7 @@ import { RootState } from "../../store/reducers";
 
 const PhysicianDetail = (props) => {
   const dispatch = useDispatch();
-  const { apointmentData } = useSelector(
+  const { apointmentData, problemDetail } = useSelector(
     (state: RootState) => state.ConsultantReducer
   );
   const [showPayment, setPayment] = useState(false);
@@ -49,7 +49,7 @@ const PhysicianDetail = (props) => {
   useEffect(() => {}, []);
 
   const _onBookNow = async () => {
-    let _bookingDetails = { ...apointmentData };
+    let _bookingDetails = { ...apointmentData, ...problemDetail };
     _bookingDetails.doctor_id = item.user_id;
     let body = new FormData();
     for (const [key, value] of Object.entries<any>(_bookingDetails)) {
@@ -58,6 +58,11 @@ const PhysicianDetail = (props) => {
     console.log("bodybodybodybodybodybody", body);
     dispatch(createBookingReqAction(body));
   };
+
+  console.log(
+    "problemDetailproblemDetailproblemDetailproblemDetailproblemDetailproblemDetail",
+    problemDetail
+  );
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>

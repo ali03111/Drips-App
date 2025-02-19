@@ -1,23 +1,21 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   Image,
   ImageBackground,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { IMAGES, COLORS } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
-import { navigate } from "../../navigation/RootNavigation";
-import { updateAppStates } from "../../store/actions/AppActions";
-import { CheckBox } from "../../components/icons";
 import { userUserDataAction } from "../../store/actions/UserActions";
+import { CheckBox } from "../../components/icons";
 
 const AlergyInfo = (props) => {
   const signupStep = "step2";
@@ -42,131 +40,120 @@ const AlergyInfo = (props) => {
 
   return (
     <SafeAreaContainer safeArea={false}>
-      <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
+      <ImageBackground source={IMAGES.imgbg} style={styles.background}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+          style={{ flexGrow: 1, marginTop: 30 }}
         >
           <View style={{ flex: 1 }} />
-          <View style={styles.container}>
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <ScrollView
+            contentContainerStyle={styles.container(
+              allergies.length >= 1 && select === "Yes"
+            )}
+            keyboardShouldPersistTaps="handled"
+          >
             <Image
               source={IMAGES.splash}
-              style={{ width: "70%", height: 100 }}
-              resizeMode={"contain"}
+              style={styles.logo}
+              resizeMode="contain"
             />
 
-            <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
+            <Typography color={COLORS.primary} style={styles.heading}>
               Allergies
             </Typography>
 
-            <ScrollView
-              contentContainerStylestyle={{
-                borderWidth: 1,
-                borderColor: COLORS.primary,
-                borderRadius: 10,
-                padding: 20,
-                paddingBottom: 10,
-              }}
-              showsVerticalScrollIndicator={false}
-            >
+            <View style={styles.card}>
               <Typography align="center">
-                Are you allergic to any Medication or do you have any type of
+                Are you allergic to any medication or do you have any type of
                 allergies?
               </Typography>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                }}
-              >
+              <View style={styles.optionsContainer}>
                 {["Yes", "No"].map((i, index) => (
                   <TouchableOpacity
                     key={index}
-                    activeOpacity={1}
+                    activeOpacity={0.7}
                     style={styles.options}
-                    onPress={() => setSelect(i)}
+                    onPress={() => {
+                      setSelect(i);
+                      if (i === "No") setAllergies([]); // Reset allergies if "No" is selected
+                    }}
                   >
                     <CheckBox selected={i === select} />
                     <Typography>{` ${i}`}</Typography>
                   </TouchableOpacity>
                 ))}
               </View>
-              {select == "Yes" && (
+
+              {select === "Yes" && (
                 <>
                   <TouchableOpacity
                     onPress={() =>
                       setAllergies([...allergies, { alergic: "" }])
                     }
+                    activeOpacity={0.7}
+                    style={styles.addMoreButton}
                   >
-                    <Typography
-                      style={{ textAlign: "right", marginVertical: 5 }}
-                    >
-                      Add more +
-                    </Typography>
+                    <Typography>Add more +</Typography>
                   </TouchableOpacity>
-                  {allergies.map((res, index) => {
-                    return (
-                      <View
-                        key={index}
-                        style={{
-                          width: "100%",
-                          flexDirection: "row",
-                          justifyContent: "space-between",
+
+                  {allergies.map((res, index) => (
+                    <View key={index} style={styles.inputRow}>
+                      <InputText
+                        placeholder="Enter allergies"
+                        onChangeText={(text) => {
+                          setAllergies((prevAllergies) =>
+                            prevAllergies.map((allergy, i) =>
+                              i === index
+                                ? { ...allergy, alergic: text }
+                                : allergy
+                            )
+                          );
+                        }}
+                        value={res.alergic}
+                        autoCapitalize="none"
+                        returnKeyType="done"
+                        style={styles.input}
+                        allowSpacing={false}
+                      />
+                      <TouchableOpacity
+                        onPress={() => {
+                          setAllergies((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
                         }}
                       >
-                        <InputText
-                          placeholder={`Enter allergies`}
-                          onChangeText={(text) => {
-                            setAllergies((prevAllergies) =>
-                              prevAllergies.map((allergy, i) =>
-                                i === index
-                                  ? { ...allergy, alergic: text }
-                                  : allergy
-                              )
-                            );
-                          }}
-                          value={allergies[index]?.alergic}
-                          autoCapitalize={"none"}
-                          returnKeyType={"done"}
-                          // onSubmitEditing={() =>
-                          //   PasswordInput.current && PasswordInput.current.focus()
-                          // }
-                          style={{ width: "85%" }}
-                          allowSpacing={false}
+                        <Image
+                          source={IMAGES.trashImg}
+                          resizeMode="contain"
+                          style={styles.trashIcon}
                         />
-                        <TouchableOpacity
-                          onPress={() => {
-                            setDummy(dummy + 1);
-                            allergies.splice(index, 1);
-                          }}
-                        >
-                          <Image
-                            source={IMAGES.trashImg}
-                            resizeMode="contain"
-                            style={{ width: 30 }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    );
-                  })}
+                      </TouchableOpacity>
+                    </View>
+                  ))}
                 </>
               )}
-            </ScrollView>
+            </View>
 
-            <View style={{ marginTop: 10 }}>
+            <View style={styles.buttonContainer}>
+              <Button disabled={!select} label="Next" onPress={_onSubmit} />
               <Button
-                disabled={!select}
-                label={"Next"}
-                onPress={() => _onSubmit()}
-              />
-              <Button
-                label={"Back"}
+                label="Back"
                 onPress={() => props.navigation.goBack()}
-                backgroundColor={"#b8b8b8"}
+                backgroundColor="#b8b8b8"
               />
             </View>
-          </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaContainer>
@@ -174,18 +161,62 @@ const AlergyInfo = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
+    flex: 1,
+    padding: 20,
+  },
+  logo: {
+    width: "70%",
+    height: 100,
+    alignSelf: "center",
+  },
+  heading: {
+    marginVertical: 10,
+    textAlign: "center",
+  },
+  container: (isLength) => ({
     backgroundColor: "#fff",
-    marginTop: 80,
+    // top: 40,
     padding: 20,
     borderRadius: 20,
-    marginBottom: 20,
-    maxHeight: "80%",
+    // bottom: 50,
+    // paddingBottom: 100,
+  }),
+  card: {
+    borderWidth: 1,
+    borderColor: COLORS.primary,
+    borderRadius: 10,
+    padding: 20,
+    paddingBottom: 10,
+  },
+  optionsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
   },
   options: {
-    marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
+    paddingVertical: 5,
+  },
+  addMoreButton: {
+    alignSelf: "flex-end",
+    marginVertical: 5,
+  },
+  inputRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  input: {
+    width: "85%",
+  },
+  trashIcon: {
+    width: 30,
+  },
+  buttonContainer: {
+    marginTop: 10,
   },
 });
 

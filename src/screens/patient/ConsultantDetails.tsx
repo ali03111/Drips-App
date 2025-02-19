@@ -217,6 +217,21 @@ const ConsultantDetails = (props) => {
             </View>
           </View>
 
+          <Button
+            label={`Join Video Call`}
+            onPress={() => {
+              navigate(
+                "VideoCall" as never,
+                {
+                  item: {
+                    ...item,
+                    callType: "Video",
+                  },
+                } as never
+              );
+            }}
+          />
+
           {apointmentDetails.payment_status === "success" &&
             apointmentDetails.consultation_status && (
               <View style={{ margin: 20 }}>
@@ -237,23 +252,23 @@ const ConsultantDetails = (props) => {
                     }}
                   />
                 )}
-                {apointmentDetails.consultation_status.toLowerCase() ===
-                  "video" && (
-                  <Button
-                    label={`Join Video Call`}
-                    onPress={() => {
-                      navigate(
-                        "VideoCall" as never,
-                        {
-                          item: {
-                            ...item,
-                            callType: "Video",
-                          },
-                        } as never
-                      );
-                    }}
-                  />
-                )}
+                {/* {apointmentDetails.consultation_status.toLowerCase() ===
+                  "video" && ( */}
+                <Button
+                  label={`Join Video Call`}
+                  onPress={() => {
+                    navigate(
+                      "VideoCall" as never,
+                      {
+                        item: {
+                          ...item,
+                          callType: "Video",
+                        },
+                      } as never
+                    );
+                  }}
+                />
+                {/* // )} */}
               </View>
             )}
           <View style={{ margin: 20 }}>

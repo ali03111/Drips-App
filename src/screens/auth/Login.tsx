@@ -109,18 +109,18 @@ const Login = (props) => {
               onSubmitEditing={() => {
                 Keyboard.dismiss();
               }}
-              rightIcon={
-                <TouchableOpacity
-                  style={{ justifyContent: "center", marginHorizontal: 8 }}
-                  onPress={() => setSecureEntry(!secureEntry)}
-                >
-                  {/* <Icon
-                    name={secureEntry ? 'eye-slash' : 'eye'}
-                    size={15}
-                    color={COLORS.darkGray}
-                  /> */}
-                </TouchableOpacity>
-              }
+              // rightIcon={
+              //   <TouchableOpacity
+              //     style={{ justifyContent: "center", marginHorizontal: 8 }}
+              //     onPress={() => setSecureEntry(!secureEntry)}
+              //   >
+              //     <Icon
+              //       name={secureEntry ? "eye-slash" : "eye"}
+              //       size={15}
+              //       color={COLORS.darkGray}
+              //     />
+              //   </TouchableOpacity>
+              // }
             />
 
             <View style={commonStyles.justifyContentBetween}>

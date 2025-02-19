@@ -107,7 +107,7 @@ const SocialInfo = (props) => {
       selected: "",
       type: "input",
       options: ["Senior Engineer"],
-      placeholder: "Senior Engineer",
+      // placeholder: "Senior Engineer",
     },
     {
       refName: "employee_name",
@@ -115,7 +115,7 @@ const SocialInfo = (props) => {
       selected: "",
       type: "input",
       options: ["Google.com"],
-      placeholder: "Google.com",
+      // placeholder: "Google.com",
     },
   ];
   const updateChildLabels = () => {
@@ -240,10 +240,25 @@ const SocialInfo = (props) => {
       <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+          style={{ flexGrow: 1, marginTop: 30 }}
+          // keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjust offset if needed
         >
           <View style={{ flex: 1 }} />
-          <View style={styles.container}>
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }} />
+          {/* <View style={{ flex: 1 }} /> */}
+          <ScrollView
+            style={styles.container}
+            keyboardShouldPersistTaps="handled"
+          >
             <Image
               source={IMAGES.splash}
               style={{ width: "70%", height: 100 }}
@@ -253,84 +268,86 @@ const SocialInfo = (props) => {
             <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
               Social History
             </Typography>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {queries.map((i, index) => (
-                <>
-                  <View style={styles.queryCard} key={index}>
-                    <Typography textType="light">{i.label}</Typography>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                      }}
-                    >
-                      {i.options.map((o) => (
-                        <TouchableOpacity
-                          activeOpacity={1}
-                          style={styles.options}
-                          onPress={() => {
-                            handleParentOptionSelect(index, o);
-                          }}
-                          key={o}
-                        >
-                          <CheckBox selected={o == i.selected} />
-                          <Typography>{` ${o}`}</Typography>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
+            {/* <View
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+            > */}
+            {queries.map((i, index) => (
+              <>
+                <View style={styles.queryCard} key={index}>
+                  <Typography textType="light">{i.label}</Typography>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                    }}
+                  >
+                    {i.options.map((o) => (
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={styles.options}
+                        onPress={() => {
+                          handleParentOptionSelect(index, o);
+                        }}
+                        key={o}
+                      >
+                        <CheckBox selected={o == i.selected} />
+                        <Typography>{` ${o}`}</Typography>
+                      </TouchableOpacity>
+                    ))}
                   </View>
-                  {i?.childOption &&
-                    i.childOption.map((res, ind) => {
-                      return (
-                        <View style={styles.queryCard}>
-                          <Typography textType="light">{res.label}</Typography>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            {res?.options &&
-                              res.options.map((o) =>
-                                res?.type == "option" ? (
-                                  <TouchableOpacity
-                                    activeOpacity={1}
-                                    style={{ ...styles.options, marginTop: 1 }}
-                                    onPress={() => {
-                                      if (index == 0 && ind == 0) {
-                                        const smokingQuery = queries[0];
-                                        smokingQuery.childOption[2].selected =
-                                          "";
-                                      }
-                                      handleOptionSelect(index, o, ind);
-                                    }}
-                                    key={o}
-                                  >
-                                    <CheckBox selected={o == res.selected} />
-                                    <Typography>{` ${o}`}</Typography>
-                                  </TouchableOpacity>
-                                ) : (
-                                  <InputText
-                                    placeholder={res?.placeholder}
-                                    onChangeText={(text) => {
-                                      handleOptionSelect(index, text, ind);
-                                    }}
-                                    value={res?.selected}
-                                    autoCapitalize={"none"}
-                                    returnKeyType={"done"}
-                                    style={{ width: "98%" }}
-                                    allowSpacing={false}
-                                  />
-                                )
-                              )}
-                          </View>
+                </View>
+                {i?.childOption &&
+                  i.childOption.map((res, ind) => {
+                    return (
+                      <View style={styles.queryCard}>
+                        <Typography textType="light">{res.label}</Typography>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                          }}
+                        >
+                          {res?.options &&
+                            res.options.map((o) =>
+                              res?.type == "option" ? (
+                                <TouchableOpacity
+                                  activeOpacity={1}
+                                  style={{ ...styles.options, marginTop: 1 }}
+                                  onPress={() => {
+                                    if (index == 0 && ind == 0) {
+                                      const smokingQuery = queries[0];
+                                      smokingQuery.childOption[2].selected = "";
+                                    }
+                                    handleOptionSelect(index, o, ind);
+                                  }}
+                                  key={o}
+                                >
+                                  <CheckBox selected={o == res.selected} />
+                                  <Typography>{` ${o}`}</Typography>
+                                </TouchableOpacity>
+                              ) : (
+                                <InputText
+                                  placeholder={res?.placeholder}
+                                  onChangeText={(text) => {
+                                    handleOptionSelect(index, text, ind);
+                                  }}
+                                  value={res?.selected}
+                                  autoCapitalize={"none"}
+                                  returnKeyType={"done"}
+                                  style={{ width: "98%" }}
+                                  allowSpacing={false}
+                                />
+                              )
+                            )}
                         </View>
-                      );
-                    })}
-                </>
-              ))}
-            </ScrollView>
+                      </View>
+                    );
+                  })}
+              </>
+            ))}
+            {/* </View> */}
 
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 10, marginBottom: 10 }}>
               <Button
                 disabled={isInValid()}
                 label={"Next"}
@@ -342,7 +359,7 @@ const SocialInfo = (props) => {
                 backgroundColor={"#b8b8b8"}
               />
             </View>
-          </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaContainer>
@@ -352,11 +369,9 @@ const SocialInfo = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    marginTop: 80,
+    // top: 40,
     padding: 20,
     borderRadius: 20,
-    marginBottom: 20,
-    maxHeight: "90%",
   },
   queryCard: {
     borderWidth: 1,

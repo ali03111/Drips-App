@@ -86,10 +86,11 @@ const Home = (props) => {
     if (problem.length === 0) {
       dispatch(showToast("Please select at least one symptom to continue"));
       return;
-    } else if (selectedImage.uri === "") {
-      dispatch(showToast("Please add an image to continue"));
-      return;
     }
+    // else if (selectedImage.uri === "") {
+    //   dispatch(showToast("Please add an image to continue"));
+    //   return;
+    // }
 
     // console.log("skjvjksdblkvadbklvbsdklvblksdv", problem.join(","));
 
@@ -99,7 +100,7 @@ const Home = (props) => {
     }
     body.append("patient_id", userData.user_id);
     body.append("problem", [...problem, textBoxText].join(","));
-    body.append("start_date", start_date);
+    body.append("start_date", moment(start_date).format(consultFormDateFormat));
     body.append("date", date);
     body.append("timing", timing);
 
@@ -107,10 +108,11 @@ const Home = (props) => {
       patient_id: userData.user_id,
       problem: [...problem, textBoxText].join(","),
       booking_type: bookingType,
-      start_date,
+      start_date: moment(start_date).format(consultFormDateFormat),
       date,
-      timing,
+      timing: moment(timing).format(consultFormTimingFormat),
     };
+    console.log("bodybodybodybodybodybodybodybodybodybody", body, start_date);
     dispatch(updateConsultantData({ appointmentData: _data }));
     dispatch(createConsultReqAction(body));
   };
@@ -232,6 +234,10 @@ const Home = (props) => {
             mode={"time"}
             style={{ marginVertical: 10, padding: 15 }}
             onChange={(text) => {
+              console.log(
+                "texttexttexttexttexttexttexttexttexttexttexttext",
+                text
+              );
               updateState({ timing: text });
             }}
           />

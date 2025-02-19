@@ -82,9 +82,10 @@ export function* createConsultantReq(action: any): any {
     action.payload
   );
   yield put(disableLoader());
+  console.log("klsdbvklasdbklvbdsklbvlsdbvds",response)
   if(response.code === '200' ){
     if(response.data.doctors && response.data.doctors.length!==0){
-      yield put( updateConsultantData({ availableConsultants: response.data.doctors }) );
+      yield put( updateConsultantData({ availableConsultants: response.data.doctors , problemDetail:response.data.consultation_data}) );
       navigate('SelectPhysician' as never);
     }else{
       yield put(showToast('No Consutants Found!'));

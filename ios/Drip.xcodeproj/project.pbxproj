@@ -30,8 +30,47 @@
 		5A893EDF29713FFC00E97FD9 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A893EDC29713FFC00E97FD9 /* Poppins-Regular.ttf */; };
 		5AD7671229A558DF00034853 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AD7671129A558DF00034853 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A68862F22D65F0A500FF4643 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A68862F12D65F0A500FF4643 /* ReplayKit.framework */; };
+		A68862F62D65F0A500FF4643 /* SampleHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A68862F52D65F0A500FF4643 /* SampleHandler.m */; };
+		A68862FD2D65F0A500FF4643 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A68862F12D65F0A500FF4643 /* ReplayKit.framework */; };
+		A68862FF2D65F0A500FF4643 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A68862FE2D65F0A500FF4643 /* UIKit.framework */; };
+		A68863032D65F0A500FF4643 /* BroadcastSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A68863022D65F0A500FF4643 /* BroadcastSetupViewController.m */; };
+		A68863072D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A68862FC2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A688630A2D65F0A500FF4643 /* ScreenCaptureExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A68862F02D65F0A500FF4643 /* ScreenCaptureExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D53C20FEFE41BD73E21779B1 /* Pods_DripCommonPods_DripDev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C181E6781571916B51C0A7F4 /* Pods_DripCommonPods_DripDev.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A68863052D65F0A500FF4643 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A68862FB2D65F0A500FF4643;
+			remoteInfo = ScreenCaptureExtensionSetupUI;
+		};
+		A68863082D65F0A500FF4643 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A68862EF2D65F0A500FF4643;
+			remoteInfo = ScreenCaptureExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A688630B2D65F0A500FF4643 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A68863072D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex in Embed Foundation Extensions */,
+				A688630A2D65F0A500FF4643 /* ScreenCaptureExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,6 +97,16 @@
 		5B7EB9410499542E8C5724F5 /* Pods-Drip-DripTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drip-DripTests.debug.xcconfig"; path = "Target Support Files/Pods-Drip-DripTests/Pods-Drip-DripTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Drip/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Drip-DripTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drip-DripTests.release.xcconfig"; path = "Target Support Files/Pods-Drip-DripTests/Pods-Drip-DripTests.release.xcconfig"; sourceTree = "<group>"; };
+		A68862F02D65F0A500FF4643 /* ScreenCaptureExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScreenCaptureExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A68862F12D65F0A500FF4643 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		A68862F42D65F0A500FF4643 /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
+		A68862F52D65F0A500FF4643 /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
+		A68862F72D65F0A500FF4643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A68862FC2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScreenCaptureExtensionSetupUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A68862FE2D65F0A500FF4643 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A68863012D65F0A500FF4643 /* BroadcastSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastSetupViewController.h; sourceTree = "<group>"; };
+		A68863022D65F0A500FF4643 /* BroadcastSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastSetupViewController.m; sourceTree = "<group>"; };
+		A68863042D65F0A500FF4643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C181E6781571916B51C0A7F4 /* Pods_DripCommonPods_DripDev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DripCommonPods_DripDev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FAC53922038A4E7AF17E4A /* Pods-DripCommonPods-DripDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DripCommonPods-DripDev.debug.xcconfig"; path = "Target Support Files/Pods-DripCommonPods-DripDev/Pods-DripCommonPods-DripDev.debug.xcconfig"; sourceTree = "<group>"; };
 		E38A979A993542C5E35F6BBC /* Pods-DripCommonPods-Drip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DripCommonPods-Drip.release.xcconfig"; path = "Target Support Files/Pods-DripCommonPods-Drip/Pods-DripCommonPods-Drip.release.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +130,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D53C20FEFE41BD73E21779B1 /* Pods_DripCommonPods_DripDev.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A68862ED2D65F0A500FF4643 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A68862F22D65F0A500FF4643 /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A68862F92D65F0A500FF4643 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A68862FD2D65F0A500FF4643 /* ReplayKit.framework in Frameworks */,
+				A68862FF2D65F0A500FF4643 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +192,8 @@
 				E424D62A9A04CEECC8FCECD6 /* Pods_Drip_DripTests.framework */,
 				FE205CCF333027DA23045004 /* Pods_DripCommonPods_Drip.framework */,
 				C181E6781571916B51C0A7F4 /* Pods_DripCommonPods_DripDev.framework */,
+				A68862F12D65F0A500FF4643 /* ReplayKit.framework */,
+				A68862FE2D65F0A500FF4643 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -157,6 +225,8 @@
 				13B07FAE1A68108700A75B9A /* Drip */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DripTests */,
+				A68862F32D65F0A500FF4643 /* ScreenCaptureExtension */,
+				A68863002D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -172,8 +242,30 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Drip.app */,
 				5A434BF02A7011F7001A8418 /* DripDev.app */,
+				A68862F02D65F0A500FF4643 /* ScreenCaptureExtension.appex */,
+				A68862FC2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A68862F32D65F0A500FF4643 /* ScreenCaptureExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A68862F42D65F0A500FF4643 /* SampleHandler.h */,
+				A68862F52D65F0A500FF4643 /* SampleHandler.m */,
+				A68862F72D65F0A500FF4643 /* Info.plist */,
+			);
+			path = ScreenCaptureExtension;
+			sourceTree = "<group>";
+		};
+		A68863002D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI */ = {
+			isa = PBXGroup;
+			children = (
+				A68863012D65F0A500FF4643 /* BroadcastSetupViewController.h */,
+				A68863022D65F0A500FF4643 /* BroadcastSetupViewController.m */,
+				A68863042D65F0A500FF4643 /* Info.plist */,
+			);
+			path = ScreenCaptureExtensionSetupUI;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -206,10 +298,13 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 				07C4500A346DACE3AB6CB3B9 /* [CP] Embed Pods Frameworks */,
+				A688630B2D65F0A500FF4643 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A68863062D65F0A500FF4643 /* PBXTargetDependency */,
+				A68863092D65F0A500FF4643 /* PBXTargetDependency */,
 			);
 			name = Drip;
 			productName = Drip;
@@ -238,6 +333,40 @@
 			productReference = 5A434BF02A7011F7001A8418 /* DripDev.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A68862EF2D65F0A500FF4643 /* ScreenCaptureExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A68863112D65F0A500FF4643 /* Build configuration list for PBXNativeTarget "ScreenCaptureExtension" */;
+			buildPhases = (
+				A68862EC2D65F0A500FF4643 /* Sources */,
+				A68862ED2D65F0A500FF4643 /* Frameworks */,
+				A68862EE2D65F0A500FF4643 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScreenCaptureExtension;
+			productName = ScreenCaptureExtension;
+			productReference = A68862F02D65F0A500FF4643 /* ScreenCaptureExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		A68862FB2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A68863102D65F0A500FF4643 /* Build configuration list for PBXNativeTarget "ScreenCaptureExtensionSetupUI" */;
+			buildPhases = (
+				A68862F82D65F0A500FF4643 /* Sources */,
+				A68862F92D65F0A500FF4643 /* Frameworks */,
+				A68862FA2D65F0A500FF4643 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScreenCaptureExtensionSetupUI;
+			productName = ScreenCaptureExtensionSetupUI;
+			productReference = A68862FC2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -248,6 +377,12 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
+					};
+					A68862EF2D65F0A500FF4643 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A68862FB2D65F0A500FF4643 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -266,6 +401,8 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Drip */,
 				5A434BDA2A7011F6001A8418 /* DripDev */,
+				A68862EF2D65F0A500FF4643 /* ScreenCaptureExtension */,
+				A68862FB2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI */,
 			);
 		};
 /* End PBXProject section */
@@ -300,6 +437,20 @@
 				5A434BE72A7011F6001A8418 /* Poppins-Regular.ttf in Resources */,
 				5A434BE82A7011F6001A8418 /* GoogleService-Info.plist in Resources */,
 				5A7C57D92A85919E00847871 /* zego_incoming.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A68862EE2D65F0A500FF4643 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A68862FA2D65F0A500FF4643 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +656,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A68862EC2D65F0A500FF4643 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A68862F62D65F0A500FF4643 /* SampleHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A68862F82D65F0A500FF4643 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A68863032D65F0A500FF4643 /* BroadcastSetupViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A68863062D65F0A500FF4643 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A68862FB2D65F0A500FF4643 /* ScreenCaptureExtensionSetupUI */;
+			targetProxy = A68863052D65F0A500FF4643 /* PBXContainerItemProxy */;
+		};
+		A68863092D65F0A500FF4643 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A68862EF2D65F0A500FF4643 /* ScreenCaptureExtension */;
+			targetProxy = A68863082D65F0A500FF4643 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
@@ -761,6 +941,158 @@
 			};
 			name = Release;
 		};
+		A688630C2D65F0A500FF4643 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ScreenCaptureExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenCaptureExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.drips.ScreenCaptureExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A688630D2D65F0A500FF4643 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ScreenCaptureExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenCaptureExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.drips.ScreenCaptureExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A688630E2D65F0A500FF4643 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ScreenCaptureExtensionSetupUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenCaptureExtensionSetupUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.drips.ScreenCaptureExtensionSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A688630F2D65F0A500FF4643 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ScreenCaptureExtensionSetupUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenCaptureExtensionSetupUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.drips.ScreenCaptureExtensionSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -787,6 +1119,24 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A68863102D65F0A500FF4643 /* Build configuration list for PBXNativeTarget "ScreenCaptureExtensionSetupUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A688630E2D65F0A500FF4643 /* Debug */,
+				A688630F2D65F0A500FF4643 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A68863112D65F0A500FF4643 /* Build configuration list for PBXNativeTarget "ScreenCaptureExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A688630C2D65F0A500FF4643 /* Debug */,
+				A688630D2D65F0A500FF4643 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

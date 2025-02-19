@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   COLORS,
@@ -29,24 +35,20 @@ import { startCase } from "lodash";
 import { initZegoCallConfig } from "../../utils/ZegoCloudConfig";
 import { ZegoSendCallInvitationButton } from "@zegocloud/zego-uikit-prebuilt-call-rn";
 import { MedicalHistoryModel } from "../../store/models/MedicalHistory";
+import { hp, wp } from "../../utils/responsive";
+
 const ElectronicCard = (props) => {
   const dispatch = useDispatch();
-  const { userType } = useSelector((state: RootState) => state.UserReducer);
-  const { user } = useSelector((state: RootState) => state.UserReducer);
-  const medicalDetails: MedicalHistoryModel = useSelector(
-    (state: RootState) => state.UserReducer.medicalHistory
+  const { userType } = useSelector((state) => state.UserReducer);
+  const { user } = useSelector((state) => state.UserReducer);
+  const medicalDetails = useSelector(
+    (state) => state.UserReducer.medicalHistory
   );
   const { patientDetails, apointmentDetails } = useSelector(
-    (state: RootState) => state.ConsultantReducer
+    (state) => state.ConsultantReducer
   );
   const item = props?.route?.params?.item || undefined;
-  /* const _fetchDoctorDetails = () => {
-    const physicianId = item.doctor_id;
-    let data = {
-      id: physicianId,
-    };
-    dispatch(fetchDoctorDetailsAction(data));
-  }; */
+
   const _fetchAppointmentDetails = () => {
     const id = item.id;
     let data = {
@@ -54,6 +56,7 @@ const ElectronicCard = (props) => {
     };
     dispatch(getConsultantDetailAction(data));
   };
+
   const _fetchPatientDetails = () => {
     let data = {
       id: userType === 1 ? user.user_id : item.patient_id,
@@ -61,17 +64,15 @@ const ElectronicCard = (props) => {
     dispatch(fetchPatientDetailsAction(data));
   };
 
-  const _initCallConfig = async (callType: string) => {
-    navigate(
-      "VideoCall" as never,
-      {
-        item: {
-          ...item,
-          callType,
-        },
-      } as never
-    );
+  const _initCallConfig = async (callType) => {
+    navigate("VideoCall", {
+      item: {
+        ...item,
+        callType,
+      },
+    });
   };
+
   useEffect(() => {
     if (userType === 1) {
       _fetchPatientDetails();
@@ -85,12 +86,12 @@ const ElectronicCard = (props) => {
     }
   }, [props?.route?.params?.item]);
 
-  const getInfoValue = (item: { type: string }) => {
+  const getInfoValue = (item) => {
     switch (item.type) {
       case "name":
         return `${patientDetails.fname} ${patientDetails.lname}`;
       case "dob":
-        return `${patientDetails.dob || "N/A"} `;
+        return `${patientDetails.dob || "N/A"}`;
       case "gender":
         return `${patientDetails.gender || "N/A"}`;
       case "marital":
@@ -108,30 +109,19 @@ const ElectronicCard = (props) => {
     }
   };
 
-  const splitStringToArray = (dataString: string[] = []) => {
-    // console.log("dataString ===> ", dataString);
+  const splitStringToArray = (dataString = []) => {
     if (dataString.length > 0) {
       return dataString;
-      // if (typeof dataString === "string" && dataString !== "") {
-      // return dataString.split(",").map((item) => item.replace(/"/g, ""));
     }
     return ["N/A"];
   };
 
-  const renderOtherInfo = (item: { type: number }) => {
-    // console.log(patientDetails.allergies);
-
-    // return <></>;
-    //past_medical_history
-    //Surgeries1
-    //social_history
-    //Current_medication1
-    let data: any = [];
+  const renderOtherInfo = (item) => {
+    let data = [];
     switch (item.type) {
       case 1:
         if (medicalDetails.allergies) {
           const _data = splitStringToArray(medicalDetails.allergies);
-
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
@@ -249,7 +239,7 @@ const ElectronicCard = (props) => {
           <View
             style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 10 }}
           >
-            {HISTORY.map((i: any) => (
+            {HISTORY.map((i) => (
               <View
                 style={{
                   width: "50%",
@@ -290,7 +280,14 @@ const ElectronicCard = (props) => {
                 }}
               />
 
-              <ZegoSendCallInvitationButton
+              {/* <TouchableOpacity>
+                <Image
+                  source={require("../../assets/images/call.png")}
+                  resizeMode="contain"
+                  style={{ width: wp("10"), height: hp("5") }}
+                />
+              </TouchableOpacity> */}
+              {/* <ZegoSendCallInvitationButton
                 invitees={[
                   {
                     userID: `${item.patient_id}`,
@@ -299,44 +296,41 @@ const ElectronicCard = (props) => {
                 ]}
                 isVideoCall={false}
                 resourceID={"drips_call_kit"}
-              />
-              <ZegoSendCallInvitationButton
-                invitees={[
-                  {
-                    userID: `${item.patient_id}`,
-                    userName: `${item.name}`,
-                  },
-                ]}
-                isVideoCall={true}
-                resourceID={"drips_call_kit"}
-              />
+              /> */}
+              {/* <TouchableOpacity>
+                <Image
+                  source={require("../../assets/images/video.png")}
+                  resizeMode="contain"
+                  style={{ width: wp("10"), height: hp("5") }}
+                />
+              </TouchableOpacity> */}
 
               {voiceCallStatus && (
                 <Button
                   btnStyle={styles.actionButton}
-                  label={`Start Audio Call`}
+                  label={"Start Audio Call"}
                   onPress={() => {
                     _initCallConfig("Audio");
                   }}
                 />
               )}
 
-              {videoCallStatus && (
-                <Button
-                  btnStyle={styles.actionButton}
-                  label={`Start Video Call`}
-                  onPress={() => {
-                    _initCallConfig("Video");
-                  }}
-                />
-              )}
+              {/* {videoCallStatus && ( */}
+              <Button
+                btnStyle={styles.actionButton}
+                label={"Start Video Call"}
+                onPress={() => {
+                  _initCallConfig("Video");
+                }}
+              />
+              {/* )} */}
             </View>
           )}
           {userType === 1 && (
             <View style={{ marginTop: 20 }}>
               <Button
                 label={"Edit"}
-                onPress={() => navigate("MyMedicalHistory" as never)}
+                onPress={() => navigate("MyMedicalHistory")}
               />
             </View>
           )}
@@ -373,7 +367,6 @@ const styles = StyleSheet.create({
   },
   card: {
     ...commonStyles.boxShadow,
-    // backgroundColor: "#fff",
     marginTop: 20,
   },
   profileImg: {

@@ -57,7 +57,8 @@ const initialState = {
   doctorDetails: {} as DoctorDetailsModel,
   physicianPatients: [],
   patientDetails:{},
-  latestBookingDetails:{}
+  latestBookingDetails:{},
+  problemDetail:{}
 };
 
 const ConsultantReducer = (state = initialState, action) => {
