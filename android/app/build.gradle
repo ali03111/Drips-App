@@ -142,6 +142,7 @@ android {
     ndkVersion rootProject.ext.ndkVersion
   lintOptions {
         abortOnError false
+            // baseline = file("lint-baseline.xml")
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -291,10 +292,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
+androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//   implementation 'androidx.security:security-crypto:1.1.0-alpha06'
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation 'com.google.android.play:integrity:1.1.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
