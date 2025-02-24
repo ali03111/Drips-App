@@ -49,6 +49,13 @@ const ElectronicCard = (props) => {
   );
   const item = props?.route?.params?.item || undefined;
 
+  console.log(
+    "patientDetailspatientDetailspatientDetailspatientDetails",
+    patientDetails,
+    apointmentDetails,
+    medicalDetails
+  );
+
   const _fetchAppointmentDetails = () => {
     const id = item.id;
     let data = {
@@ -116,16 +123,32 @@ const ElectronicCard = (props) => {
     return ["N/A"];
   };
 
+  function flattenArray(arr) {
+    if (Array.isArray(arr) && arr.length === 1 && Array.isArray(arr[0])) {
+      return arr[0];
+    }
+    return arr;
+  }
+
+  console.log(
+    "skjbvklsdbvklsbdklbsdkbdsklblds",
+    flattenArray(patientDetails.allergies)
+  );
+
   const renderOtherInfo = (item) => {
     let data = [];
     switch (item.type) {
       case 1:
-        if (medicalDetails.allergies) {
-          const _data = splitStringToArray(medicalDetails.allergies);
+        if (
+          flattenArray(medicalDetails.allergies ?? patientDetails.allergies)
+        ) {
+          const _data = splitStringToArray(
+            medicalDetails.allergies ?? [patientDetails.allergies]
+          );
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i)}
+                {startCase(i) + ","}
               </Typography>
             );
           });
@@ -137,8 +160,85 @@ const ElectronicCard = (props) => {
           </Typography>
         );
       case 2:
-        if (medicalDetails.past_medical_history) {
-          const _data = splitStringToArray(medicalDetails.past_medical_history);
+        if (
+          flattenArray(
+            medicalDetails.past_medical_history ??
+              patientDetails.past_medical_history
+          )
+        ) {
+          const _data = splitStringToArray(
+            medicalDetails.past_medical_history ?? [
+              patientDetails.past_medical_history,
+            ]
+          );
+          _data.map((i) => {
+            data.push(
+              <Typography align="center" size={12}>
+                {startCase(i) + ","}
+              </Typography>
+            );
+          });
+          break;
+        }
+        return (
+          <Typography align="center" size={12}>
+            N/A
+          </Typography>
+        );
+      case 3:
+        if (medicalDetails.Surgeries1 || patientDetails.Surgeries1) {
+          const _data = splitStringToArray(
+            medicalDetails.Surgeries1 ?? [patientDetails.Surgeries1]
+          );
+          _data.map((i) => {
+            data.push(
+              <Typography align="center" size={12}>
+                {startCase(i) + ","}
+              </Typography>
+            );
+          });
+          break;
+        }
+        return (
+          <Typography align="center" size={12}>
+            N/A
+          </Typography>
+        );
+      case 4:
+        // if (medicalDetails.social_history || patientDetails.social_history) {
+        //   const _data = splitStringToArray(
+        //     medicalDetails.social_history ?? [patientDetails.social_history]
+        //   );
+        //   _data.map((i) => {
+        //     data.push(
+        //       <Typography align="center" size={12}>
+        //         {startCase(i)}
+        //       </Typography>
+        //     );
+        //   });
+        //   break;
+        // }
+
+        return (
+          <>
+            <Typography align="center" size={12}>
+              {`Smoke ${patientDetails.currently_smoking}`}
+            </Typography>
+            <Typography align="center" size={12}>
+              {`Alchole ${patientDetails.do_u_Alcohol}`}
+            </Typography>
+          </>
+        );
+      case 5:
+        if (
+          medicalDetails.Current_medication1 ||
+          patientDetails.Current_medication1
+        ) {
+          const _data = splitStringToArray(
+            medicalDetails.Current_medication1 ?? [
+              patientDetails.Current_medication1,
+            ]
+          );
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
@@ -153,13 +253,20 @@ const ElectronicCard = (props) => {
             N/A
           </Typography>
         );
-      case 3:
-        if (medicalDetails.Surgeries1) {
-          const _data = splitStringToArray(medicalDetails.Surgeries1);
+      case 6:
+        if (
+          medicalDetails.family_medical_condition ||
+          patientDetails.family_medical_condition
+        ) {
+          const _data = splitStringToArray(
+            medicalDetails.family_medical_condition ?? [
+              patientDetails.family_medical_condition,
+            ]
+          );
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i)}
+                {startCase(i) + ","}
               </Typography>
             );
           });
@@ -189,6 +296,10 @@ const ElectronicCard = (props) => {
   const videoCallStatus =
     ["accepted", "Accepted"].includes(apointmentDetails.consultation_status) &&
     apointmentDetails.type === "Video";
+
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+  }
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -305,24 +416,30 @@ const ElectronicCard = (props) => {
                 />
               </TouchableOpacity> */}
 
-              {voiceCallStatus && (
+              {/* {voiceCallStatus && ( */}
+              {apointmentDetails.appointment_type != null && (
                 <Button
                   btnStyle={styles.actionButton}
-                  label={"Start Audio Call"}
+                  label={`Start ${capitalizeFirstLetter(
+                    apointmentDetails.appointment_type
+                  )} Call`}
                   onPress={() => {
-                    _initCallConfig("Audio");
+                    _initCallConfig(
+                      capitalizeFirstLetter(apointmentDetails.appointment_type)
+                    );
                   }}
                 />
               )}
+              {/* )} */}
 
               {/* {videoCallStatus && ( */}
-              <Button
+              {/* <Button
                 btnStyle={styles.actionButton}
                 label={"Start Video Call"}
                 onPress={() => {
                   _initCallConfig("Video");
                 }}
-              />
+              /> */}
               {/* )} */}
             </View>
           )}
@@ -402,7 +519,7 @@ const INFO = [
     value: "Excutive",
   },
   {
-    title: "Marital Status",
+    title: "Marital",
     type: "marital",
     value: "Excutive",
   },

@@ -37,6 +37,7 @@ export const getDoctorDetailsApi = ( data: any ) => post(`/doctor-detail`, JSON.
 export const getMedicalHistoryApi = ( data: any ) => get(`/patient_medical_history?patient_id=${data.patient_id}`);
 export const updateMedicalHistoryApi = ( data: any ) => post(`/patient-medical-history-edit`,data,{},true);
 export const fetchPrescriptionsApi = ( id: any ) => get(`/my-prescription?patient_id=${id}`);
+export const fetchOrdersApi = ( id: any ) => get(`/my-orders?patient_id=${id}`);
 export const fetchTestResultsApi = ( id: any ) => get(`/my-prescription?patient_id=${id}`);
 export const getAllTestResultApi = ( id: any ) => get(`/getall-test-result?patient_id=${id}`);
 export const addTestResultApi = ( data: any ) => post(`/upload-test-result`,data,{},true);
@@ -52,7 +53,9 @@ export const getAccountApi = () => get(`/account` );
 export const accountApi = (data: any) => post(`/account`, JSON.stringify(data) );
 export const removeAccountApi = () => deleting(`/account`);
 
-export const fetchPhysicianPatientsApi = (data: any) => post(`/all-patients`, JSON.stringify(data) );
+export const fetchPhysicianPatientsApi = (data: any) =>{
+    console.log("slkdbvlksdbvl;sbdlvbsd.",data)
+  return  post(data?.url, JSON.stringify(data) )}
 
 export const requestDoctorApi = (data: any) => post(`/consultant-request`, JSON.stringify(data) );
 

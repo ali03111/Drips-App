@@ -228,7 +228,7 @@ const PhysicianNavigation = () => {
 const ConsultationStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Consultations"
       drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={
         {
@@ -238,7 +238,8 @@ const ConsultationStack = () => {
       }
     >
       <Stack.Screen name="Network" component={NetworkLogScreen} />
-      <Stack.Screen name="Home" component={Consultations} />
+      {/* <Stack.Screen name="Home" component={Consultations} /> */}
+      <Stack.Screen name="Consultations" component={Consultations} />
       <Stack.Screen name="ElectronicCard" component={ElectronicCard} />
       <Stack.Screen name="Call" component={Call} />
       <Stack.Screen name="Chat" component={Chat} />

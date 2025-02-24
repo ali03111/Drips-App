@@ -104,11 +104,14 @@ const ConsultantDetails = (props) => {
     await dispatch(getChatDetailsAction(item));
     // updatePaymentUrl('chat',{item})
   };
+  console.log(
+    "apointmentDetailsapointmentDetailsapointmentDetailsapointmentDetails",
+    apointmentDetails
+  );
 
-  const voiceCallStatus =
-    apointmentDetails.consultation_status && apointmentDetails.type === "Audio";
-  const videoCallStatus =
-    apointmentDetails.consultation_status && apointmentDetails.type === "Video";
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+  }
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -134,8 +137,24 @@ const ConsultantDetails = (props) => {
                 <Typography size={12} color={COLORS.placeholderColor}>
                   Medical School: {doctorDetails.medical_school || "N/A"}
                 </Typography>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={[styles.actionBtn, { backgroundColor: "#4cd2fd" }]}
+                    // onPress={ () => props.navigation.navigate('Pricing') }
+                    onPress={_onChatPress}
+                  >
+                    <Typography color="#fff" size={12} style={{ padding: 0 }}>
+                      Chat
+                    </Typography>
+                  </TouchableOpacity>
+                </View>
                 {/* <Typography>{item.customer_status}</Typography> */}
-                {apointmentDetails.payment_status === "success" && (
+                {/* {apointmentDetails.payment_status === "success" && (
                   <View
                     style={{
                       flexDirection: "row",
@@ -181,7 +200,7 @@ const ConsultantDetails = (props) => {
                       </Typography>
                     </TouchableOpacity>
                   </View>
-                )}
+                )} */}
               </View>
             </View>
 
@@ -217,7 +236,7 @@ const ConsultantDetails = (props) => {
             </View>
           </View>
 
-          <Button
+          {/* <Button
             label={`Join Video Call`}
             onPress={() => {
               navigate(
@@ -232,43 +251,59 @@ const ConsultantDetails = (props) => {
             }}
           />
 
+          <Button
+            label={`Join Audio Call`}
+            onPress={() => {
+              navigate(
+                "VideoCall" as never,
+                {
+                  item: {
+                    ...item,
+                    callType: "Audio",
+                  },
+                } as never
+              );
+            }}
+          /> */}
+
           {apointmentDetails.payment_status === "success" &&
-            apointmentDetails.consultation_status && (
+            apointmentDetails.appointment_type != null && (
               <View style={{ margin: 20 }}>
-                {apointmentDetails.consultation_status.toLowerCase() ===
-                  "audio" && (
+                <Button
+                  label={`Join ${capitalizeFirstLetter(
+                    apointmentDetails.appointment_type
+                  )} Call`}
+                  onPress={() => {
+                    navigate(
+                      "VideoCall" as never,
+                      {
+                        item: {
+                          ...apointmentDetails,
+                          callType: capitalizeFirstLetter(
+                            apointmentDetails.appointment_type
+                          ),
+                        },
+                      } as never
+                    );
+                  }}
+                />
+                {/* {apointmentDetails.consultation_status.toLowerCase() ===
+                  "video" && (
                   <Button
-                    label={`Join Audio Call`}
+                    label={`Join Video Call`}
                     onPress={() => {
                       navigate(
                         "VideoCall" as never,
                         {
                           item: {
                             ...item,
-                            callType: "Audio",
+                            callType: "Video",
                           },
                         } as never
                       );
                     }}
                   />
-                )}
-                {/* {apointmentDetails.consultation_status.toLowerCase() ===
-                  "video" && ( */}
-                <Button
-                  label={`Join Video Call`}
-                  onPress={() => {
-                    navigate(
-                      "VideoCall" as never,
-                      {
-                        item: {
-                          ...item,
-                          callType: "Video",
-                        },
-                      } as never
-                    );
-                  }}
-                />
-                {/* // )} */}
+                )} */}
               </View>
             )}
           <View style={{ margin: 20 }}>

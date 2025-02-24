@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
-  Text,
   TouchableOpacity,
   PermissionsAndroid,
   Platform,
@@ -13,21 +12,23 @@ import { onBack } from "../../navigation/RootNavigation";
 import { showToast } from "../../store/actions/AppActions";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const CallScreen = ({ route }) => {
-  const { item, callType } = route.params; // callType: "audio" or "video"
-  const { id: consultation_id, doctor_id, patient_id } = item;
-
-  const user = useSelector((state) => state.UserReducer.user);
-  const dispatch = useDispatch();
+const VideoCall = ({ route }) => {
+  const { item } = route.params; // callType: "audio" or "video"
+  const { consultation_id, doctor_id, patient_id, callType, meeting_url } =
+    item;
+  console.log(
+    "meeting_urlmeeting_urlmeeting_urlmeeting_urlmeeting_url",
+    meeting_url
+  );
   const userType = useSelector((state) => state.AppReducer.userType);
-
   const id = userType === 1 ? patient_id : doctor_id;
   const callID = `consultation-${consultation_id}`;
+  const dispatch = useDispatch();
 
   const callObjectRef = useRef(null);
   const [participants, setParticipants] = useState([]);
   const [isMuted, setIsMuted] = useState(false);
-  const [isVideoOn, setIsVideoOn] = useState(callType === "video");
+  const [isVideoOn, setIsVideoOn] = useState(callType === "Video");
 
   // Request Permissions
   const requestPermissions = async () => {
@@ -38,12 +39,13 @@ const CallScreen = ({ route }) => {
           PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         ]);
 
-        if (
-          granted["android.permission.CAMERA"] !==
-            PermissionsAndroid.RESULTS.GRANTED ||
-          granted["android.permission.RECORD_AUDIO"] !==
-            PermissionsAndroid.RESULTS.GRANTED
-        ) {
+        const hasPermissions =
+          granted["android.permission.CAMERA"] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          granted["android.permission.RECORD_AUDIO"] ===
+            PermissionsAndroid.RESULTS.GRANTED;
+
+        if (!hasPermissions) {
           dispatch(
             showToast(
               "Permissions denied! Please enable camera and microphone."
@@ -51,6 +53,7 @@ const CallScreen = ({ route }) => {
           );
           return false;
         }
+        return true;
       } catch (err) {
         console.warn("Permission error:", err);
         return false;
@@ -60,73 +63,82 @@ const CallScreen = ({ route }) => {
   };
 
   useEffect(() => {
+    let callObject;
+
     const initCall = async () => {
       const hasPermissions = await requestPermissions();
       if (!hasPermissions) return;
-
-      if (!callObjectRef.current) {
-        callObjectRef.current = Daily.createCallObject();
-      }
-      await callObjectRef.current.startCamera({
-        subscribeToTracksAutomatically: true,
+      // "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js"
+      callObject = Daily.createCallObject({
+        // dailyConfig: {},
+        //  "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js",
+        videoSource: true,
       });
-      // console.log(
-      //   "isDestroyedisDestroyedisDestroyedisDestroyedisDestroyedisDestroyed",
-      //   callObjectRef.current.isDestroyed()
-      // );
-      setTimeout(async () => {
-        // ✅ Ensure devices are enabled before joining
-        await callObjectRef.current.setLocalAudio(true);
-        await callObjectRef.current.setLocalVideo(true);
+      callObjectRef.current = callObject;
 
-        // await callObjectRef.current.setLocalVideo(callType === "video");
-      }, 1000);
-      const call = callObjectRef.current;
-      call.join({ url: item?.meeting_url });
-
+      // Set up event listeners
       const updateParticipants = () => {
-        const participantsList = Object.values(call.participants());
-        setParticipants(participantsList);
+        setParticipants(Object.values(callObject.participants()));
       };
 
-      call.on("participant-joined", updateParticipants);
-      call.on("participant-updated", updateParticipants);
-      call.on("participant-left", updateParticipants);
+      callObject.on("participant-joined", updateParticipants);
+      callObject.on("participant-updated", updateParticipants);
+      callObject.on("participant-left", updateParticipants);
 
-      call.on("joined-meeting", (event) => {
-        console.log("Joined meeting:", event);
-      });
-
-      call.on("camera-error", (error) => {
+      callObject.on("camera-error", (error) => {
         console.error("Camera error:", error);
         dispatch(showToast(`Camera error: ${error.message}`));
       });
 
-      call.on("microphone-error", (error) => {
+      callObject.on("microphone-error", (error) => {
         console.error("Microphone error:", error);
         dispatch(showToast(`Microphone error: ${error.message}`));
       });
 
-      return () => {
-        // if (callObjectRef.current) {
-        callObjectRef.current.leave();
-        callObjectRef.current.destroy();
-        callObjectRef.current = null;
-        // }
-      };
+      try {
+        await callObject.startCamera({
+          subscribeToTracksAutomatically: true,
+        });
+
+        // Ensure audio/video is set correctly before joining
+        await callObject.setLocalAudio(true);
+        await callObject.setLocalVideo(callType === "Video");
+        await callObject.load();
+        await callObject.join({
+          url: meeting_url,
+          subscribeToTracksAutomatically: true,
+        });
+      } catch (error) {
+        console.error("Error joining call:", error);
+        dispatch(showToast(`Error joining call: ${error}`));
+      }
     };
 
     initCall();
+
+    return () => {
+      if (callObject) {
+        callObject.leave();
+        callObject.destroy();
+        callObjectRef.current = null;
+      }
+    };
   }, []);
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    callObjectRef.current?.setLocalAudio(!isMuted);
+    if (callObjectRef.current) {
+      const newState = !isMuted;
+      setIsMuted(newState);
+      callObjectRef.current.setLocalAudio(!newState);
+    }
   };
 
   const toggleVideo = () => {
-    setIsVideoOn(!isVideoOn);
-    callObjectRef.current?.setLocalVideo(!isVideoOn);
+    if (callObjectRef.current) {
+      const newState = !isVideoOn;
+      setIsVideoOn(newState);
+      callObjectRef.current.setLocalVideo(newState);
+    }
   };
 
   const switchCamera = () => {
@@ -141,23 +153,17 @@ const CallScreen = ({ route }) => {
       onBack();
     }
   };
-  console.log(
-    "participantsListparticipantsListparticipantsListparticipantsListparticipantsList",
-    participants
-  );
+
   return (
     <View style={styles.container}>
       {participants.map((participant) => (
         <DailyMediaView
           key={participant.user_id}
-          videoTrack={participant.videoTrack}
-          // videoTrack={participant.videoTrack ?? "dummy-video-track"}
-          // videoTrack={callType === "video" ? participant.videoTrack : null}
+          videoTrack={callType === "Video" ? participant.videoTrack : null}
           audioTrack={participant.audioTrack}
           mirror={participant.local}
           zOrder={participant.local ? 1 : 0}
-          style={[styles.mediaView]}
-          // style={[styles.mediaView, callType === "audio" && styles.audioView]}
+          style={[styles.mediaView, callType === "Audio" && styles.audioView]}
         />
       ))}
 
@@ -169,20 +175,20 @@ const CallScreen = ({ route }) => {
             color="#fff"
           />
         </TouchableOpacity>
-        {/* {callType === "video" && ( */}
-        <TouchableOpacity onPress={toggleVideo} style={styles.button}>
-          <Icon
-            name={isVideoOn ? "video" : "video-off"}
-            size={24}
-            color="#fff"
-          />
-        </TouchableOpacity>
-        {/* )} */}
-        {/* {callType === "video" && ( */}
-        <TouchableOpacity onPress={switchCamera} style={styles.button}>
-          <Icon name="camera-switch" size={24} color="#fff" />
-        </TouchableOpacity>
-        {/* )} */}
+        {callType === "Video" && (
+          <>
+            <TouchableOpacity onPress={toggleVideo} style={styles.button}>
+              <Icon
+                name={isVideoOn ? "video" : "video-off"}
+                size={24}
+                color="#fff"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={switchCamera} style={styles.button}>
+              <Icon name="camera-switch" size={24} color="#fff" />
+            </TouchableOpacity>
+          </>
+        )}
         <TouchableOpacity
           onPress={handleHangUp}
           style={[styles.button, styles.hangupButton]}
@@ -226,4 +232,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CallScreen;
+export default VideoCall;

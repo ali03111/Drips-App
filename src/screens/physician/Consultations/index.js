@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
   TextInput,
@@ -15,25 +14,31 @@ import { commonStyles } from "../../../style";
 import moment from "moment";
 import FaIcon from "react-native-vector-icons/FontAwesome5";
 import { navigate } from "../../../navigation/RootNavigation";
-import { RootState } from "../../../store/reducers";
 import { fetchPhysicianPatients } from "../../../store/actions/PhysicianActions";
 import { startCase } from "lodash";
 import { getChatDetailsAction } from "../../../store/actions/ChatActions";
 import { onUserLogin } from "../../../utils/ZegoCloudConfig";
+import { useFocusEffect } from "@react-navigation/native";
 
-const Consultations = (props) => {
+const Consultations = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const [searchText, onSearchText] = useState("");
-  const userData = useSelector((state: RootState) => state.UserReducer.user);
+  const [searchText, setSearchText] = useState("");
+  const userData = useSelector((state) => state.UserReducer.user);
 
-  const { physicianPatients } = useSelector(
-    (state: RootState) => state.ConsultantReducer
-  );
+  const { physicianPatients } = useSelector((state) => state.ConsultantReducer);
+
+  const { title } = useSelector((state) => state.ScreenReducer);
 
   const _fetchAllPatients = () => {
-    onSearchText("");
-    dispatch(fetchPhysicianPatients());
+    setSearchText("");
+    dispatch(
+      fetchPhysicianPatients({
+        payload: title ?? "Scheduled Consultations",
+      })
+    );
   };
+
+  console.log("titletitletitletitletitletitletitletitle", title);
 
   useEffect(() => {
     onUserLogin({
@@ -44,18 +49,18 @@ const Consultations = (props) => {
     _fetchAllPatients();
   }, []);
 
-  const { title = "Scheduled Consultations" } = props.route.params || {};
-
   const getData = () => {
-    if (!searchText) return physicianPatients; // Handles empty, null, or undefined values
+    if (!searchText) return physicianPatients;
     return physicianPatients.filter((i) => {
-      if (i.name != null) {
-        i.name.toLowerCase().includes(searchText.toLocaleLowerCase());
-      } else
-        i.doctorname.toLowerCase().includes(searchText.toLocaleLowerCase());
+      return (
+        (i.name && i.name.toLowerCase().includes(searchText.toLowerCase())) ||
+        (i.doctorname &&
+          i.doctorname.toLowerCase().includes(searchText.toLowerCase()))
+      );
     });
   };
-  const _renderTime = (item: any) => {
+
+  const _renderTime = (item) => {
     let date = `${item.date} ${item.timing}`;
     return moment(date).format("LLLL");
   };
@@ -63,14 +68,17 @@ const Consultations = (props) => {
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
-        <InnerHeader title={title} drawerBtn={true} />
+        <InnerHeader
+          title={title ?? "Scheduled Consultations"}
+          drawerBtn={true}
+        />
         <View style={styles.container}>
           <View style={styles.searchInput}>
             <FaIcon name="search" size={16} />
             <TextInput
               placeholder="Filter By name"
               value={searchText}
-              onChangeText={onSearchText}
+              onChangeText={setSearchText}
               style={{
                 flex: 1,
                 fontFamily: FONTS.PoppinsMedium,
@@ -101,7 +109,7 @@ const Consultations = (props) => {
                 No Patients Found
               </Typography>
             )}
-            renderItem={({ item, index }) => {
+            renderItem={({ item }) => {
               const isPaid = item.payment_status === "success";
               let paymentStyle = {
                 paddingHorizontal: 20,
@@ -135,7 +143,7 @@ const Consultations = (props) => {
                   <Typography size={12} color={COLORS.halfWhite}>
                     {`Consultation Type: `}
                     <Typography size={12} color={"#5cb4c8"}>
-                      {item.booking_type}
+                      {item.appointment_type}
                     </Typography>
                   </Typography>
 
@@ -158,9 +166,7 @@ const Consultations = (props) => {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity
                       style={[styles.actionBtn, { backgroundColor: "#4cd2fd" }]}
-                      onPress={() =>
-                        navigate("ElectronicCard" as never, { item } as never)
-                      }
+                      onPress={() => navigate("ElectronicCard", { item })}
                     >
                       <Typography color="#fff" size={12}>
                         View
@@ -190,17 +196,9 @@ const Consultations = (props) => {
 };
 
 const styles = StyleSheet.create({
-  paidText: {
-    backgroundColor: "green",
-    // paddingHorizontal: 10,
-  },
-  unPaidText: {
-    backgroundColor: "red",
-  },
-  mainContainer: {
-    flex: 1,
-    backgroundColor: COLORS.primary,
-  },
+  paidText: { backgroundColor: "green" },
+  unPaidText: { backgroundColor: "red" },
+  mainContainer: { flex: 1, backgroundColor: COLORS.primary },
   container: {
     flex: 1,
     backgroundColor: "#fff",

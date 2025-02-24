@@ -14,7 +14,8 @@ import {
   fetchTestResultsApi,
   getAllTestResultApi,
   addTestResultApi,
-  deleteTestResultApi
+  deleteTestResultApi,
+  fetchOrdersApi
 } from "../services/Services";
 import store from "..";
 import { navigate, onBack, popToTop } from "../../navigation/RootNavigation";
@@ -164,6 +165,20 @@ export function* fetchPrescriptionReq(): any {
   yield put(disableLoader());
   if(response.status && response.code === '200'){
     yield put( updateUserStates({ prescriptionData:response.data }) );
+  } else {
+    errorHandler(response);
+  }
+}
+export function* fetchOrdersReq(): any {
+  yield put(enableLoader());
+  const { user } = yield select( selectUserState );
+  const response = yield call(
+    fetchOrdersApi,
+    user.user_id
+  );
+  yield put(disableLoader());
+  if(response.status && response.code === '200'){
+    yield put( updateUserStates({ orderData:response.data }) );
   } else {
     errorHandler(response);
   }

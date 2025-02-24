@@ -1,5 +1,5 @@
 import { RESET_USER_STATE, UPDATE_STATE } from '../actions/UserActions';
-import { MedicalHistoryModel, PrescriptionItemModel, TestResultItemModel } from '../models/MedicalHistory';
+import { MedicalHistoryModel, OrderItemModel, PrescriptionItemModel, TestResultItemModel } from '../models/MedicalHistory';
 
 const initialState = {
     defaultRoute: 'index',
@@ -41,6 +41,7 @@ const initialState = {
     },
     medicalHistory:{} as MedicalHistoryModel,
     prescriptionData:[] as PrescriptionItemModel[],
+    orderData:[] as OrderItemModel[],
     testResults:[] as TestResultItemModel[],
 };
 

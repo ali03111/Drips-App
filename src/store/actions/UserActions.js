@@ -13,6 +13,7 @@ export const USER_UPDATE = "USER_UPDATE";
 export const BUSINESS_UPDATE = "BUSINESS_UPDATE";
 export const BUSINESS_SERVICE_UPDATE = "BUSINESS_SERVICE_UPDATE";
 export const FETCH_PRESCRIPTIONS = "FETCH_PRESCRIPTIONS";
+export const FETCH_ORDERS = "FETCH_ORDERS";
 export const FETCH_TEST_RESULTS = "FETCH_TEST_RESULTS";
 export const UPLOAD_TEST_RESULT = "UPLOAD_TEST_RESULT";
 export const DELETE_TEST_RESULT = "DELETE_TEST_RESULT";
@@ -136,6 +137,7 @@ export const updateProfileAction = (payload) => ({
 export const logoutAction = () => ({ type: LOGOUT });
 
 export const fetchPrescription = () => ({ type: FETCH_PRESCRIPTIONS });
+export const fetchOrders = () => ({ type: FETCH_ORDERS });
 export const fetchTestResults = () => ({ type: FETCH_TEST_RESULTS });
 export const uploadTestResult = (payload = {}) => ({
   type: UPLOAD_TEST_RESULT,

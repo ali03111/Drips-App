@@ -7,3 +7,4 @@ export const selectMessages = (state) => state.ChatReducer;
 export const selectCards = (state) => state.UserReducer.cards;
 export const selectAccount = (state) => state.UserReducer.account;
 export const selectConsultantState = (state) => state.ConsultantReducer;
+export const selectScreen = (state) => state.ScreenReducer;

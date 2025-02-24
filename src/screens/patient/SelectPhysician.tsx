@@ -14,12 +14,19 @@ import CheckBox from "@react-native-community/checkbox";
 import { commonStyles } from "../../style";
 import { RootState } from "../../store/reducers";
 import { updateConsultantData } from "../../store/actions/UserActions";
+import { renderStars } from "../../utils/utils";
 
 const SelectPhysician = (props) => {
   const dispatch = useDispatch();
   const { availableConsultants } = useSelector(
     (state: RootState) => state.ConsultantReducer
   );
+
+  console.log(
+    "availableConsultantsavailableConsultantsavailableConsultantsavailableConsultants",
+    availableConsultants
+  );
+
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
@@ -57,6 +64,15 @@ const SelectPhysician = (props) => {
                             {item.expertise}
                           </Typography>
                           <Typography>{item.status}</Typography>
+                        </View>
+                        <View
+                          style={{ flexDirection: "row", alignItems: "center" }}
+                        >
+                          <Typography size={12} color={COLORS.rating}>
+                            {" "}
+                            {item.customer_status || 1} (100){" "}
+                          </Typography>
+                          {renderStars(item.customer_status || 1)}
                         </View>
                         <View
                           style={{

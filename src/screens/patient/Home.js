@@ -118,8 +118,14 @@ const Home = (props) => {
   };
 
   function capitalizeFirstLetter(string) {
-    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+    return string
+      .toLowerCase() // Convert to lowercase first to ensure proper formatting
+      .split(" ") // Split the string into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(" "); // Join back into a single string
   }
+
+  console.log("symptomssymptomssymptomssymptomssymptomssymptoms", symptoms);
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>

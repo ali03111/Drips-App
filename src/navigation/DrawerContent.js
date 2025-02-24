@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Image,
@@ -25,21 +25,19 @@ import {
 } from "../components/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserStates } from "../store/actions/UserActions";
-import { navigate } from "./RootNavigation";
-import { RootState } from "../store/reducers";
-import { removeItem, setItem } from "../utils/localStorage";
+import { navigate, replace } from "./RootNavigation";
+import { removeItem } from "../utils/localStorage";
 import { onUserLogout } from "../utils/ZegoCloudConfig";
+import { updateScreenStates } from "../store/actions/ChatActions";
+import { fetchPhysicianPatients } from "../store/actions/PhysicianActions";
 
 export const DrawerContent = (props) => {
   const dispatch = useDispatch();
-  const { userType } = useSelector((state: RootState) => state.UserReducer);
-  const { user }: any = useSelector((state: RootState) => state.UserReducer);
-  React.useEffect(() => {
-    // alert(userType);
-  }, []);
+  const { userType } = useSelector((state) => state.UserReducer);
+  const { user } = useSelector((state) => state.UserReducer);
 
-  const [items, setItems] = React.useState(
-    userType === 1 ? PATIENTMENU : PHYSICIANMENU
+  const [items, setItems] = useState(
+    (userType === 1 && PATIENTMENU) || (userType === 2 && PHYSICIANMENU)
   );
   let imagePath =
     (user.pic && { uri: IMAGE_URL + user.pic }) || IMAGES.avatar_placeholder;
@@ -60,6 +58,7 @@ export const DrawerContent = (props) => {
       },
     ]);
   };
+
   return (
     <DrawerContentScrollView
       style={{ flex: 1, backgroundColor: COLORS.primary, padding: 30 }}
@@ -94,12 +93,46 @@ export const DrawerContent = (props) => {
 
         {items.map((i, index) => (
           <TouchableOpacity
+            key={index}
             style={styles.drawerItem}
-            onPress={() =>
-              i.navigateTo === "Home"
-                ? props.navigation.closeDrawer()
-                : navigate(i.navigateTo as never, i.params as never)
-            }
+            onPress={() => {
+              console.log(
+                "userTypeuserTypeuserTypeuserTypeuserType",
+                userType,
+                i
+              );
+              dispatch(
+                updateScreenStates({
+                  routeName: i.navigateTo,
+                  title: i.params.title,
+                })
+              );
+              // props.navigation.closeDrawer();
+              // replace(i.navigateTo, i.params);
+
+              if (i.navigateTo === "Home") {
+                props.navigation.closeDrawer();
+              } else {
+                dispatch(
+                  updateScreenStates({
+                    routeName: i.navigateTo,
+                    title: i.params.title,
+                  })
+                );
+                dispatch(
+                  fetchPhysicianPatients({
+                    payload: i.params.title ?? "Scheduled Consultations",
+                  })
+                );
+                props.navigation.closeDrawer();
+                // replace(i.navigateTo, i.params);
+
+                props.navigation.navigate(i.navigateTo, i.params);
+              }
+              // i.navigateTo === "Home"
+              //   ? props.navigation.closeDrawer()
+              //   : props.navigation.navigate(i.navigateTo, i.params);
+            }}
           >
             {i.icon}
             <Typography
@@ -193,25 +226,19 @@ const PHYSICIANMENU = [
   {
     title: "Scheduled Consultations",
     navigateTo: "Consultations",
-    params: {
-      title: "Scheduled Consultation",
-    },
+    params: { title: "Scheduled Consultation" },
     icon: <CalendarIcon />,
   },
   {
     title: "Past Consultations",
     navigateTo: "Consultations",
-    params: {
-      title: "Past Consultations",
-    },
+    params: { title: "Past Consultations" },
     icon: <CalendarIcon />,
   },
   {
     title: "All Consultations",
     navigateTo: "Consultations",
-    params: {
-      title: "All Consultations",
-    },
+    params: { title: "All Consultations" },
     icon: <DoctorIcon />,
   },
   {
