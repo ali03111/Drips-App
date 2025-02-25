@@ -1,5 +1,12 @@
-import React from "react";
-import { View, StyleSheet, Image, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, IMAGES, IMAGE_URL, screenHeight } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
@@ -14,7 +21,18 @@ import CheckBox from "@react-native-community/checkbox";
 import { commonStyles } from "../../style";
 import { RootState } from "../../store/reducers";
 import { updateConsultantData } from "../../store/actions/UserActions";
-import { renderStars } from "../../utils/utils";
+import { errorHandler, renderStars } from "../../utils/utils";
+import Icon from "react-native-vector-icons/FontAwesome";
+import DropdownModal from "../../components/atoms/DropdownModal";
+import DropdownListItem from "../../components/atoms/DropdownListItem";
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
+import { get } from "../../store/services/Http";
+import { disableLoader, enableLoader } from "../../store/actions/AppActions";
+import { EmptyList } from "../../components/atoms/EmptyList";
+import { wp } from "../../utils/responsive";
 
 const SelectPhysician = (props) => {
   const dispatch = useDispatch();
@@ -24,18 +42,131 @@ const SelectPhysician = (props) => {
 
   console.log(
     "availableConsultantsavailableConsultantsavailableConsultantsavailableConsultants",
-    availableConsultants
+    availableConsultants[1]
   );
 
+  const [modalState, setModalState] = useState(null);
+  const [afterFilterConsultants, setAfterFilterConsultants] = useState([]);
+  const [typeState, setTypeState] = useState([
+    {
+      ModalTitle: "Select Speciality",
+      type: "Speciality",
+      modalArry: [
+        "Don't Know",
+        "A+",
+        "A-",
+        "B+",
+        "B-",
+        "AB+",
+        "AB-",
+        "O+",
+        "O-",
+      ],
+      selectedVal: null,
+    },
+    {
+      ModalTitle: "Select Gender",
+      modalArry: ["Don't know", "AS", "AA", "AC", "CC", "SS", "SC"],
+      type: "Gender",
+      selectedVal: null,
+    },
+    {
+      ModalTitle: "Select Language",
+      modalArry: ["Don't know", "AS", "AA", "AC", "CC", "SS", "SC"],
+      type: "Language",
+      selectedVal: null,
+    },
+  ]);
+  const [apiBody, setApiBody] = useState({
+    Speciality: null,
+    Gender: null,
+    Language: null,
+  });
+
+  const updateTypeState = (response) => {
+    return [
+      {
+        ModalTitle: "Select Speciality",
+        type: "Speciality",
+        modalArry: response.specialities,
+        selectedVal: null,
+      },
+      {
+        ModalTitle: "Select Gender",
+        type: "Gender",
+        modalArry: response.genders,
+        selectedVal: null,
+      },
+      {
+        ModalTitle: "Select Language",
+        type: "Language",
+        modalArry: response.languages,
+        selectedVal: null,
+      },
+    ];
+  };
+
+  const fetchFilterDataApi = async () => {
+    dispatch(enableLoader());
+    const response = await get(`/search-filter-data`);
+    if (response.status && response.code === "200") {
+      setTypeState(updateTypeState(response));
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+  const fetchFilterDoctorsApi = async () => {
+    dispatch(enableLoader());
+    const response = await get(
+      `/search-doctor?speciality_id=${apiBody.Speciality}&language_id=${apiBody.Language}&gender=${apiBody.Gender}`
+    );
+    if (response.status && response.code === "200") {
+      setAfterFilterConsultants(response.data);
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+
+  useEffect(() => {
+    fetchFilterDataApi();
+  }, []);
+
+  function capitalizeFirstLetter(string) {
+    return string
+      .toLowerCase() // Convert to lowercase first to ensure proper formatting
+      .split(" ") // Split the string into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(" "); // Join back into a single string
+  }
+
+  const { width, height } = Dimensions.get("window");
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
-        <InnerHeader title="Physicians" drawerBtn={false} backBtn={true} />
+        <InnerHeader
+          title="Physicians"
+          drawerBtn={false}
+          backBtn={true}
+          rightIcons={
+            <Icon
+              name="filter"
+              color={COLORS.white}
+              size={20}
+              onPress={() => setModalState(true)}
+            />
+          }
+        />
         <View style={styles.container}>
           <FlatList
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: 20 }}
-            data={availableConsultants}
+            data={
+              apiBody.Speciality ? afterFilterConsultants : availableConsultants
+            }
             renderItem={({ item, index }) => {
               const image_url = { uri: IMAGE_URL + item.pic };
               return (
@@ -60,9 +191,16 @@ const SelectPhysician = (props) => {
                             numberOfLines={2}
                             color={COLORS.placeholderColor}
                           >
-                            Expertise: {"\n"}
-                            {item.expertise}
+                            Speciality:
                           </Typography>
+                          <Typography
+                            size={10}
+                            // numberOfLines={2}
+                            color={COLORS.placeholderColor}
+                          >
+                            {item.speciality_name}
+                          </Typography>
+
                           <Typography>{item.status}</Typography>
                         </View>
                         <View
@@ -115,8 +253,90 @@ const SelectPhysician = (props) => {
                 </View>
               );
             }}
+            ListEmptyComponent={() => <EmptyList />}
           />
         </View>
+        {modalState != null && (
+          <DropdownModal
+            title={"Filter"}
+            innerViewStyles={{
+              height: height * 0.8,
+            }}
+            onClose={() => {
+              setModalState(null);
+              setApiBody({
+                Speciality: null,
+                Gender: null,
+                Language: null,
+              });
+            }}
+          >
+            <FlatList
+              data={typeState}
+              ItemSeparatorComponent={() => <View />}
+              renderItem={({ item, index }) => {
+                return (
+                  <>
+                    <Typography> {item.ModalTitle} </Typography>
+                    {item.modalArry.map((res) => {
+                      return (
+                        <DropdownListItem
+                          selected={apiBody[item.type] == (res?.id || res)}
+                          title={capitalizeFirstLetter(res?.name ?? res)}
+                          onPress={() => {
+                            // typeState[index].selectedVal = res;
+                            setApiBody((prev) => ({
+                              ...prev,
+                              [item.type]: res?.id ?? res,
+                            }));
+                            // setModalState(null);
+                          }}
+                        />
+                      );
+                    })}
+                  </>
+                );
+              }}
+            />
+
+            <View
+              style={{
+                flexDirection: "row",
+                width: wp("80"),
+                alignSelf: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <TouchableOpacity
+                style={styles.actionBtn}
+                onPress={() => {
+                  fetchFilterDoctorsApi();
+                  setModalState(null);
+                }}
+              >
+                <Typography color="#fff" size={12}>
+                  Apply filter
+                </Typography>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.actionBtn}
+                onPress={() => {
+                  setModalState(null);
+                  setAfterFilterConsultants([]);
+                  setApiBody({
+                    Speciality: null,
+                    Gender: null,
+                    Language: null,
+                  });
+                }}
+              >
+                <Typography color="#fff" size={12}>
+                  Clear filter
+                </Typography>
+              </TouchableOpacity>
+            </View>
+          </DropdownModal>
+        )}
       </View>
     </SafeAreaContainer>
   );
@@ -180,6 +400,18 @@ const styles = StyleSheet.create({
   },
   cardDetail: {
     flex: 1,
+  },
+  actionBtn: {
+    marginTop: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.primary,
+    paddingVertical: heightPercentageToDP("1"),
+    marginBottom: heightPercentageToDP("2"),
+    width: widthPercentageToDP("39"),
+    alignSelf: "center",
   },
 });
 

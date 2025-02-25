@@ -191,12 +191,14 @@ export function* fetchTestResultsReq(): any {
     user.user_id
   );
   yield put(disableLoader());
+  console.log("responseresponseresponseresponseresponseresponseresponse",response)
   if(response.status && response.code === '200'){
-    if(typeof response?.alltestresult === 'object'){
-      yield put( updateUserStates({ testResults:response?.alltestresult || [] }) );
-    }else{
-      yield put( updateUserStates({ testResults:[] }) );
-    }
+    yield put( updateUserStates({ testResults:response?.alltestresult || [] }) );
+    // if(typeof response?.alltestresult === 'object'){
+    //   yield put( updateUserStates({ testResults:response?.alltestresult || [] }) );
+    // }else{
+    //   yield put( updateUserStates({ testResults:[] }) );
+    // }
   } else {
     errorHandler(response);
   }
@@ -208,9 +210,10 @@ export function* uploadTestResultReq(action:any): any {
     addTestResultApi,
     action.payload
   );
+  console.log("sjkldbvklsdbvklbdsklvbsdlvbklsdbvsdbvksdbkl",action.payload,response)
   yield put(disableLoader());
   if(response.status && response.code === '200'){
-    yield put( updateUserStates({ testResults:response.data }) );
+    // yield put( updateUserStates({ testResults:response.data }) );
     yield put( fetchTestResults() );
   } else {
     errorHandler(response);
@@ -224,7 +227,7 @@ export function* deleteTestResultReq(action:any): any {
   );
   yield put(disableLoader());
   if(response.status && response.code === '200'){
-    yield put( updateUserStates({ testResults:response.data }) );
+    // yield put( updateUserStates({ testResults:response.data }) );
     yield put( fetchTestResults() );
   } else {
     errorHandler(response);

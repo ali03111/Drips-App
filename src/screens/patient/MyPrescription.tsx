@@ -26,6 +26,7 @@ import {
 import { get } from "../../store/services/Http";
 import { errorHandler } from "../../utils/utils";
 import RNFetchBlob from "rn-fetch-blob";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 
 const MyPrescription = (props) => {
   const { prescriptionData } = useSelector(
@@ -185,13 +186,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
   },
   actionBtn: {
-    width: 100,
     marginTop: 10,
     borderRadius: 10,
     paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff2076",
+    paddingVertical: heightPercentageToDP("1"),
   },
 });
 

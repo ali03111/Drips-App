@@ -61,7 +61,7 @@ const BloodType = (props) => {
       userUserDataAction(
         signupStep,
         {
-          blood_Type: bloodType,
+          blood_type: bloodType,
           genotype,
         },
         "UploadProfile"
@@ -137,7 +137,7 @@ const BloodType = (props) => {
                       onPress={() => {
                         setApiBody((prev) => ({
                           ...prev,
-                          [modalState]: JSON.stringify(item),
+                          [modalState]: item,
                         }));
                         setModalState(null);
                       }}

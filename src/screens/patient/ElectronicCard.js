@@ -111,11 +111,16 @@ const ElectronicCard = (props) => {
         return `${patientDetails.Weight}`;
       case "bmi":
         return `${patientDetails.Bmi}`;
+      case "bloodType":
+        return `${patientDetails.blood_type ?? "Not availabe"}`;
       default:
         return "";
     }
   };
-
+  console.log(
+    "patientDetailspatientDetailspatientDetailssfvdfvdfbdfbdfbdfbdfbbfd",
+    patientDetails
+  );
   const splitStringToArray = (dataString = []) => {
     if (dataString.length > 0) {
       return dataString;
@@ -536,6 +541,11 @@ const INFO = [
   {
     title: "BMI",
     type: "bmi",
+    value: "99",
+  },
+  {
+    title: "Blood",
+    type: "bloodType",
     value: "99",
   },
 ];

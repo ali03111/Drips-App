@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,9 +7,10 @@ import {
   ImageSourcePropType,
   Pressable,
   FlatList,
+  TextInput,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { COLORS, IMAGES, IMAGE_URL, screenWidth } from "../../constants";
+import { COLORS, FONTS, IMAGES, IMAGE_URL, screenWidth } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import {
   Button,
@@ -23,6 +24,7 @@ import { commonStyles } from "../../style";
 import { RootState } from "../../store/reducers";
 import { getPatientApointmentsAction } from "../../store/actions/UserActions";
 import { ApointmentItemModel } from "../../store/models";
+import FaIcon from "react-native-vector-icons/FontAwesome5";
 import { startCase } from "lodash";
 const MyConsultantations = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const MyConsultantations = (props) => {
     (state: RootState) => state.ConsultantReducer
   );
 
+  const [searchText, setSearchText] = useState("");
   const _fetchConsultations = () => {
     dispatch(getPatientApointmentsAction());
   };
@@ -37,6 +40,17 @@ const MyConsultantations = (props) => {
   useEffect(() => {
     _fetchConsultations();
   }, []);
+
+  const getData = () => {
+    if (!searchText) return apointmentList;
+    return apointmentList.filter((i) => {
+      return (
+        (i.name && i.name.toLowerCase().includes(searchText.toLowerCase())) ||
+        (i.doctorname &&
+          i.doctorname.toLowerCase().includes(searchText.toLowerCase()))
+      );
+    });
+  };
 
   const _getImage = (item: ApointmentItemModel): ImageSourcePropType => {
     return { uri: IMAGE_URL + item.doctorimage } || { uri: "" };
@@ -49,10 +63,24 @@ const MyConsultantations = (props) => {
       <View style={styles.mainContainer}>
         <InnerHeader title="My Consultation" drawerBtn={false} backBtn={true} />
         <View style={styles.container}>
+          <View style={styles.searchInput}>
+            <FaIcon name="search" size={16} />
+            <TextInput
+              placeholder="Filter By name"
+              value={searchText}
+              onChangeText={setSearchText}
+              style={{
+                flex: 1,
+                fontFamily: FONTS.PoppinsMedium,
+                padding: 10,
+                color: "black",
+              }}
+            />
+          </View>
           <FlatList
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: 20 }}
-            data={apointmentList}
+            data={getData()}
             renderItem={({
               item,
               index,
@@ -171,6 +199,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   cardDetail: {},
+  searchInput: {
+    ...commonStyles.inputView,
+    ...commonStyles.boxShadow,
+    marginVertical: 15,
+    marginHorizontal: 20,
+    padding: 0,
+    paddingHorizontal: 10,
+    backgroundColor: "#fff",
+  },
 });
 
 export default MyConsultantations;

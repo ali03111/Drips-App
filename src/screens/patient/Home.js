@@ -36,6 +36,7 @@ import moment from "moment";
 import messaging from "@react-native-firebase/messaging";
 import { getUniqueId } from "react-native-device-info";
 import { onUserLogin } from "../../utils/ZegoCloudConfig";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
 const initialState = {
   bookingType: "On Demand",
@@ -156,8 +157,10 @@ const Home = (props) => {
                   style={{
                     flexDirection: "row",
                     // alignItems: "center",
-                    width: "45%",
+                    width: "47%",
                     marginVertical: 8,
+                    // backgroundColor: "red",
+                    marginRight: widthPercentageToDP("2.5"),
                   }}
                 >
                   <View style={{ width: 25 }}>

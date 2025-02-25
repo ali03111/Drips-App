@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: FONTS.PoppinsRegular,
     padding: 0,
+    color: "black",
   },
 });
 

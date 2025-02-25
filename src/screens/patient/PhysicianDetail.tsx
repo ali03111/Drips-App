@@ -20,6 +20,7 @@ import {
   getConsultantDetailAction,
 } from "../../store/actions/UserActions";
 import { RootState } from "../../store/reducers";
+import { hp, wp } from "../../utils/responsive";
 
 const PhysicianDetail = (props) => {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const PhysicianDetail = (props) => {
 
   console.log(
     "problemDetailproblemDetailproblemDetailproblemDetailproblemDetailproblemDetail",
-    problemDetail
+    item
   );
 
   return (
@@ -87,6 +88,10 @@ const PhysicianDetail = (props) => {
                 </Typography>
                 <Typography size={12} color={COLORS.placeholderColor}>
                   Medical School: {item.medical_school || "N/A"}
+                </Typography>
+                {/* <View style={{ flex: 1 }} /> */}
+                <Typography size={12} color={COLORS.placeholderColor}>
+                  Specialities: {item?.speciality_name || "N/A"}
                 </Typography>
                 {/* <Typography>{item.customer_status}</Typography> */}
 
@@ -130,7 +135,7 @@ const PhysicianDetail = (props) => {
               color={COLORS.placeholderColor}
               style={{ marginTop: 20 }}
             >
-              Residency:{item.residency || "N/A"}
+              Residency: {item.residency || "N/A"}
             </Typography>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -143,13 +148,28 @@ const PhysicianDetail = (props) => {
 
             <View style={commonStyles.separator} />
 
-            <Typography>Address</Typography>
-            <Typography color={COLORS.placeholderColor} size={12}>
-              {address}
-            </Typography>
-
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Image
+                source={require("../../assets/images/call.png")}
+                resizeMode="contain"
+                style={{ width: wp("5"), height: hp("2") }}
+              />
+              <Typography>₦50</Typography>
+            </View>
             <View style={commonStyles.separator} />
-
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Image
+                source={require("../../assets/images/video.png")}
+                resizeMode="contain"
+                style={{ width: wp("5"), height: hp("2") }}
+              />
+              <Typography>₦80</Typography>
+            </View>
+            <View style={commonStyles.separator} />
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >

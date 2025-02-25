@@ -34,6 +34,10 @@ import {
 } from "../../store/actions/AppActions";
 import { errorHandler } from "../../utils/utils";
 import RNFetchBlob from "rn-fetch-blob";
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
 
 const MyOrder = (props) => {
   const { orderData } = useSelector((state: RootState) => state.UserReducer);
@@ -186,13 +190,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
   },
   actionBtn: {
-    width: 100,
+    // width: widthPercentageToDP("40"),
     marginTop: 10,
     borderRadius: 10,
     paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff2076",
+    paddingVertical: heightPercentageToDP("1"),
   },
 });
 

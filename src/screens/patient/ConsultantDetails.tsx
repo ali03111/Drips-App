@@ -30,6 +30,7 @@ import {
 import { RootState } from "../../store/reducers";
 import { getChatDetailsAction } from "../../store/actions/ChatActions";
 import { navigate, reset } from "../../navigation/RootNavigation";
+import { hp, wp } from "../../utils/responsive";
 
 const ConsultantDetails = (props) => {
   const dispatch = useDispatch();
@@ -106,7 +107,7 @@ const ConsultantDetails = (props) => {
   };
   console.log(
     "apointmentDetailsapointmentDetailsapointmentDetailsapointmentDetails",
-    apointmentDetails
+    doctorDetails
   );
 
   function capitalizeFirstLetter(string) {
@@ -117,7 +118,7 @@ const ConsultantDetails = (props) => {
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
         <InnerHeader
-          title="Apointment Detail"
+          title="Appointment Detail"
           drawerBtn={false}
           backBtn={true}
         />
@@ -136,6 +137,9 @@ const ConsultantDetails = (props) => {
                 </Typography>
                 <Typography size={12} color={COLORS.placeholderColor}>
                   Medical School: {doctorDetails.medical_school || "N/A"}
+                </Typography>
+                <Typography size={12} color={COLORS.placeholderColor}>
+                  Specialities: {doctorDetails?.speciality_name || "N/A"}
                 </Typography>
                 <View
                   style={{
@@ -221,11 +225,27 @@ const ConsultantDetails = (props) => {
 
             <View style={commonStyles.separator} />
 
-            <Typography>Address</Typography>
-            <Typography color={COLORS.placeholderColor} size={12}>
-              {doctorDetails.address || "N/A"}
-            </Typography>
-
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Image
+                source={require("../../assets/images/call.png")}
+                resizeMode="contain"
+                style={{ width: wp("5"), height: hp("2") }}
+              />
+              <Typography>₦50</Typography>
+            </View>
+            <View style={commonStyles.separator} />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Image
+                source={require("../../assets/images/video.png")}
+                resizeMode="contain"
+                style={{ width: wp("5"), height: hp("2") }}
+              />
+              <Typography>₦80</Typography>
+            </View>
             <View style={commonStyles.separator} />
 
             <View

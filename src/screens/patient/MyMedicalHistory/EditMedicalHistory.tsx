@@ -347,6 +347,7 @@ const styles = StyleSheet.create({
   itemInput: {
     width: "100%",
     paddingVertical: 15,
+    color: "black",
   },
 });
 

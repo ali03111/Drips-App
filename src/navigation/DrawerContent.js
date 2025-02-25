@@ -173,16 +173,16 @@ const styles = StyleSheet.create({
 
 const PATIENTMENU = [
   {
-    title: "Request A Consultation",
-    navigateTo: "Home",
-    params: {},
-    icon: <HomeIcon />,
-  },
-  {
     title: "My Medical History",
     navigateTo: "MyMedicalHistory",
     params: {},
     icon: <CalendarIcon />,
+  },
+  {
+    title: "Request A Consultation",
+    navigateTo: "Home",
+    params: {},
+    icon: <HomeIcon />,
   },
   {
     title: "My Consultation",
@@ -209,16 +209,16 @@ const PATIENTMENU = [
     icon: <SearchIcon />,
   },
   {
-    title: "Electronic Complaint Card",
-    navigateTo: "ElectronicCard",
-    params: {},
-    icon: <BusinessCard />,
-  },
-  {
     title: "Account Settings",
     navigateTo: "ProfileSettings",
     params: {},
     icon: <SettingIcon />,
+  },
+  {
+    title: "Electronic Complaint Card",
+    navigateTo: "ElectronicCard",
+    params: {},
+    icon: <BusinessCard />,
   },
 ];
 

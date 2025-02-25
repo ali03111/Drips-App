@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment, { invalid } from "moment";
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
@@ -38,10 +38,20 @@ function convertToCustomTimeFormat(isoDate: Date) {
 }
 
 const ChatBubble = (props: ChatBubbleProps) => {
+  function convertToLocalTime(utcDateStr) {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcDate = new Date(utcDateStr + "Z"); // Ensure UTC format
+    return utcDate.toLocaleTimeString("en-US", {
+      timeZone: userTimeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
   const { index, item } = props;
   const { user } = useSelector((state: RootState) => state.UserReducer);
   const { message_from, message, created_at = null } = item;
-
+  console.log("slkvbklsblvkbsklvbksdbvsd", created_at);
   if (message_from === user.user_id) {
     return (
       <View
@@ -66,7 +76,9 @@ const ChatBubble = (props: ChatBubbleProps) => {
             right: 0,
           }}
         >
-          {created_at ? moment(created_at).fromNow() : "Sending..."}
+          {convertToLocalTime(created_at) != "Invalid Date"
+            ? convertToLocalTime(created_at)
+            : "Sending..."}
         </Typography>
       </View>
     );
@@ -94,7 +106,7 @@ const ChatBubble = (props: ChatBubbleProps) => {
             left: 5,
           }}
         >
-          {created_at && convertToCustomTimeFormat(created_at)}
+          {created_at && convertToLocalTime(created_at)}
         </Typography>
       </View>
     );

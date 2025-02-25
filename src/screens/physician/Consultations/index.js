@@ -83,6 +83,7 @@ const Consultations = ({ navigation, route }) => {
                 flex: 1,
                 fontFamily: FONTS.PoppinsMedium,
                 padding: 10,
+                color: "black",
               }}
             />
           </View>
