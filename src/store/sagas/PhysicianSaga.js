@@ -16,11 +16,16 @@ export function* getPhysicianPatients(action) {
   const { title } = yield select(selectScreen);
 
   const URlObj = {
+    "Scheduled Consultation": "/all-patients",
     "Scheduled Consultations": "/all-patients",
     "All Consultations": "/all-patients",
     "Past Consultations": "/past-consultation",
   };
-  console.log("actionactionactionactionactionactionaction", title);
+  console.log(
+    "actionactionactionactionactionactionaction",
+    title,
+    action.payload?.payload
+  );
 
   const { user, userType, token } = yield select(selectUserState);
   yield put(enableLoader());

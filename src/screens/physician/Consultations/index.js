@@ -50,20 +50,29 @@ const Consultations = ({ navigation, route }) => {
   }, []);
 
   const getData = () => {
-    if (!searchText) return physicianPatients;
-    return physicianPatients.filter((i) => {
-      return (
-        (i.name && i.name.toLowerCase().includes(searchText.toLowerCase())) ||
-        (i.doctorname &&
-          i.doctorname.toLowerCase().includes(searchText.toLowerCase()))
-      );
-    });
+    if (!searchText) return physicianPatients ?? [];
+
+    return (
+      physicianPatients &&
+      physicianPatients.filter((i) => {
+        return (
+          (i.name && i.name.toLowerCase().includes(searchText.toLowerCase())) ||
+          (i.doctorname &&
+            i.doctorname.toLowerCase().includes(searchText.toLowerCase()))
+        );
+      })
+    );
   };
 
   const _renderTime = (item) => {
     let date = `${item.date} ${item.timing}`;
     return moment(date).format("LLLL");
   };
+
+  console.log(
+    "physicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatients",
+    physicianPatients[0]
+  );
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -74,10 +83,11 @@ const Consultations = ({ navigation, route }) => {
         />
         <View style={styles.container}>
           <View style={styles.searchInput}>
-            <FaIcon name="search" size={16} />
+            <FaIcon name="search" size={16} color={COLORS.black} />
             <TextInput
               placeholder="Filter By name"
               value={searchText}
+              placeholderTextColor={COLORS.darkGray}
               onChangeText={setSearchText}
               style={{
                 flex: 1,
@@ -135,22 +145,29 @@ const Consultations = ({ navigation, route }) => {
                   </Typography>
 
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Problem: `}
+                    {`Presenting Complain: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {(item.problem && startCase(item.problem)) || "N/A"}
                     </Typography>
                   </Typography>
 
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Consultation Type: `}
+                    {`Appointment Type: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {item.appointment_type}
                     </Typography>
                   </Typography>
-
-                  <Typography size={12} style={{ marginTop: 10 }}>
-                    {_renderTime(item)}
+                  <Typography size={12} color={COLORS.halfWhite}>
+                    {`Consultation Type: `}
+                    <Typography size={12} color={"#5cb4c8"}>
+                      {item.booking_type}
+                    </Typography>
                   </Typography>
+                  {_renderTime(item) != "Invalid date" && (
+                    <Typography size={12} style={{ marginTop: 10 }}>
+                      {_renderTime(item)}
+                    </Typography>
+                  )}
                   <View
                     style={{
                       flexDirection: "row",
@@ -181,7 +198,7 @@ const Consultations = ({ navigation, route }) => {
                         }}
                       >
                         <Typography color="#fff" size={12}>
-                          Start Consultation
+                          Start Meeting
                         </Typography>
                       </TouchableOpacity>
                     )}

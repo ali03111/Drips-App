@@ -147,15 +147,17 @@ const ConsultantDetails = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <TouchableOpacity
-                    style={[styles.actionBtn, { backgroundColor: "#4cd2fd" }]}
-                    // onPress={ () => props.navigation.navigate('Pricing') }
-                    onPress={_onChatPress}
-                  >
-                    <Typography color="#fff" size={12} style={{ padding: 0 }}>
-                      Chat
-                    </Typography>
-                  </TouchableOpacity>
+                  {apointmentDetails.payment_status === "success" && (
+                    <TouchableOpacity
+                      style={[styles.actionBtn, { backgroundColor: "#4cd2fd" }]}
+                      // onPress={ () => props.navigation.navigate('Pricing') }
+                      onPress={_onChatPress}
+                    >
+                      <Typography color="#fff" size={12} style={{ padding: 0 }}>
+                        Chat
+                      </Typography>
+                    </TouchableOpacity>
+                  )}
                 </View>
                 {/* <Typography>{item.customer_status}</Typography> */}
                 {/* {apointmentDetails.payment_status === "success" && (
@@ -224,28 +226,71 @@ const ConsultantDetails = (props) => {
             </View>
 
             <View style={commonStyles.separator} />
-
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Image
-                source={require("../../assets/images/call.png")}
-                resizeMode="contain"
-                style={{ width: wp("5"), height: hp("2") }}
-              />
-              <Typography>₦50</Typography>
-            </View>
-            <View style={commonStyles.separator} />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Image
-                source={require("../../assets/images/video.png")}
-                resizeMode="contain"
-                style={{ width: wp("5"), height: hp("2") }}
-              />
-              <Typography>₦80</Typography>
-            </View>
+            {apointmentDetails.payment_status === "success" &&
+            apointmentDetails.appointment_type != null ? (
+              <>
+                {apointmentDetails.appointment_type == "audio" && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Image
+                      source={require("../../assets/images/call.png")}
+                      resizeMode="contain"
+                      style={{ width: wp("5"), height: hp("2") }}
+                    />
+                    <Typography>₦50</Typography>
+                  </View>
+                )}
+                {apointmentDetails.appointment_type == "video" && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Image
+                      source={require("../../assets/images/video.png")}
+                      resizeMode="contain"
+                      style={{ width: wp("5"), height: hp("2") }}
+                    />
+                    <Typography>₦80</Typography>
+                  </View>
+                )}
+              </>
+            ) : (
+              <>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/images/call.png")}
+                    resizeMode="contain"
+                    style={{ width: wp("5"), height: hp("2") }}
+                  />
+                  <Typography>₦50</Typography>
+                </View>
+                <View style={commonStyles.separator} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Image
+                    source={require("../../assets/images/video.png")}
+                    resizeMode="contain"
+                    style={{ width: wp("5"), height: hp("2") }}
+                  />
+                  <Typography>₦80</Typography>
+                </View>
+              </>
+            )}
             <View style={commonStyles.separator} />
 
             <View

@@ -544,7 +544,7 @@ const INFO = [
     value: "99",
   },
   {
-    title: "Blood",
+    title: "B-type",
     type: "bloodType",
     value: "99",
   },
@@ -558,7 +558,7 @@ const HISTORY = [
     value: "N/A",
   },
   {
-    title: "Post Medical History",
+    title: "Past Medical History",
     type: 2,
     color: "#00397f",
     value: "N/A",

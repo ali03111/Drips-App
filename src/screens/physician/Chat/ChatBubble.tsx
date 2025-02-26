@@ -1,7 +1,7 @@
 import moment, { invalid } from "moment";
 import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { Text, View, StyleSheet, Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "../../../components/atoms";
 import { COLORS } from "../../../constants";
 import { RootState } from "../../../store/reducers";
@@ -39,15 +39,26 @@ function convertToCustomTimeFormat(isoDate: Date) {
 
 const ChatBubble = (props: ChatBubbleProps) => {
   function convertToLocalTime(utcDateStr) {
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const utcDate = new Date(utcDateStr + "Z"); // Ensure UTC format
-    return utcDate.toLocaleTimeString("en-US", {
-      timeZone: userTimeZone,
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
+    if (!utcDateStr) {
+      Alert.alert(utcDateStr);
+      return "Invalid Date";
+    }
+
+    try {
+      const userTimeZone = Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone;
+      const utcDate = new Date(utcDateStr + "Z"); // Ensure UTC format
+      return utcDate.toLocaleTimeString("en-US", {
+        timeZone: userTimeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+    } catch (error) {
+      Alert.alert(error);
+      return "Invalid Date";
+    }
   }
+
   const { index, item } = props;
   const { user } = useSelector((state: RootState) => state.UserReducer);
   const { message_from, message, created_at = null } = item;

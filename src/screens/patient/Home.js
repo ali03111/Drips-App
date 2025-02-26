@@ -43,8 +43,8 @@ const initialState = {
   symptoms: [],
   selectedImage: { uri: "" },
   date: moment().format(consultFormDateFormat),
-  timing: moment().format(consultFormTimingFormat),
-  start_date: moment().format(consultFormDateFormat),
+  timing: null,
+  start_date: null,
 };
 
 const Home = (props) => {
@@ -83,15 +83,24 @@ const Home = (props) => {
 
   const _onSubmit = () => {
     let problem = symptoms.filter((i) => i.selected).map((i) => i.name);
-
+    console.log("bookingTypebookingTypebookingTypebookingType", bookingType);
     if (problem.length === 0) {
       dispatch(showToast("Please select at least one symptom to continue"));
       return;
+    } else if (bookingType == "On Demand") {
+      if (timing == null) {
+        dispatch(showToast("Please select time"));
+        return;
+      }
+    } else if (bookingType == "Scheduled") {
+      if (start_date == null) {
+        dispatch(showToast("Please select start date"));
+        return;
+      } else if (timing == null) {
+        dispatch(showToast("Please select time"));
+        return;
+      }
     }
-    // else if (selectedImage.uri === "") {
-    //   dispatch(showToast("Please add an image to continue"));
-    //   return;
-    // }
 
     // console.log("skjvjksdblkvadbklvbsdklvblksdv", problem.join(","));
 
@@ -101,9 +110,15 @@ const Home = (props) => {
     }
     body.append("patient_id", userData.user_id);
     body.append("problem", [...problem, textBoxText].join(","));
-    body.append("start_date", moment(start_date).format(consultFormDateFormat));
+    body.append(
+      "start_date",
+      moment(start_date).format(consultFormDateFormat) != "Invalid date"
+        ? moment(start_date).format(consultFormDateFormat)
+        : null
+    );
     body.append("date", date);
     body.append("timing", timing);
+    body.append("booking_type", bookingType);
 
     let _data = {
       patient_id: userData.user_id,
@@ -113,7 +128,7 @@ const Home = (props) => {
       date,
       timing: moment(timing).format(consultFormTimingFormat),
     };
-    console.log("bodybodybodybodybodybodybodybodybodybody", body, start_date);
+    console.log("bodybodybodybodybodybodybodybodybodybody", body);
     dispatch(updateConsultantData({ appointmentData: _data }));
     dispatch(createConsultReqAction(body));
   };

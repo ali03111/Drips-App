@@ -64,11 +64,12 @@ const MyConsultantations = (props) => {
         <InnerHeader title="My Consultation" drawerBtn={false} backBtn={true} />
         <View style={styles.container}>
           <View style={styles.searchInput}>
-            <FaIcon name="search" size={16} />
+            <FaIcon name="search" size={16} color={COLORS.black} />
             <TextInput
               placeholder="Filter By name"
               value={searchText}
               onChangeText={setSearchText}
+              placeholderTextColor={COLORS.darkGray}
               style={{
                 flex: 1,
                 fontFamily: FONTS.PoppinsMedium,

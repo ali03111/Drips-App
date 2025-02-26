@@ -82,8 +82,8 @@ const MyPrescription = (props) => {
       // Ensure full API URL
       const fileUrl = `${BASE_URL}/pdfview?id=${id}&download=pdf&patient_id=${patient_id}&doctor_id=${doctor_id}`;
 
-      showToast("Downloading Started...");
-
+      dispatch(showToast("Downloading Started..."));
+      dispatch(disableLoader());
       // Define file path
       const { dirs } = RNFetchBlob.fs;
       const filePath =
@@ -96,24 +96,26 @@ const MyPrescription = (props) => {
         fileCache: true,
         path: filePath,
         appendExt: "pdf",
-        notification: true, // Shows a download notification (Android only)
+        IOSBackgroundTask: true,
+        indicator: true,
+        addAndroidDownloads: { notification: true, useDownloadManager: true },
       }).fetch("GET", fileUrl);
 
       dispatch(disableLoader());
-      showToast("Download Complete");
+      dispatch(showToast(`File saved to: ${res.path()}`));
 
       console.log("File saved to:", res.path());
 
       // Open the PDF after download
-      if (Platform.OS === "android") {
-        RNFetchBlob.android.actionViewIntent(res.path(), "application/pdf");
-      } else {
-        RNFetchBlob.ios.openDocument(res.path());
-      }
+      // if (Platform.OS === "android") {
+      //   RNFetchBlob.android.actionViewIntent(res.path(), "application/pdf");
+      // } else {
+      //   RNFetchBlob.ios.openDocument(res.path());
+      // }
     } catch (error) {
       dispatch(disableLoader());
       console.error("Download Error:", error);
-      showToast("Download Failed");
+      dispatch(showToast("Download Failed"));
     }
   };
 

@@ -62,6 +62,8 @@ const TestResults = (props) => {
   const { testResults, user: userData } = useSelector(
     (state: RootState) => state.UserReducer
   );
+  console.log("sldkbvklsdbvklsdbvbsdlvbsdklvblkdsbvds", testResults[0]);
+
   const dispatch = useDispatch();
 
   const _fetchTestResults = () => {
@@ -137,6 +139,7 @@ const TestResults = (props) => {
 
     const hasPermission = await requestStoragePermission();
     if (!hasPermission) {
+      dispatch(disableLoader());
       Alert.alert(
         "Permission Denied",
         "You need to allow storage permission to download files."
@@ -148,8 +151,8 @@ const TestResults = (props) => {
       const fileUrl = `${BASE_URL}/download-test-result?file_path=${filePath}`;
       console.log("Downloading from:", fileUrl);
 
-      showToast("Downloading Started...");
-
+      dispatch(showToast("Downloading Started..."));
+      dispatch(disableLoader());
       // Extract file extension from URL
       const fileName = filePath.split("/").pop();
       const fileExt = fileName.split(".").pop();
@@ -166,23 +169,25 @@ const TestResults = (props) => {
         fileCache: true,
         path: fileSavePath,
         appendExt: fileExt, // Automatically adds file extension
-        notification: true, // Show download notification (Android only)
+        IOSBackgroundTask: true,
+        indicator: true,
+        addAndroidDownloads: { notification: true, useDownloadManager: true },
       }).fetch("GET", fileUrl);
 
-      showToast("Download Complete");
+      dispatch(showToast(`File saved to: ${res.path()}`));
       dispatch(disableLoader());
       console.log("File saved to:", res.path());
 
       // Open file after download
-      if (Platform.OS === "android") {
-        RNFetchBlob.android.actionViewIntent(res.path(), getMimeType(fileExt));
-      } else {
-        RNFetchBlob.ios.openDocument(res.path());
-      }
+      // if (Platform.OS === "android") {
+      //   RNFetchBlob.android.actionViewIntent(res.path(), getMimeType(fileExt));
+      // } else {
+      //   RNFetchBlob.ios.openDocument(res.path());
+      // }
     } catch (error) {
       dispatch(disableLoader());
       console.error("Download Error:", error);
-      showToast("Download Failed");
+      dispatch(showToast("Download Failed"));
     }
   };
 
@@ -350,11 +355,11 @@ const styles = StyleSheet.create({
   },
   accordionHeader: { padding: 15, backgroundColor: "#f0f0f0", marginBottom: 5 },
   activeHeader: { backgroundColor: "#d0f0ff" },
-  headerText: { fontSize: 16, fontWeight: "bold" },
+  headerText: { fontSize: 16, fontWeight: "bold", color: "black" },
   headerSubText: { fontSize: 14, color: "#666" },
   accordionContent: { padding: 15, backgroundColor: "#fff" },
   resultCard: { padding: 10, backgroundColor: "#eaf6ff", marginBottom: 10 },
-  resultTitle: { fontSize: 16, fontWeight: "bold" },
+  resultTitle: { fontSize: 16, fontWeight: "bold", color: "black" },
   resultDate: { fontSize: 14, color: "#666" },
   resultActions: { flexDirection: "row", marginTop: 10 },
   deleteBtn: {

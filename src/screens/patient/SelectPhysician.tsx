@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Text,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, IMAGES, IMAGE_URL, screenHeight } from "../../constants";
@@ -32,7 +33,7 @@ import {
 import { get } from "../../store/services/Http";
 import { disableLoader, enableLoader } from "../../store/actions/AppActions";
 import { EmptyList } from "../../components/atoms/EmptyList";
-import { wp } from "../../utils/responsive";
+import { hp, wp } from "../../utils/responsive";
 
 const SelectPhysician = (props) => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const SelectPhysician = (props) => {
   );
 
   const [modalState, setModalState] = useState(null);
+  const [isFilter, setIsFilter] = useState(false);
   const [afterFilterConsultants, setAfterFilterConsultants] = useState([]);
   const [typeState, setTypeState] = useState([
     {
@@ -164,9 +166,7 @@ const SelectPhysician = (props) => {
           <FlatList
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: 20 }}
-            data={
-              apiBody.Speciality ? afterFilterConsultants : availableConsultants
-            }
+            data={isFilter ? afterFilterConsultants : availableConsultants}
             renderItem={({ item, index }) => {
               const image_url = { uri: IMAGE_URL + item.pic };
               return (
@@ -260,10 +260,11 @@ const SelectPhysician = (props) => {
           <DropdownModal
             title={"Filter"}
             innerViewStyles={{
-              height: height * 0.8,
+              height: height * 0.6,
             }}
             onClose={() => {
               setModalState(null);
+              setIsFilter(false);
               setApiBody({
                 Speciality: null,
                 Gender: null,
@@ -273,27 +274,66 @@ const SelectPhysician = (props) => {
           >
             <FlatList
               data={typeState}
-              ItemSeparatorComponent={() => <View />}
               renderItem={({ item, index }) => {
                 return (
                   <>
-                    <Typography> {item.ModalTitle} </Typography>
-                    {item.modalArry.map((res) => {
-                      return (
-                        <DropdownListItem
-                          selected={apiBody[item.type] == (res?.id || res)}
-                          title={capitalizeFirstLetter(res?.name ?? res)}
-                          onPress={() => {
-                            // typeState[index].selectedVal = res;
-                            setApiBody((prev) => ({
-                              ...prev,
-                              [item.type]: res?.id ?? res,
-                            }));
-                            // setModalState(null);
-                          }}
-                        />
-                      );
-                    })}
+                    <Typography style={{ marginBottom: hp("1") }}>
+                      {" "}
+                      {item.ModalTitle}{" "}
+                    </Typography>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        marginBottom: hp("3"),
+                      }}
+                    >
+                      {item.modalArry.map((res) => {
+                        const isSelected = Boolean(
+                          apiBody[item.type] == (res?.id || res)
+                        );
+                        return (
+                          <Text
+                            style={{
+                              paddingVertical: hp("1"),
+                              paddingHorizontal: wp("2"),
+                              backgroundColor: isSelected
+                                ? COLORS.primary
+                                : COLORS.gray,
+                              marginVertical: hp("0.5"),
+                              width: "auto",
+                              textAlign: "center",
+                              borderRadius: 16,
+                              overflow: "hidden",
+                              marginRight: wp("1"),
+                              color: isSelected
+                                ? COLORS.white
+                                : COLORS.lightBlack,
+                            }}
+                            onPress={() => {
+                              setApiBody((prev) => ({
+                                ...prev,
+                                [item.type]: res?.id ?? res,
+                              }));
+                            }}
+                          >
+                            {capitalizeFirstLetter(res?.name ?? res)}
+                          </Text>
+                          // <DropdownListItem
+                          //   selected={apiBody[item.type] == (res?.id || res)}
+                          //   title={capitalizeFirstLetter(res?.name ?? res)}
+                          //   onPress={() => {
+                          //     // typeState[index].selectedVal = res;
+                          //     setApiBody((prev) => ({
+                          //       ...prev,
+                          //       [item.type]: res?.id ?? res,
+                          //     }));
+                          //     // setModalState(null);
+                          //   }}
+                          // />
+                        );
+                      })}
+                    </View>
                   </>
                 );
               }}
@@ -312,6 +352,7 @@ const SelectPhysician = (props) => {
                 onPress={() => {
                   fetchFilterDoctorsApi();
                   setModalState(null);
+                  setIsFilter(true);
                 }}
               >
                 <Typography color="#fff" size={12}>
@@ -322,6 +363,7 @@ const SelectPhysician = (props) => {
                 style={styles.actionBtn}
                 onPress={() => {
                   setModalState(null);
+                  setIsFilter(false);
                   setAfterFilterConsultants([]);
                   setApiBody({
                     Speciality: null,

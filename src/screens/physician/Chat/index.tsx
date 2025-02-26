@@ -47,6 +47,7 @@ const ChatConsole = ({ onSend }) => {
             multiline={true}
             placeholder="Type your message...."
             keyboardType="default"
+            placeholderTextColor={COLORS.darkGray}
             // onFocus={ () => _scrollToBottom()}
           />
         </View>
