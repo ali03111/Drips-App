@@ -1,10 +1,11 @@
 import moment, { invalid } from "moment";
 import * as React from "react";
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Text, View, StyleSheet, Alert, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "../../../components/atoms";
 import { COLORS } from "../../../constants";
 import { RootState } from "../../../store/reducers";
+import { logger } from "react-native-logs";
 
 interface ChatBubbleProps {
   item: any;
@@ -38,14 +39,52 @@ function convertToCustomTimeFormat(isoDate: Date) {
 }
 
 const ChatBubble = (props: ChatBubbleProps) => {
-  function convertToLocalTime(utcDateStr) {
-    if (!utcDateStr) {
-      Alert.alert(utcDateStr);
+  const log = logger.createLogger();
+
+  function convertToLocalTimeAndroid(utcDateStr) {
+    log.info("Input date string:", utcDateStr);
+
+    if (!utcDateStr || isNaN(new Date(utcDateStr).getTime())) {
+      log.error("Invalid input date string:", utcDateStr);
       return "Invalid Date";
     }
 
     try {
-      const userTimeZone = Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone;
+      const userTimeZone =
+        Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || "UTC";
+      log.info("User time zone:", userTimeZone);
+
+      const utcDate = new Date(utcDateStr);
+      log.info("Parsed UTC date:", utcDate);
+
+      if (isNaN(utcDate.getTime())) {
+        log.error("Parsed date is invalid:", utcDate);
+        return "Invalid Date";
+      }
+
+      const localTime = utcDate.toLocaleTimeString("en-US", {
+        timeZone: userTimeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+      log.info("Formatted local time:", localTime);
+
+      return localTime;
+    } catch (error) {
+      log.error("Error in convertToLocalTime:", error);
+      return "Invalid Date";
+    }
+  }
+
+  function convertToLocalTime(utcDateStr) {
+    if (!utcDateStr || isNaN(new Date(utcDateStr).getTime())) {
+      return "Invalid Date";
+    }
+
+    try {
+      const userTimeZone =
+        Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || "UTC";
       const utcDate = new Date(utcDateStr + "Z"); // Ensure UTC format
       return utcDate.toLocaleTimeString("en-US", {
         timeZone: userTimeZone,
@@ -54,7 +93,6 @@ const ChatBubble = (props: ChatBubbleProps) => {
         hour12: true,
       });
     } catch (error) {
-      Alert.alert(error);
       return "Invalid Date";
     }
   }
@@ -87,10 +125,30 @@ const ChatBubble = (props: ChatBubbleProps) => {
             right: 0,
           }}
         >
-          {convertToLocalTime(created_at) != "Invalid Date"
+          {(Platform.OS == "ios"
             ? convertToLocalTime(created_at)
+            : convertToLocalTimeAndroid(created_at)) != "Invalid Date"
+            ? null
             : "Sending..."}
         </Typography>
+        {/* <Typography
+          textType="light"
+          size={10}
+          color={COLORS.darkGray}
+          style={{
+            position: "absolute",
+            bottom: -15,
+            right: 0,
+          }}
+        >
+          {(Platform.OS == "ios"
+            ? convertToLocalTime(created_at)
+            : convertToLocalTimeAndroid(created_at)) != "Invalid Date"
+            ? Platform.OS == "ios"
+              ? convertToLocalTime(created_at)
+              : convertToLocalTimeAndroid(created_at)
+            : "Sending..."}
+        </Typography> */}
       </View>
     );
   } else {
@@ -107,7 +165,7 @@ const ChatBubble = (props: ChatBubbleProps) => {
         ]}
       >
         <Typography color="#1D2733">{message}</Typography>
-        <Typography
+        {/* <Typography
           textType="light"
           size={10}
           color={COLORS.darkGray}
@@ -117,8 +175,11 @@ const ChatBubble = (props: ChatBubbleProps) => {
             left: 5,
           }}
         >
-          {created_at && convertToLocalTime(created_at)}
-        </Typography>
+          {created_at &&
+            (Platform.OS == "ios"
+              ? convertToLocalTime(created_at)
+              : convertToLocalTimeAndroid(created_at))}
+        </Typography> */}
       </View>
     );
   }

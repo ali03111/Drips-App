@@ -2897,6 +2897,7 @@ __metadata:
     react-native-get-random-values: ^1.11.0
     react-native-image-crop-picker: ^0.38.0
     react-native-images-to-pdf: ^0.2.1
+    react-native-logs: ^5.3.0
     react-native-modal-datetime-picker: ^13.1.2
     react-native-network-logger: ^1.14.0
     react-native-permissions: ^5.2.5
@@ -9386,6 +9387,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 8c3e6bd8c30a4b70dd8a59d94867808539133a598f169d8f7652b287342e217e6c69442da465e8df7e76c780cd7117515da66cff97aedaabc99085ce194b8647
+  languageName: node
+  linkType: hard
+
+"react-native-logs@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "react-native-logs@npm:5.3.0"
+  checksum: b7fa58007e737fe337fbd664529054cfe71a1fa8f2f4cf50621ffca0f50b44f70dcb7d37f3222093c7b36a287a79b00f1b84d243fb15dc67650c72b6c514343a
   languageName: node
   linkType: hard
 

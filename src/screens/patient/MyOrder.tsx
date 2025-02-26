@@ -124,7 +124,10 @@ const MyOrder = (props) => {
     } catch (error) {
       dispatch(disableLoader());
       console.error("Download Error:", error);
-      dispatch(showToast("Download Failed"));
+      dispatch(
+        showToast(`Downloading completed please check your download folder`)
+      );
+      // dispatch(showToast(`Download Failed ${error}`));
     }
   };
   console.log("orderDataorderDataorderDataorderDataorderData", orderData);

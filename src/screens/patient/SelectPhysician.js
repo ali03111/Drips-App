@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -20,7 +20,6 @@ import {
 } from "../../components/atoms";
 import CheckBox from "@react-native-community/checkbox";
 import { commonStyles } from "../../style";
-import { RootState } from "../../store/reducers";
 import { updateConsultantData } from "../../store/actions/UserActions";
 import { errorHandler, renderStars } from "../../utils/utils";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -34,17 +33,20 @@ import { get } from "../../store/services/Http";
 import { disableLoader, enableLoader } from "../../store/actions/AppActions";
 import { EmptyList } from "../../components/atoms/EmptyList";
 import { hp, wp } from "../../utils/responsive";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SelectPhysician = (props) => {
   const dispatch = useDispatch();
   const { availableConsultants } = useSelector(
-    (state: RootState) => state.ConsultantReducer
+    (state) => state.ConsultantReducer
   );
 
   console.log(
     "availableConsultantsavailableConsultantsavailableConsultantsavailableConsultants",
     availableConsultants[1]
   );
+
+  useLayoutEffect(() => setModalState(true), []);
 
   const [modalState, setModalState] = useState(null);
   const [isFilter, setIsFilter] = useState(false);
@@ -53,28 +55,18 @@ const SelectPhysician = (props) => {
     {
       ModalTitle: "Select Speciality",
       type: "Speciality",
-      modalArry: [
-        "Don't Know",
-        "A+",
-        "A-",
-        "B+",
-        "B-",
-        "AB+",
-        "AB-",
-        "O+",
-        "O-",
-      ],
+      modalArry: [],
       selectedVal: null,
     },
     {
       ModalTitle: "Select Gender",
-      modalArry: ["Don't know", "AS", "AA", "AC", "CC", "SS", "SC"],
+      modalArry: [],
       type: "Gender",
       selectedVal: null,
     },
     {
       ModalTitle: "Select Language",
-      modalArry: ["Don't know", "AS", "AA", "AC", "CC", "SS", "SC"],
+      modalArry: [],
       type: "Language",
       selectedVal: null,
     },
@@ -90,7 +82,16 @@ const SelectPhysician = (props) => {
       {
         ModalTitle: "Select Speciality",
         type: "Speciality",
-        modalArry: response.specialities,
+        modalArry: [
+          ...response.specialities,
+          {
+            id: 113131113,
+            created_at: "2021-07-08 00:47:27",
+            updated_at: "2021-07-30 01:07:54",
+            name: "Other",
+            symtom: "other",
+          },
+        ],
         selectedVal: null,
       },
       {
@@ -110,7 +111,7 @@ const SelectPhysician = (props) => {
 
   const fetchFilterDataApi = async () => {
     dispatch(enableLoader());
-    const response = await get(`/search-filter-data`);
+    const response = await get("/search-filter-data");
     if (response.status && response.code === "200") {
       setTypeState(updateTypeState(response));
       dispatch(disableLoader());
@@ -119,10 +120,13 @@ const SelectPhysician = (props) => {
       errorHandler(response);
     }
   };
+
   const fetchFilterDoctorsApi = async () => {
     dispatch(enableLoader());
     const response = await get(
-      `/search-doctor?speciality_id=${apiBody.Speciality}&language_id=${apiBody.Language}&gender=${apiBody.Gender}`
+      `/search-doctor?speciality_id=${
+        apiBody.Speciality != "113131113" ? apiBody.Speciality : null
+      }&language_id=${apiBody.Language}&gender=${apiBody.Gender}`
     );
     if (response.status && response.code === "200") {
       setAfterFilterConsultants(response.data);
@@ -139,10 +143,10 @@ const SelectPhysician = (props) => {
 
   function capitalizeFirstLetter(string) {
     return string
-      .toLowerCase() // Convert to lowercase first to ensure proper formatting
-      .split(" ") // Split the string into words
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-      .join(" "); // Join back into a single string
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
 
   const { width, height } = Dimensions.get("window");
@@ -193,11 +197,7 @@ const SelectPhysician = (props) => {
                           >
                             Speciality:
                           </Typography>
-                          <Typography
-                            size={10}
-                            // numberOfLines={2}
-                            color={COLORS.placeholderColor}
-                          >
+                          <Typography size={10} color={COLORS.placeholderColor}>
                             {item.speciality_name}
                           </Typography>
 
@@ -237,15 +237,6 @@ const SelectPhysician = (props) => {
                               paddingHorizontal: 10,
                             }}
                           />
-                          {/* <Button
-                            label="Consultation"
-                            backgroundColor="#ff2076"
-                            btnStyle={{
-                              marginLeft: 5,
-                              height: 30,
-                              paddingHorizontal: 10,
-                            }}
-                          /> */}
                         </View>
                       </View>
                     </View>
@@ -260,7 +251,7 @@ const SelectPhysician = (props) => {
           <DropdownModal
             title={"Filter"}
             innerViewStyles={{
-              height: height * 0.6,
+              height: height * 0.9,
             }}
             onClose={() => {
               setModalState(null);
@@ -319,18 +310,6 @@ const SelectPhysician = (props) => {
                           >
                             {capitalizeFirstLetter(res?.name ?? res)}
                           </Text>
-                          // <DropdownListItem
-                          //   selected={apiBody[item.type] == (res?.id || res)}
-                          //   title={capitalizeFirstLetter(res?.name ?? res)}
-                          //   onPress={() => {
-                          //     // typeState[index].selectedVal = res;
-                          //     setApiBody((prev) => ({
-                          //       ...prev,
-                          //       [item.type]: res?.id ?? res,
-                          //     }));
-                          //     // setModalState(null);
-                          //   }}
-                          // />
                         );
                       })}
                     </View>
@@ -400,7 +379,6 @@ const styles = StyleSheet.create({
     marginHorizontal: -20,
   },
   card: {
-    // ...commonStyles.boxShadow,
     height: screenHeight(20),
     backgroundColor: "#fff",
     borderColor: "#ddd",
@@ -413,7 +391,6 @@ const styles = StyleSheet.create({
     width: "32%",
     height: screenHeight(20),
     overflow: "hidden",
-    // ...commonStyles.boxShadow,
     backgroundColor: COLORS.lightGray,
     alignItems: "center",
     justifyContent: "center",
@@ -423,13 +400,9 @@ const styles = StyleSheet.create({
     borderRightColor: "#ccc",
   },
   profileImg: {
-    // borderWidth: 0.5,
     width: "100%",
     height: screenHeight(20),
     resizeMode: "cover",
-    // borderColor: "#fff",
-    // position: 'absolute',
-    // borderRadius: 10,
   },
   detailsContainer: {
     marginVertical: 5,
@@ -437,8 +410,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     flex: 1,
     padding: 10,
-    // ...commonStyles.boxShadow,
-    // backgroundColor: "#fff",
   },
   cardDetail: {
     flex: 1,

@@ -69,11 +69,6 @@ const Consultations = ({ navigation, route }) => {
     return moment(date).format("LLLL");
   };
 
-  console.log(
-    "physicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatientsphysicianPatients",
-    physicianPatients[0]
-  );
-
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>

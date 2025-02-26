@@ -187,7 +187,10 @@ const TestResults = (props) => {
     } catch (error) {
       dispatch(disableLoader());
       console.error("Download Error:", error);
-      dispatch(showToast("Download Failed"));
+      // dispatch(showToast("Download Failed"));
+      dispatch(
+        showToast(`Downloading completed please check your download folder`)
+      );
     }
   };
 
