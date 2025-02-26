@@ -422,19 +422,22 @@ const ElectronicCard = (props) => {
               </TouchableOpacity> */}
 
               {/* {voiceCallStatus && ( */}
-              {apointmentDetails.appointment_type != null && (
-                <Button
-                  btnStyle={styles.actionButton}
-                  label={`Start ${capitalizeFirstLetter(
-                    apointmentDetails.appointment_type
-                  )} Call`}
-                  onPress={() => {
-                    _initCallConfig(
-                      capitalizeFirstLetter(apointmentDetails.appointment_type)
-                    );
-                  }}
-                />
-              )}
+              {apointmentDetails.appointment_type != null &&
+                apointmentDetails.past == 0 && (
+                  <Button
+                    btnStyle={styles.actionButton}
+                    label={`Start ${capitalizeFirstLetter(
+                      apointmentDetails.appointment_type
+                    )} Call`}
+                    onPress={() => {
+                      _initCallConfig(
+                        capitalizeFirstLetter(
+                          apointmentDetails.appointment_type
+                        )
+                      );
+                    }}
+                  />
+                )}
               {/* )} */}
 
               {/* {videoCallStatus && ( */}

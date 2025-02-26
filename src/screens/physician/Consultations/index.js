@@ -189,7 +189,7 @@ const Consultations = ({ navigation, route }) => {
                       <TouchableOpacity
                         style={styles.actionBtn}
                         onPress={() => {
-                          dispatch(getChatDetailsAction(item));
+                          // dispatch(getChatDetailsAction(item));
                         }}
                       >
                         <Typography color="#fff" size={12}>

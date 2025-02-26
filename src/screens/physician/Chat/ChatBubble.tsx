@@ -127,7 +127,7 @@ const ChatBubble = (props: ChatBubbleProps) => {
         >
           {(Platform.OS == "ios"
             ? convertToLocalTime(created_at)
-            : convertToLocalTimeAndroid(created_at)) != "Invalid Date"
+            : convertToLocalTimeAndroid(created_at)) == "Invalid Date"
             ? null
             : "Sending..."}
         </Typography>
