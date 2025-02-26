@@ -388,14 +388,15 @@ const ElectronicCard = (props) => {
                 marginTop: 20,
               }}
             >
-              <Button
-                btnStyle={styles.actionButton}
-                label={"Chat"}
-                onPress={() => {
-                  dispatch(getChatDetailsAction(item));
-                }}
-              />
-
+              {apointmentDetails.past == 0 && (
+                <Button
+                  btnStyle={styles.actionButton}
+                  label={"Chat"}
+                  onPress={() => {
+                    dispatch(getChatDetailsAction(item));
+                  }}
+                />
+              )}
               {/* <TouchableOpacity>
                 <Image
                   source={require("../../assets/images/call.png")}
