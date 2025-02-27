@@ -42,6 +42,7 @@ const initialState = {
     medicalHistory:{} as MedicalHistoryModel,
     prescriptionData:[] as PrescriptionItemModel[],
     orderData:[] as OrderItemModel[],
+    resultData:[] ,
     testResults:[] as TestResultItemModel[],
 };
 

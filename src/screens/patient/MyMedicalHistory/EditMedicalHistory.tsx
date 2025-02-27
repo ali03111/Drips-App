@@ -76,9 +76,9 @@ const EditMedicalHistory = (props) => {
     console.log(allergies);
 
     let body = new FormData();
-    body.append("Surgeries1", surgicalHistory.join(","));
-    body.append("past_medical_history", pastMedicalHistory.join(","));
-    body.append("allergies", allergies.join(","));
+    body.append("Surgeries1", surgicalHistory);
+    body.append("past_medical_history", pastMedicalHistory);
+    body.append("allergies", allergies);
     /* let localMedicalHistory = {
       surgicalHistory,pastMedicalHistory,allergies
     }
@@ -91,6 +91,10 @@ const EditMedicalHistory = (props) => {
       }
     } */
     body.append("patient_id", user.user_id);
+    console.log(
+      "sdlkvbklasdbvklsdbvklbsvbsvbsklvbsklvbklds",
+      JSON.stringify(body)
+    );
     dispatch(updateMedicalHistory(body));
   };
 

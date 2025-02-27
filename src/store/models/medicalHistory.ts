@@ -3,6 +3,11 @@ export interface MedicalHistoryModel {
   Surgeries1:string[],
   past_medical_history:string[],
 }
+export interface MedicalHistoryPhysicianSideModel {
+  allergies:string[],
+  Surgeries1:string[],
+  past_medical_history:string[],
+}
 
 export interface PrescriptionItemModel {
   "id": number,

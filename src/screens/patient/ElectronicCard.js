@@ -113,6 +113,8 @@ const ElectronicCard = (props) => {
         return `${patientDetails.Bmi}`;
       case "bloodType":
         return `${patientDetails.blood_type ?? "Not availabe"}`;
+      case "problem":
+        return `${apointmentDetails.problem ?? "Not availabe"}`;
       default:
         return "";
     }
@@ -550,6 +552,11 @@ const INFO = [
   {
     title: "B-type",
     type: "bloodType",
+    value: "99",
+  },
+  {
+    title: "Present Complain",
+    type: "problem",
     value: "99",
   },
 ];

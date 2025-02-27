@@ -15,7 +15,8 @@ import {
   getAllTestResultApi,
   addTestResultApi,
   deleteTestResultApi,
-  fetchOrdersApi
+  fetchOrdersApi,
+  fetchResultsApi
 } from "../services/Services";
 import store from "..";
 import { navigate, onBack, popToTop } from "../../navigation/RootNavigation";
@@ -126,10 +127,15 @@ export function* getMedicalHistoryReq(): any {
       return string.includes(',') ? string.split(',') : [string]
     }
     let data = {
-      allergies:convertStringToArray(response.data.allergies ?? []) || [],
-      Surgeries1:convertStringToArray(response.data.surgicalHistory?? [])||[],
-      past_medical_history:convertStringToArray(response.data.MedicalHistory?? [])||[],
+      allergies:response.data.allergies|| [],
+      Surgeries1:response.data.surgicalHistory||[],
+      past_medical_history:response.data.MedicalHistory||[],
     }
+    // let data = {
+    //   allergies:convertStringToArray(response.data.allergies ?? []) || [],
+    //   Surgeries1:convertStringToArray(response.data.surgicalHistory?? [])||[],
+    //   past_medical_history:convertStringToArray(response.data.MedicalHistory?? [])||[],
+    // }
     console.log('medical history response ===>',data);
     
     //Surgeries1,past_medical_history
@@ -141,6 +147,7 @@ export function* getMedicalHistoryReq(): any {
 
 export function* updateMedicalHistoryReq(action: any): any {
   yield put(enableLoader());
+  console.log("aksdgviosbdoivgeovgwegiovgeiovgewiovgioewvioewl0",action)
   const response = yield call(
     updateMedicalHistoryApi,
     action.payload
@@ -179,6 +186,20 @@ export function* fetchOrdersReq(): any {
   yield put(disableLoader());
   if(response.status && response.code === '200'){
     yield put( updateUserStates({ orderData:response.data }) );
+  } else {
+    errorHandler(response);
+  }
+}
+export function* fetchRsultsReq(action): any {
+  yield put(enableLoader());
+  const { user } = yield select( selectUserState );
+  const response = yield call(
+    fetchResultsApi,
+    action.paylaod
+  );
+  yield put(disableLoader());
+  if(response.status && response.code === '200'){
+    yield put( updateUserStates({ resultData:response.data }) );
   } else {
     errorHandler(response);
   }

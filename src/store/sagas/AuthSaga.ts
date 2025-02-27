@@ -176,7 +176,21 @@ export function* updateProfile({ payload }: any): any {
   yield put( enableLoader() );
   const response = yield call( updateProfileApi, payload );
   yield put( disableLoader() );
-
+  console.log("slkdbvlksbdklvbskdlbvklsdbsdfgsdfvlksdbnv;sdnl;vbns;ldnvsld;bnsdl;b",response)
+  if(response.code === '200' ){
+    yield put( showToast( response.message ) );
+    yield put( fetchPatientDetailsAction() );
+    onBack();
+  } else {
+    errorHandler(response)
+  }
+}
+export function* updateDoctorProfile({ payload }: any): any {
+  console.log("jklsdbvjksbdlkvbsdklvbklsdbvklsdbvkl;bvdskl;v",payload)
+  yield put( enableLoader() );
+  const response = yield call( updateProfileApi, payload );
+  yield put( disableLoader() );
+console.log("slkdbvlksbdklvbskdlbvklsdbvlksdbnv;sdnl;vbns;ldnvsld;bnsdl;b",response)
   if(response.code === '200' ){
     yield put( showToast( response.message ) );
     yield put( fetchPatientDetailsAction() );

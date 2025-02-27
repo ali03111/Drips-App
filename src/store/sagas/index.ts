@@ -24,7 +24,9 @@ import {
   SELECT_DOCTOR_REQUEST,
   UPLOAD_TEST_RESULT,
   DELETE_TEST_RESULT,
-  FETCH_ORDERS
+  FETCH_ORDERS,
+  FETCH_RESULTS,
+  UPDATE_DOCTOR_PROFILE
 } from "../actions/UserActions";
 import {
   INIT,
@@ -37,6 +39,7 @@ import {
   logout,
   register,
   updateDevice,
+  updateDoctorProfile,
   updateProfile,
   updateUserData
 } from "./AuthSaga";
@@ -47,7 +50,7 @@ import {
 } from "./UserSaga";
 import { createMessageSaga, getMessageSaga } from "./ChatSaga";
 import { CREATE_MESSAGE, GET_MESSAGES } from "../actions/ChatActions";
-import { createConsultantReq, getConsultantDetails, getPatientProfile, getSymptoms,getMedicalHistoryReq, updateMedicalHistoryReq, fetchPrescriptionReq, fetchTestResultsReq, uploadTestResultReq, deleteTestResultReq, fetchOrdersReq } from "./PatientSaga";
+import { createConsultantReq, getConsultantDetails, getPatientProfile, getSymptoms,getMedicalHistoryReq, updateMedicalHistoryReq, fetchPrescriptionReq, fetchTestResultsReq, uploadTestResultReq, deleteTestResultReq, fetchOrdersReq, fetchRsultsReq } from "./PatientSaga";
 import { createBookReq, getDoctorDetailsReq, getPatientApointmentsReq, requestDoctorSaga, } from "./BookingSaga";
 import { GET_PHYSICIAN_PATIENTS } from "../actions/PhysicianActions";
 import { getPhysicianPatients } from "./PhysicianSaga";
@@ -63,6 +66,7 @@ export default function* mySaga() {
   yield takeLatest(CHANGE_PASSWORD, changePassword);
   yield takeLatest(FORGOT_PASSWORD, forgotPassword);
   yield takeLatest(UPDATE_MY_PROFILE, updateProfile);
+  yield takeLatest(UPDATE_DOCTOR_PROFILE, updateDoctorProfile);
   yield takeLatest(UPDATE_DEVICE, updateDevice);
 
   yield takeLatest(FETCH_SYPTOMS, getSymptoms);
@@ -75,6 +79,7 @@ export default function* mySaga() {
   yield takeLatest(UPDATE_MEDICAL_HISTORY, updateMedicalHistoryReq);
   yield takeLatest(FETCH_PRESCRIPTIONS, fetchPrescriptionReq);
   yield takeLatest(FETCH_ORDERS, fetchOrdersReq);
+  yield takeLatest(FETCH_RESULTS, fetchRsultsReq);
   
   yield takeLatest(FETCH_TEST_RESULTS, fetchTestResultsReq);
   yield takeLatest(UPLOAD_TEST_RESULT, uploadTestResultReq);

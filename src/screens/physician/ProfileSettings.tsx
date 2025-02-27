@@ -27,6 +27,7 @@ import FaIcon from "react-native-vector-icons/FontAwesome5";
 import {
   fetchDoctorDetailsAction,
   fetchPatientDetailsAction,
+  updateDoctorProfileAction,
   updateProfileAction,
 } from "../../store/actions/UserActions";
 import { RootState } from "../../store/reducers";
@@ -40,11 +41,14 @@ import { DoctorDetailsModel } from "../../store/reducers/ConsultantReducer";
 const ProfileSettings = (props) => {
   const dispatch = useDispatch();
   const { user }: any = useSelector((state: RootState) => state.UserReducer);
-
   // const { physicianProfile }: any = useSelector((state: RootState) => state.ConsultantReducer);
 
   const { doctorDetails }: { doctorDetails: DoctorDetailsModel } = useSelector(
     (state: RootState) => state.ConsultantReducer
+  );
+  console.log(
+    "useruseruseruseruseruseruseruseruseruseruseruseruseruser",
+    doctorDetails
   );
 
   const actionSheet: any = useRef();
@@ -101,7 +105,7 @@ const ProfileSettings = (props) => {
       label: "Phone Number",
       placeholder: "Phone Number",
       type: "text",
-      value: user.phone,
+      value: doctorDetails.phone,
       error: "",
       keyboardType: "default",
       refName: "phone",
@@ -114,10 +118,10 @@ const ProfileSettings = (props) => {
       placeholder: "Date Of Birth",
       type: "datetime",
       mode: "date",
-      value: (user.dob && startCase(user.dob)) || "",
+      value: doctorDetails?.dob,
       error: "",
       keyboardType: "default",
-      refName: "DOB",
+      refName: "dob",
       focusName: "Gender",
       returnKeyType: "next",
       leftIconVisibility: false,
@@ -129,7 +133,7 @@ const ProfileSettings = (props) => {
       value: startCase(doctorDetails.gender),
       error: "",
       keyboardType: "default",
-      refName: "Gender",
+      refName: "gender",
       focusName: "address",
       returnKeyType: "next",
       leftIconVisibility: false,
@@ -138,10 +142,22 @@ const ProfileSettings = (props) => {
       label: "Address",
       placeholder: "Address",
       type: "text",
-      value: startCase(user.Address),
+      value: startCase(doctorDetails.residency),
       error: "",
       keyboardType: "default",
-      refName: "Address",
+      refName: "residency",
+      returnKeyType: "next",
+      leftIconVisibility: false,
+      editable: false,
+    },
+    {
+      label: "Language",
+      placeholder: "Language",
+      type: "text",
+      value: startCase(doctorDetails.language),
+      error: "",
+      keyboardType: "default",
+      refName: "language",
       returnKeyType: "next",
       leftIconVisibility: false,
     },
@@ -178,7 +194,7 @@ const ProfileSettings = (props) => {
     if (!isEmpty(doctorDetails)) {
       let _form = form.map((i) => {
         let _i = { ...i };
-        if (i.refName === "Gender") {
+        if (i.refName === "gender") {
           _i.value = doctorDetails.gender || "";
         } else if (i.refName === "email") {
           _i.value = doctorDetails.email || "";
@@ -187,11 +203,13 @@ const ProfileSettings = (props) => {
         } else if (i.refName === "lname") {
           _i.value = doctorDetails.lname || "";
         } else if (i.refName === "DOB") {
-          _i.value = doctorDetails.dob || "";
-        } else if (i.refName === "Address") {
-          _i.value = doctorDetails.address || "";
+          _i.value = doctorDetails.DOB || "";
+        } else if (i.refName === "residency") {
+          _i.value = doctorDetails.residency || "";
         } else if (i.refName === "phone") {
           _i.value = doctorDetails.phone || "";
+        } else if (i.refName === "language") {
+          _i.value = doctorDetails.language || "";
         }
         return _i;
       });

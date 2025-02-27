@@ -38,6 +38,7 @@ export const getMedicalHistoryApi = ( data: any ) => get(`/patient_medical_histo
 export const updateMedicalHistoryApi = ( data: any ) => post(`/patient-medical-history-edit`,data,{},true);
 export const fetchPrescriptionsApi = ( id: any ) => get(`/my-prescription?patient_id=${id}`);
 export const fetchOrdersApi = ( id: any ) => get(`/my-orders?patient_id=${id}`);
+export const fetchResultsApi = ( id: any ) => get(`/test-list?patient_id=${id}`);
 export const fetchTestResultsApi = ( id: any ) => get(`/my-prescription?patient_id=${id}`);
 export const getAllTestResultApi = ( id: any ) => get(`/getall-test-result?patient_id=${id}`);
 export const addTestResultApi = ( data: any ) => post(`/upload-test-result`,data,{},true);

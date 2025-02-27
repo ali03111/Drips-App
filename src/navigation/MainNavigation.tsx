@@ -57,6 +57,10 @@ import {
   ZegoUIKitPrebuiltCallInCallScreen,
   ZegoUIKitPrebuiltCallWaitingScreen,
 } from "@zegocloud/zego-uikit-prebuilt-call-rn";
+import MeetingDetail from "../screens/physician/MeetingDetails";
+import MedicalHistoryPhysician from "../screens/physician/MedicalHistoryPhysician";
+import GeneralTestResults from "../screens/physician/GeneralTestResults";
+import ConsultationNotes from "../screens/physician/ConsultationNotes";
 
 const Stack = createNativeStackNavigator();
 
@@ -240,6 +244,18 @@ const ConsultationStack = () => {
       <Stack.Screen name="Network" component={NetworkLogScreen} />
       {/* <Stack.Screen name="Home" component={Consultations} /> */}
       <Stack.Screen name="Consultations" component={Consultations} />
+      <PatientStack.Screen
+        name="EditMedicalHistory"
+        component={EditMedicalHistory}
+      />
+      {/* <Stack.Screen name="medicalHistory" component={medicalHistorymedicalHistory} /> */}
+      <Stack.Screen name="MeetingDetail" component={MeetingDetail} />
+      <Stack.Screen
+        name="MedicalHistoryPhysician"
+        component={MedicalHistoryPhysician}
+      />
+      <Stack.Screen name="GeneralTestResults" component={GeneralTestResults} />
+      <Stack.Screen name="ConsultationNotes" component={ConsultationNotes} />
       <Stack.Screen name="ElectronicCard" component={ElectronicCard} />
       <Stack.Screen name="Call" component={Call} />
       <Stack.Screen name="Chat" component={Chat} />

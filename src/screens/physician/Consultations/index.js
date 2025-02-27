@@ -140,18 +140,18 @@ const Consultations = ({ navigation, route }) => {
                   </Typography>
 
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Presenting Complain: `}
+                    {`Present Complain: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {(item.problem && startCase(item.problem)) || "N/A"}
                     </Typography>
                   </Typography>
 
-                  <Typography size={12} color={COLORS.halfWhite}>
+                  {/* <Typography size={12} color={COLORS.halfWhite}>
                     {`Appointment Type: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {item.appointment_type}
                     </Typography>
-                  </Typography>
+                  </Typography> */}
                   <Typography size={12} color={COLORS.halfWhite}>
                     {`Consultation Type: `}
                     <Typography size={12} color={"#5cb4c8"}>
@@ -189,6 +189,7 @@ const Consultations = ({ navigation, route }) => {
                       <TouchableOpacity
                         style={styles.actionBtn}
                         onPress={() => {
+                          navigate("MeetingDetail", item);
                           // dispatch(getChatDetailsAction(item));
                         }}
                       >

@@ -105,7 +105,7 @@ const Home = (props) => {
     // console.log("skjvjksdblkvadbklvbsdklvblksdv", problem.join(","));
 
     let body = new FormData();
-    if (selectedImage.uri) {
+    if (selectedImage?.uri) {
       body.append("images", selectedImage);
     }
     body.append("patient_id", userData.user_id);
