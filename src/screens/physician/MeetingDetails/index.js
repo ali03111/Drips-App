@@ -475,7 +475,7 @@ const MeetingDetail = ({ navigation, route }) => {
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  width: wp("90"),
+                  width: Platform.OS == "ios" ? wp("90") : wp("88"),
                   alignSelf: "center",
                 }}
               >
@@ -534,7 +534,7 @@ const MeetingDetail = ({ navigation, route }) => {
             </View>
             <View
               style={{
-                width: wp("90"),
+                width: Platform.OS == "ios" ? wp("90") : wp("88"),
                 alignSelf: "center",
                 flexDirection: "row",
                 alignItems: "center",
@@ -607,7 +607,7 @@ const MeetingDetail = ({ navigation, route }) => {
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  width: wp("90"),
+                  width: Platform.OS == "ios" ? wp("90") : wp("88"),
                   alignSelf: "center",
                 }}
               >
@@ -654,7 +654,7 @@ const MeetingDetail = ({ navigation, route }) => {
             </View>
             <View
               style={{
-                width: wp("90"),
+                width: Platform.OS == "ios" ? wp("90") : wp("88"),
                 alignSelf: "center",
                 flexDirection: "row",
                 alignItems: "center",
@@ -861,11 +861,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "#FFF",
     borderRadius: 10,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 5,
+    // elevation: 5,
     width: wp("90"),
     marginBottom: hp("2"),
     marginTop: hp("2"),
