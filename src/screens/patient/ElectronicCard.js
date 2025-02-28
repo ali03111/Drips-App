@@ -106,9 +106,9 @@ const ElectronicCard = (props) => {
       case "job":
         return `${patientDetails.job_title}`;
       case "height":
-        return `${patientDetails.height}`;
+        return `${patientDetails.height} cm`;
       case "weight":
-        return `${patientDetails.Weight}`;
+        return `${patientDetails.Weight} kg`;
       case "bmi":
         return `${patientDetails.Bmi}`;
       case "bloodType":

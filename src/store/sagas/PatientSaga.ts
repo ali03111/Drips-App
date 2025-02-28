@@ -130,6 +130,8 @@ export function* getMedicalHistoryReq(): any {
       allergies:response.data.allergies|| [],
       Surgeries1:response.data.surgicalHistory||[],
       past_medical_history:response.data.MedicalHistory||[],
+      Current_medication1:response.data.Current_medication1||[],
+      family_medical_condition:response.data.family_medical_condition||[],
     }
     // let data = {
     //   allergies:convertStringToArray(response.data.allergies ?? []) || [],
@@ -197,6 +199,7 @@ export function* fetchRsultsReq(action): any {
     fetchResultsApi,
     action.paylaod
   );
+  console.log("hdivbwbsdvbsbvbsbdvbsbdvbslidbvlsdblvkbsdklvsd",response)
   yield put(disableLoader());
   if(response.status && response.code === '200'){
     yield put( updateUserStates({ resultData:response.data }) );

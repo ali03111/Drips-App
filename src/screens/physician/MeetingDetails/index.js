@@ -828,6 +828,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    color: "black",
   },
   addButton: {
     backgroundColor: COLORS.primary,

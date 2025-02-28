@@ -23,6 +23,11 @@ const MyMedicalHistory = (props) => {
   const pastMedicalHistory =
     (medicalDetails && medicalDetails.past_medical_history) || [];
   const allergies = (medicalDetails && medicalDetails.allergies) || [];
+  const current_medication =
+    (medicalDetails && medicalDetails.Current_medication1) || [];
+  const family_medical_condition =
+    (medicalDetails && medicalDetails.family_medical_condition) || [];
+
   const dispatch = useDispatch();
   const _fetchMedicalHistory = () => {
     dispatch(fetchMedicalHistory());
@@ -114,6 +119,48 @@ const MyMedicalHistory = (props) => {
                     </View>
                   ))}
                   {surgicalHistory.length === 0 && (
+                    <Typography style={styles.emptyText}>
+                      No Surgical History Found
+                    </Typography>
+                  )}
+                </>
+              )}
+              {family_medical_condition && (
+                <>
+                  <View style={{ height: 10 }} />
+                  <View style={styles.titleContainer}>
+                    <Typography color="#fe4e91" size={16}>
+                      Family Medical Condition
+                    </Typography>
+                  </View>
+
+                  {family_medical_condition.map((i) => (
+                    <View style={commonStyles.cardWithShadow}>
+                      <Typography>{i}</Typography>
+                    </View>
+                  ))}
+                  {family_medical_condition.length === 0 && (
+                    <Typography style={styles.emptyText}>
+                      No Surgical History Found
+                    </Typography>
+                  )}
+                </>
+              )}
+              {current_medication && (
+                <>
+                  <View style={{ height: 10 }} />
+                  <View style={styles.titleContainer}>
+                    <Typography color="#fe4e91" size={16}>
+                      Current Medication
+                    </Typography>
+                  </View>
+
+                  {current_medication.map((i) => (
+                    <View style={commonStyles.cardWithShadow}>
+                      <Typography>{i}</Typography>
+                    </View>
+                  ))}
+                  {current_medication.length === 0 && (
                     <Typography style={styles.emptyText}>
                       No Surgical History Found
                     </Typography>

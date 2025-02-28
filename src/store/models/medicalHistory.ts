@@ -2,6 +2,8 @@ export interface MedicalHistoryModel {
   allergies:string[],
   Surgeries1:string[],
   past_medical_history:string[],
+  Current_medication1:string[],
+  family_medical_condition:string[],
 }
 export interface MedicalHistoryPhysicianSideModel {
   allergies:string[],

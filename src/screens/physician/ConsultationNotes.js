@@ -95,10 +95,13 @@ const ConsultationNotes = (props) => {
       `/consulation-notes-lists?consultation_id=${item.id}`
     );
     if (response.status && response.code === "200") {
-      setComplain(response.subjectives.complain_history);
-      setDiagnosis(response.subjectives.diagnosis);
-      setNotes(response.subjectives.plan);
-      setObjective(response.notes);
+      if (response?.subjectives?.complain_history)
+        setComplain(response?.subjectives?.complain_history);
+      else if (response?.subjectives?.diagnosis)
+        setDiagnosis(response?.subjectives?.diagnosis);
+      else if (response?.subjectives?.plan)
+        setNotes(response?.subjectives?.plan);
+      else if (response?.notes) setObjective(response?.notes);
       //   setMedicalDetails(response.data);
       dispatch(disableLoader());
     } else {

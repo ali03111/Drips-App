@@ -80,6 +80,7 @@ const PhysicianDetail = (props) => {
                 defaultSource={IMAGES.avatar_placeholder}
                 source={imagePath}
                 style={styles.profileImg}
+                resizeMode="cover"
               />
 
               <View style={styles.cardDetail}>

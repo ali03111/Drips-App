@@ -266,6 +266,7 @@ const ProfileSettings = (props) => {
               source={userProfile}
               defaultSource={IMAGES.avatar_placeholder}
               style={styles.avatar}
+              resizeMode="cover"
             />
 
             <View style={styles.avatarBtn}>
