@@ -2,14 +2,12 @@ import React, { createRef, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  Image,
+  TextInput,
   TouchableOpacity,
   FlatList,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-  FlatListProps,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, FONTS } from "../../../constants";
@@ -28,40 +26,33 @@ import { messageApi } from "../../../store/services/Services";
 
 const ChatConsole = ({ onSend }) => {
   const [value, setValue] = useState("");
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.chatKeyboard}>
         <View style={styles.inputView}>
           <TextInput
             style={styles.input}
-            onSubmitEditing={() => {
-              Keyboard.dismiss();
-            }}
-            autoCapitalize="none"
-            blurOnSubmit={true}
             value={value}
             onChangeText={(text) => setValue(text)}
-            returnKeyType="done"
-            multiline={true}
-            placeholder="Type your message...."
-            keyboardType="default"
+            placeholder="Type your message..."
             placeholderTextColor={COLORS.darkGray}
-            // onFocus={ () => _scrollToBottom()}
+            multiline
+            returnKeyType="done"
+            onSubmitEditing={Keyboard.dismiss}
           />
         </View>
-
         <TouchableOpacity
           onPress={() => {
-            onSend(value);
-            setValue("");
+            if (value.trim()) {
+              onSend(value);
+              setValue("");
+            }
           }}
           activeOpacity={0.8}
-          style={{
-            paddingVertical: 5,
-            alignSelf: "flex-end",
-          }}
+          style={{ paddingVertical: 5, alignSelf: "flex-end" }}
         >
           <Icon
             name="send"
@@ -76,93 +67,77 @@ const ChatConsole = ({ onSend }) => {
 };
 
 const Chat = (props) => {
-  // const { item } = props.route.params;
   const dispatch = useDispatch();
-  const { messages, apointmentItem } = useSelector(
+  const { apointmentItem, messages: storedMessages } = useSelector(
     (state: RootState) => state.ChatReducer
   );
-  const [messageItems, newMessages] = useState(messages);
   const { user } = useSelector((state: RootState) => state.UserReducer);
-  // const [messages, setMessages] = useState([ ...DEMO ]);
+  const [messageItems, setMessageItems] = useState(storedMessages || []);
+  let listRef = createRef<FlatList>();
 
-  const _fetchChatDetails = () => {
-    dispatch(getChatDetailsAction());
-  };
+  // useEffect(() => {
+  //   dispatch(getChatDetailsAction());
+  // }, [dispatch]);
 
   useEffect(() => {
-    setTimeout(() => {
-      listRef.current?.scrollToEnd({ animated: true });
-    }, 1000);
-    return () => {
-      dispatch(
-        updateChatStates({
-          messages: [],
-        })
-      );
-    };
-  }, [messageItems]);
-
-  const onSend = (message: string) => {
-    let _data = {
-      message_to: apointmentItem.doctor_id,
-      message_from: user.user_id,
-      message,
-      consultant_id: apointmentItem.id,
-    };
-    dispatch(sendChatMessage(_data));
-    newMessages([...messageItems, { ..._data, created_at: new Date() }]);
-    // setInterval(() => {
-    //   dispatch(getChatDetailsAction({ id: apointmentItem.id }));
-    // }, 1000);
-    setTimeout(() => {
-      listRef.current?.scrollToEnd({ animated: true });
-    }, 4000);
-  };
-  let listRef = createRef<FlatList>();
+    setMessageItems(storedMessages);
+  }, [storedMessages]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getChatData();
+      fetchChatData();
     }, 4000);
     return () => clearInterval(interval);
   }, []);
 
-  const getChatData = async () => {
-    const response = await messageApi(apointmentItem.id);
-
-    if (response.code === "200" || response.code === 200) {
-      // yield put( resetUnread( id ) );
-      newMessages(response.data);
-      listRef.current?.scrollToEnd({ animated: true });
-      // dispatch(
-      //   updateChatStates({
-      //     apointmentItem,
-      //     appointmentId: apointmentItem.id,
-      //     messages: response.data,
-      //   })
-      // );
-    } else {
-      errorHandler(response);
+  useEffect(() => {
+    if (messageItems.length > 0) {
+      setTimeout(() => {
+        listRef.current?.scrollToEnd({ animated: true });
+      }, 500);
     }
+  }, [messageItems]);
+
+  const fetchChatData = async () => {
+    try {
+      const response = await messageApi(apointmentItem.id);
+      if (response.code === 200) {
+        setMessageItems((prevMessages) => [...prevMessages, ...response.data]);
+      }
+      // else {
+      //   errorHandler(response);
+      // }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
+  const onSend = (message) => {
+    const newMessage = {
+      message_to: apointmentItem.doctor_id,
+      message_from: user.user_id,
+      message,
+      consultant_id: apointmentItem.id,
+      created_at: new Date(),
+    };
+    setMessageItems((prevMessages) => [...prevMessages, newMessage]);
+    dispatch(sendChatMessage(newMessage));
   };
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
-        <InnerHeader title={"Chat"} backBtn={true} />
+        <InnerHeader title="Chat" backBtn={true} />
         <View style={styles.container}>
-          <View style={{ flex: 1 }}></View>
           <FlatList
             ref={listRef}
-            style={{ paddingHorizontal: 20 }}
             data={messageItems}
             extraData={messageItems}
             renderItem={(props) => <ChatBubble {...props} />}
-            onEndReachedThreshold={0}
+            keyExtractor={(item, index) => index.toString()}
+            style={{ paddingHorizontal: 20 }}
             showsVerticalScrollIndicator={false}
-            // inverted
           />
-
           <ChatConsole onSend={onSend} />
         </View>
       </View>
@@ -181,13 +156,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },
-  msgView: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    marginVertical: 12,
-    borderRadius: 8,
-    maxWidth: "80%",
-  },
   chatKeyboard: {
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -199,10 +167,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    fontFamily: FONTS.PoppinsRegular,
     borderRadius: 30,
     borderWidth: 0.5,
-    textTransform: "capitalize",
     borderColor: "gray",
     backgroundColor: "#F9F9FC",
     justifyContent: "center",
@@ -210,40 +176,9 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: FONTS.PoppinsRegular,
-    padding: 0,
     color: "black",
+    padding: 0,
   },
 });
 
 export default Chat;
-
-const DEMO = [
-  {
-    id: 1,
-    user_id: 2,
-    message: "EveryThing is fine",
-    type: "text",
-    created_at: new Date().getTime(),
-  },
-  {
-    id: 2,
-    user_id: 1,
-    message: "I am doing great how are you today",
-    type: "text",
-    created_at: new Date().getTime(),
-  },
-  {
-    id: 3,
-    user_id: 1,
-    message: "Hello Castro",
-    type: "text",
-    created_at: new Date().getTime(),
-  },
-  {
-    id: 4,
-    user_id: 2,
-    message: "Hello",
-    type: "text",
-    created_at: new Date().getTime(),
-  },
-];

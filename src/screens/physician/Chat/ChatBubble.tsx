@@ -125,11 +125,11 @@ const ChatBubble = (props: ChatBubbleProps) => {
             right: 0,
           }}
         >
-          {(Platform.OS == "ios"
+          {/* {(Platform.OS == "ios"
             ? convertToLocalTime(created_at)
             : convertToLocalTimeAndroid(created_at)) == "Invalid Date"
             ? null
-            : "Sending..."}
+            : "Sending..."} */}
         </Typography>
         {/* <Typography
           textType="light"

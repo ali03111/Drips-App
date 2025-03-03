@@ -192,14 +192,14 @@ const SelectPhysician = (props) => {
                           </Typography>
                           <Typography
                             size={10}
-                            numberOfLines={2}
+                            numberOfLines={3}
                             color={COLORS.placeholderColor}
                           >
-                            Speciality:
+                            Speciality: {item.speciality_name}
                           </Typography>
-                          <Typography size={10} color={COLORS.placeholderColor}>
+                          {/* <Typography size={10} color={COLORS.placeholderColor}>
                             {item.speciality_name}
-                          </Typography>
+                          </Typography> */}
 
                           <Typography>{item.status}</Typography>
                         </View>
