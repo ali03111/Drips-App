@@ -165,8 +165,7 @@ const FamilyHistory = (props) => {
         signupStep,
         {
           Is_family: select.toLowerCase(),
-          family_medical_condition:
-            select == "Yes" ? allergies.map((res) => res.alergic) : [],
+          family_medical_condition: allergies.map((res) => res.alergic),
         },
         "SocialInfo"
       )
@@ -212,7 +211,7 @@ const FamilyHistory = (props) => {
                 List all medical conditions in your family (Parents & Siblings):
               </Typography>
 
-              <View style={styles.optionsContainer}>
+              {/* <View style={styles.optionsContainer}>
                 {["Yes", "No"].map((i, index) => (
                   <TouchableOpacity
                     key={index}
@@ -227,39 +226,38 @@ const FamilyHistory = (props) => {
                     <Typography>{` ${i}`}</Typography>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </View> */}
 
-              {select === "Yes" && (
-                <>
-                  <TouchableOpacity
-                    onPress={() =>
-                      setAllergies([...allergies, { alergic: "" }])
-                    }
-                    activeOpacity={0.7}
-                    style={styles.addMoreButton}
-                  >
-                    <Typography>Add more +</Typography>
-                  </TouchableOpacity>
+              {/* {select === "Yes" && ( */}
+              <>
+                <TouchableOpacity
+                  onPress={() => setAllergies([...allergies, { alergic: "" }])}
+                  activeOpacity={0.7}
+                  style={styles.addMoreButton}
+                >
+                  <Typography>Add more +</Typography>
+                </TouchableOpacity>
 
-                  {allergies.map((res, index) => (
-                    <View key={index} style={styles.inputRow}>
-                      <InputText
-                        placeholder="Enter medical condition"
-                        onChangeText={(text) => {
-                          setAllergies((prevAllergies) =>
-                            prevAllergies.map((allergy, i) =>
-                              i === index
-                                ? { ...allergy, alergic: text }
-                                : allergy
-                            )
-                          );
-                        }}
-                        value={res.alergic}
-                        autoCapitalize="none"
-                        returnKeyType="done"
-                        style={styles.input}
-                        allowSpacing={false}
-                      />
+                {allergies.map((res, index) => (
+                  <View key={index} style={styles.inputRow}>
+                    <InputText
+                      placeholder="Enter medical condition"
+                      onChangeText={(text) => {
+                        setAllergies((prevAllergies) =>
+                          prevAllergies.map((allergy, i) =>
+                            i === index
+                              ? { ...allergy, alergic: text }
+                              : allergy
+                          )
+                        );
+                      }}
+                      value={res.alergic}
+                      autoCapitalize="none"
+                      returnKeyType="done"
+                      style={styles.input}
+                      allowSpacing={false}
+                    />
+                    {index >= 1 && (
                       <TouchableOpacity
                         onPress={() => {
                           setAllergies((prev) =>
@@ -273,10 +271,11 @@ const FamilyHistory = (props) => {
                           style={styles.trashIcon}
                         />
                       </TouchableOpacity>
-                    </View>
-                  ))}
-                </>
-              )}
+                    )}
+                  </View>
+                ))}
+              </>
+              {/* )} */}
             </View>
 
             <View style={styles.buttonContainer}>
