@@ -73,46 +73,43 @@ const Chat = (props) => {
   );
   const { user } = useSelector((state: RootState) => state.UserReducer);
   const [messageItems, setMessageItems] = useState(storedMessages || []);
-  let listRef = createRef<FlatList>();
+  const listRef = createRef<FlatList>();
 
-  // useEffect(() => {
-  //   dispatch(getChatDetailsAction());
-  // }, [dispatch]);
-
+  // Sync local state with Redux state
   useEffect(() => {
     setMessageItems(storedMessages);
   }, [storedMessages]);
 
+  // Fetch chat data periodically
   useEffect(() => {
     const interval = setInterval(() => {
       fetchChatData();
-    }, 4000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
+  // Scroll to the end when new messages are added
   useEffect(() => {
     if (messageItems.length > 0) {
-      setTimeout(() => {
-        listRef.current?.scrollToEnd({ animated: true });
-      }, 500);
+      // listRef.current?.scrollToEnd({ animated: true });
     }
   }, [messageItems]);
 
   const fetchChatData = async () => {
     try {
       const response = await messageApi(apointmentItem.id);
-      if (response.code === 200) {
-        setMessageItems((prevMessages) => [...prevMessages, ...response.data]);
+      if (response.code === 200 || response.code === "200") {
+        // Avoid overwriting the state if the data is the same
+        if (JSON.stringify(response.data) !== JSON.stringify(messageItems)) {
+          setMessageItems([...response.data]);
+        }
       }
-      // else {
-      //   errorHandler(response);
-      // }
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
 
-  const onSend = (message) => {
+  const onSend = async (message) => {
     const newMessage = {
       message_to: apointmentItem.doctor_id,
       message_from: user.user_id,
@@ -120,8 +117,15 @@ const Chat = (props) => {
       consultant_id: apointmentItem.id,
       created_at: new Date(),
     };
+
+    // Optimistically update the UI
     setMessageItems((prevMessages) => [...prevMessages, newMessage]);
+
+    // Send the message to the server
     dispatch(sendChatMessage(newMessage));
+
+    // Fetch updated messages after sending
+    await fetchChatData();
   };
 
   return (
@@ -132,11 +136,14 @@ const Chat = (props) => {
           <FlatList
             ref={listRef}
             data={messageItems}
-            extraData={messageItems}
             renderItem={(props) => <ChatBubble {...props} />}
             keyExtractor={(item, index) => index.toString()}
             style={{ paddingHorizontal: 20 }}
             showsVerticalScrollIndicator={false}
+            onContentSizeChange={() =>
+              listRef.current?.scrollToEnd({ animated: true })
+            }
+            onLayout={() => listRef.current?.scrollToEnd({ animated: true })}
           />
           <ChatConsole onSend={onSend} />
         </View>

@@ -159,12 +159,11 @@ const FamilyHistory = (props) => {
   // }
 
   const _onSubmit = async () => {
-    if (!select) return;
     dispatch(
       userUserDataAction(
         signupStep,
         {
-          Is_family: select.toLowerCase(),
+          // Is_family: select.toLowerCase(),
           family_medical_condition: allergies.map((res) => res.alergic),
         },
         "SocialInfo"
@@ -279,7 +278,7 @@ const FamilyHistory = (props) => {
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button disabled={!select} label="Next" onPress={_onSubmit} />
+              <Button label="Next" onPress={_onSubmit} />
               <Button
                 label="Back"
                 onPress={() => props.navigation.goBack()}

@@ -16,7 +16,8 @@ import {
   addTestResultApi,
   deleteTestResultApi,
   fetchOrdersApi,
-  fetchResultsApi
+  fetchResultsApi,
+  fetchAttchApi
 } from "../services/Services";
 import store from "..";
 import { navigate, onBack, popToTop } from "../../navigation/RootNavigation";
@@ -203,6 +204,21 @@ export function* fetchRsultsReq(action): any {
   yield put(disableLoader());
   if(response.status && response.code === '200'){
     yield put( updateUserStates({ resultData:response.data }) );
+  } else {
+    errorHandler(response);
+  }
+}
+export function* fetchAttchmentsReq(action): any {
+  yield put(enableLoader());
+  const { user } = yield select( selectUserState );
+  const response = yield call(
+    fetchAttchApi,
+    action.paylaod
+  );
+  console.log("hdivbwbsdvbsbvbsbdvbsbdvbslidbvlsdblvkbsdklvsd",response)
+  yield put(disableLoader());
+  if(response.status && response.code === '200'){
+    yield put( updateUserStates({ attachmentsData:response.data }) );
   } else {
     errorHandler(response);
   }

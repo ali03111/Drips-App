@@ -185,7 +185,7 @@ const Consultations = ({ navigation, route }) => {
                         View
                       </Typography>
                     </TouchableOpacity>
-                    {isPaid && (
+                    {isPaid && item.status == 1 && (
                       <TouchableOpacity
                         style={styles.actionBtn}
                         onPress={() => {

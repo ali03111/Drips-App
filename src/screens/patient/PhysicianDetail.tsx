@@ -92,7 +92,7 @@ const PhysicianDetail = (props) => {
                 </Typography>
                 {/* <View style={{ flex: 1 }} /> */}
                 <Typography size={12} color={COLORS.placeholderColor}>
-                  Specialities: {item?.speciality_name || "N/A"}
+                  Speciality: {item?.speciality_name || "N/A"}
                 </Typography>
                 {/* <Typography>{item.customer_status}</Typography> */}
 

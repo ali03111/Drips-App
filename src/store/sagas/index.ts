@@ -26,7 +26,8 @@ import {
   DELETE_TEST_RESULT,
   FETCH_ORDERS,
   FETCH_RESULTS,
-  UPDATE_DOCTOR_PROFILE
+  UPDATE_DOCTOR_PROFILE,
+  FETCH_ATTACHMENTS
 } from "../actions/UserActions";
 import {
   INIT,
@@ -50,7 +51,7 @@ import {
 } from "./UserSaga";
 import { createMessageSaga, getMessageSaga } from "./ChatSaga";
 import { CREATE_MESSAGE, GET_MESSAGES } from "../actions/ChatActions";
-import { createConsultantReq, getConsultantDetails, getPatientProfile, getSymptoms,getMedicalHistoryReq, updateMedicalHistoryReq, fetchPrescriptionReq, fetchTestResultsReq, uploadTestResultReq, deleteTestResultReq, fetchOrdersReq, fetchRsultsReq } from "./PatientSaga";
+import { createConsultantReq, getConsultantDetails, getPatientProfile, getSymptoms,getMedicalHistoryReq, updateMedicalHistoryReq, fetchPrescriptionReq, fetchTestResultsReq, uploadTestResultReq, deleteTestResultReq, fetchOrdersReq, fetchRsultsReq, fetchAttchmentsReq } from "./PatientSaga";
 import { createBookReq, getDoctorDetailsReq, getPatientApointmentsReq, requestDoctorSaga, } from "./BookingSaga";
 import { GET_PHYSICIAN_PATIENTS } from "../actions/PhysicianActions";
 import { getPhysicianPatients } from "./PhysicianSaga";
@@ -80,6 +81,7 @@ export default function* mySaga() {
   yield takeLatest(FETCH_PRESCRIPTIONS, fetchPrescriptionReq);
   yield takeLatest(FETCH_ORDERS, fetchOrdersReq);
   yield takeLatest(FETCH_RESULTS, fetchRsultsReq);
+  yield takeLatest(FETCH_ATTACHMENTS, fetchAttchmentsReq);
   
   yield takeLatest(FETCH_TEST_RESULTS, fetchTestResultsReq);
   yield takeLatest(UPLOAD_TEST_RESULT, uploadTestResultReq);

@@ -2880,6 +2880,7 @@ __metadata:
     "@zegocloud/zego-uikit-rn": ^2.2.0
     babel-jest: ^26.6.3
     eslint: ^7.32.0
+    hermes-engine: ^0.11.0
     jest: ^26.6.3
     metro-react-native-babel-preset: ^0.67.0
     moment: ^2.29.4
@@ -5776,6 +5777,13 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: b9ad53d53be4af90ce5d1c38331e712522417d017d5ef1ebd0507e07c2fbad8686fffb8e12ddecd4c39ca9b9b47431afbb975b8abf7f3c3b82c98e9aad052792
+  languageName: node
+  linkType: hard
+
+"hermes-engine@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "hermes-engine@npm:0.11.0"
+  checksum: 34dcd016b373337306be0e5b15923fc2756b17253264443a1a07a14d3326d00eb433af13c08ae11f3a2ddcbcc44ae9a9ac9b071ce72efdd056745327dc3201d7
   languageName: node
   linkType: hard
 

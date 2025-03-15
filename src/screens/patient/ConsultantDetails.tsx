@@ -129,6 +129,7 @@ const ConsultantDetails = (props) => {
                 defaultSource={IMAGES.avatar_placeholder}
                 source={imagePath}
                 style={styles.profileImg}
+                resizeMode="cover"
               />
 
               <View style={styles.cardDetail}>
@@ -139,7 +140,7 @@ const ConsultantDetails = (props) => {
                   Medical School: {doctorDetails.medical_school || "N/A"}
                 </Typography>
                 <Typography size={12} color={COLORS.placeholderColor}>
-                  Specialities: {doctorDetails?.speciality_name || "N/A"}
+                  Speciality: {doctorDetails?.speciality_name || "N/A"}
                 </Typography>
                 <View
                   style={{

@@ -61,6 +61,7 @@ import MeetingDetail from "../screens/physician/MeetingDetails";
 import MedicalHistoryPhysician from "../screens/physician/MedicalHistoryPhysician";
 import GeneralTestResults from "../screens/physician/GeneralTestResults";
 import ConsultationNotes from "../screens/physician/ConsultationNotes";
+import Attachments from "../screens/physician/Attchments";
 
 const Stack = createNativeStackNavigator();
 
@@ -176,6 +177,8 @@ const PatientNavigation = () => {
       <PatientStack.Screen name="MyOrders" component={MyOrder} />
       <PatientStack.Screen name="TestResults" component={TestResults} />
       <PatientStack.Screen name="ProfileSettings" component={ProfileSettings} />
+      <Stack.Screen name="SelfAssessment" component={SelfAssessment} />
+      <Stack.Screen name="Attachments" component={Attachments} />
       <PatientStack.Screen
         name="MyConsultantations"
         component={MyConsultantations}
@@ -184,7 +187,7 @@ const PatientNavigation = () => {
         name="ConsultantDetails"
         component={ConsultantDetails}
       />
-
+      <Stack.Screen name="SocialInfo" component={SocialInfo} />
       <PatientStack.Screen name="SelectPhysician" component={SelectPhysician} />
       <PatientStack.Screen name="PhysicianDetail" component={PhysicianDetail} />
       <PatientStack.Screen name="Pricing" component={Pricing} />
@@ -221,6 +224,7 @@ const PhysicianNavigation = () => {
       }}
     >
       <Drawer.Screen name="Consultations" component={ConsultationStack} />
+      <Stack.Screen name="Attachments" component={Attachments} />
       <Drawer.Screen
         name="ConsultantProfileSettings"
         component={ConsultantProfileSettings}

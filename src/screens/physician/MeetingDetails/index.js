@@ -33,10 +33,13 @@ import Accordion from "react-native-collapsible/Accordion";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import RNFetchBlob from "rn-fetch-blob";
+import { fetchPhysicianPatients } from "../../../store/actions/PhysicianActions";
 
 const MeetingDetail = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.UserReducer.user);
+
+  const { title } = useSelector((state) => state.ScreenReducer);
   const { userType } = useSelector((state) => state.UserReducer);
   const { user } = useSelector((state) => state.UserReducer);
 
@@ -61,9 +64,8 @@ const MeetingDetail = ({ navigation, route }) => {
 
   console.log(
     "patientDetailspatientDetailspatientDetailspatientDetails",
-    patientDetails,
-    apointmentDetails,
-    item
+
+    title
   );
 
   const fetchOrders = async () => {
@@ -89,6 +91,26 @@ const MeetingDetail = ({ navigation, route }) => {
       console.log;
       setAllPrescription(response.data);
       dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+  const endConsultation = async () => {
+    dispatch(enableLoader());
+    const response = await get(
+      `/end-consultation?consultation_id=${apointmentDetails.id}`
+    );
+    if (response.status && response.code === "200") {
+      console.log;
+      dispatch(showToast(response.message));
+      dispatch(disableLoader());
+      dispatch(
+        fetchPhysicianPatients({
+          payload: title ?? "Scheduled Consultations",
+        })
+      );
+      navigation.goBack();
     } else {
       dispatch(disableLoader());
       errorHandler(response);
@@ -419,6 +441,7 @@ const MeetingDetail = ({ navigation, route }) => {
                 source={userImageUrl}
                 style={styles.profileImage}
                 resizeMode={"cover"}
+                defaultSource={IMAGES.avatar_placeholder}
               />
               <View>
                 {INFO.map((i) => (
@@ -758,6 +781,23 @@ const MeetingDetail = ({ navigation, route }) => {
               >
                 <Text style={{ color: "white" }}>General Test Results</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.footerButton, width: wp("90") }}
+                onPress={() => endConsultation()}
+              >
+                <Text style={{ color: "white" }}>End Consultation</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.footerButton, width: wp("90") }}
+                onPress={() =>
+                  navigation.navigate("Attachments", {
+                    ...patientDetails,
+                    ...apointmentDetails,
+                  })
+                }
+              >
+                <Text style={{ color: "white" }}>Attachments</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -788,7 +828,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   profileImage: {
-    width: wp("29"),
+    width: wp("35"),
     height: hp("23"),
     marginRight: 15,
     borderRadius: 10,

@@ -16,6 +16,7 @@ export const BUSINESS_SERVICE_UPDATE = "BUSINESS_SERVICE_UPDATE";
 export const FETCH_PRESCRIPTIONS = "FETCH_PRESCRIPTIONS";
 export const FETCH_ORDERS = "FETCH_ORDERS";
 export const FETCH_RESULTS = "FETCH_RESULTS";
+export const FETCH_ATTACHMENTS = "FETCH_ATTACHMENTS";
 export const FETCH_TEST_RESULTS = "FETCH_TEST_RESULTS";
 export const UPLOAD_TEST_RESULT = "UPLOAD_TEST_RESULT";
 export const DELETE_TEST_RESULT = "DELETE_TEST_RESULT";
@@ -145,6 +146,10 @@ export const logoutAction = () => ({ type: LOGOUT });
 export const fetchPrescription = () => ({ type: FETCH_PRESCRIPTIONS });
 export const fetchOrders = () => ({ type: FETCH_ORDERS });
 export const fetchResults = (paylaod) => ({ type: FETCH_RESULTS, paylaod });
+export const fetchAttachments = (paylaod) => ({
+  type: FETCH_ATTACHMENTS,
+  paylaod,
+});
 export const fetchTestResults = () => ({ type: FETCH_TEST_RESULTS });
 export const uploadTestResult = (payload = {}) => ({
   type: UPLOAD_TEST_RESULT,

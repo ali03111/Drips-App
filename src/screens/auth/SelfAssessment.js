@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,78 +10,144 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IMAGES, COLORS } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import * as Validator from "../../utils/Validator";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
+import { disableLoader, enableLoader } from "../../store/actions/AppActions";
+import { get } from "../../store/services/Http";
+import { errorHandler } from "../../utils/utils";
 
 const SelfAssessment = (props) => {
   const dispatch = useDispatch();
+
+  const isEdit = props?.route?.params;
   const [select, setSelect] = useState(null);
+
+  const { user } = useSelector((state) => state.UserReducer);
+
+  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", user);
+
+  const populateSelectedValues = (
+    queries,
+    firstOpQes,
+    secondOpQes,
+    thirdOpQes,
+    forthOpQes,
+    data
+  ) => {
+    const updateSelectedValues = (array) =>
+      array.map((item) => ({
+        ...item,
+        selected: data[item.refName] || "", // Assign the value from the data object if available
+      }));
+
+    setQueries(updateSelectedValues(queries));
+
+    // const updatedFirstOpQes = updateSelectedValues(firstOpQes);
+    // const updatedSecondOpQes = updateSelectedValues(secondOpQes);
+    // const updatedThirdOpQes = updateSelectedValues(thirdOpQes);
+    // const updatedForthOpQes = updateSelectedValues(forthOpQes);
+
+    // console.log("Updated Queries:", updateSelectedValues(queries));
+    // console.log("Updated FirstOpQes:", updatedFirstOpQes);
+    // console.log("Updated SecondOpQes:", updatedSecondOpQes);
+    // console.log("Updated ThirdOpQes:", updatedThirdOpQes);
+    // console.log("Updated ForthOpQes:", updatedForthOpQes);
+  };
+
+  const getSocialData = async () => {
+    dispatch(enableLoader());
+    // const response = await get(`patient-detail?id=1810`);
+    const response = await get(`/patient-detail?id=${user?.user_id}`);
+    console.log("responseresponseresponseresponseresponse", response);
+    if (response.status && response.code === "200") {
+      populateSelectedValues(
+        queries,
+        "firstOpQes",
+        "secondOpQes",
+        "thirdOpQes",
+        "forthOpQes",
+        response?.patientinfo[0]
+      );
+
+      // setQueires(prev=>(
+
+      // ))
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+
+  useEffect(() => {
+    if (isEdit) getSocialData();
+  }, []);
 
   const [queries, setQueries] = useState([
     {
       label: `Do you have any type of daily pain?`,
       refName: "daily_pain",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have visual impairment?`,
       refName: "impairment",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have cancer or have you ever had cancer?`,
       refName: "cancer",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have any amputation?`,
       refName: "amputation",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have a heart device?`,
       refName: "heart",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have hearing or speaking impairment?`,
       refName: "impairment",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Are you on Dialysis`,
       refName: "dialysis",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have any organ transplant?`,
       refName: "transplant",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Do you have any psychiatric illness?`,
       refName: "psychiatric",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       label: `Are you on Insulin, chemotherapy or any immune suppressing medication?`,
       refName: "insulin",
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
   ]);
 
@@ -95,7 +161,14 @@ const SelfAssessment = (props) => {
     );
     Validator.validate(validateData).then((err) => {
       if (!err) {
-        dispatch(userUserDataAction(signupStep, validateData, "BloodType"));
+        dispatch(
+          userUserDataAction(
+            signupStep,
+            validateData,
+            isEdit ? "null" : "BloodType"
+          )
+        );
+        props?.navigation.goBack();
       } else {
         setErrors(err);
       }
@@ -105,6 +178,10 @@ const SelfAssessment = (props) => {
   const isInValid = () => {
     return queries.filter((i) => !i.selected).length > 0;
   };
+
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+  }
 
   return (
     <SafeAreaContainer safeArea={false}>
@@ -143,7 +220,9 @@ const SelfAssessment = (props) => {
                         }}
                       >
                         <CheckBox selected={o === i.selected} />
-                        <Typography>{` ${o}`}</Typography>
+                        <Typography>{` ${capitalizeFirstLetter(
+                          o
+                        )}`}</Typography>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -152,7 +231,7 @@ const SelfAssessment = (props) => {
             </ScrollView>
             <View style={{ marginTop: 10 }}>
               <Button
-                label={"Next"}
+                label={isEdit == true ? "Update" : "Next"}
                 disabled={isInValid()}
                 onPress={_onSubmit}
               />

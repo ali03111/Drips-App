@@ -10,15 +10,83 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IMAGES, COLORS } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import * as Validator from "../../utils/Validator";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
+import { get } from "../../store/services/Http";
+import { errorHandler } from "../../utils/utils";
+import { disableLoader, enableLoader } from "../../store/actions/AppActions";
 
 const SocialInfo = (props) => {
+  const isEdit = props?.route?.params;
+  const { user } = useSelector((state) => state.UserReducer);
+  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", user);
+
+  const populateSelectedValues = (
+    queries,
+    firstOpQes,
+    secondOpQes,
+    thirdOpQes,
+    forthOpQes,
+    data
+  ) => {
+    const updateSelectedValues = (array) =>
+      array.map((item) => ({
+        ...item,
+        selected: data[item.refName] || "", // Assign the value from the data object if available
+      }));
+
+    setQueires(updateSelectedValues(queries));
+
+    const updatedFirstOpQes = updateSelectedValues(firstOpQes);
+    const updatedSecondOpQes = updateSelectedValues(secondOpQes);
+    const updatedThirdOpQes = updateSelectedValues(thirdOpQes);
+    const updatedForthOpQes = updateSelectedValues(forthOpQes);
+
+    console.log("Updated Queries:", updateSelectedValues(queries));
+    console.log("Updated FirstOpQes:", updatedFirstOpQes);
+    console.log("Updated SecondOpQes:", updatedSecondOpQes);
+    console.log("Updated ThirdOpQes:", updatedThirdOpQes);
+    console.log("Updated ForthOpQes:", updatedForthOpQes);
+  };
+
+  const getSocialData = async () => {
+    dispatch(enableLoader());
+    // const response = await get(`patient-detail?id=1810`);
+    const response = await get(`/patient-detail?id=${user?.user_id}`);
+    console.log("responseresponseresponseresponseresponse", response);
+    if (response.status && response.code === "200") {
+      populateSelectedValues(
+        queries,
+        firstOpQes,
+        secondOpQes,
+        thirdOpQes,
+        forthOpQes,
+        response?.patientinfo[0]
+      );
+
+      // setQueires(prev=>(
+
+      // ))
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+
+  useEffect(() => {
+    if (isEdit) getSocialData();
+  }, []);
+
+  function capitalizeFirstLetter(string) {
+    return string?.charAt(0)?.toUpperCase() + string?.slice(1);
+  }
+
   const dispatch = useDispatch();
   const [select, setSelect] = useState(null);
   const [queries, setQueires] = useState([
@@ -26,26 +94,26 @@ const SocialInfo = (props) => {
       refName: "do_you_smoke",
       label: `Have you ever smoked?`,
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
       childOption: [],
     },
     {
       refName: "do_u_Alcohol",
       label: `Do you drink Alcohol?`,
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       refName: "do_u_marijuana",
       label: `Do you use any Recreational Drugs Like Marijuana?`,
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
     {
       refName: "are_you_employed",
       label: `Are you Employed?`,
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
     },
   ]);
 
@@ -54,7 +122,7 @@ const SocialInfo = (props) => {
       refName: "currently_smoking",
       label: `Do you currently smoke tobacco?`,
       selected: "",
-      options: ["Yes", "No"],
+      options: ["yes", "no"],
       type: "option",
     },
     {
@@ -122,7 +190,7 @@ const SocialInfo = (props) => {
     setQueires((prevQueries) => {
       const updatedQueries = [...prevQueries];
       const smokingQuery = updatedQueries[0];
-      const currentlySmoking = smokingQuery.childOption[0].selected === "Yes";
+      const currentlySmoking = smokingQuery.childOption[0].selected === "yes";
 
       smokingQuery.childOption[1].label = currentlySmoking
         ? "How many packs do you smoke in a day?"
@@ -223,16 +291,24 @@ const SocialInfo = (props) => {
     setQueires((prev) => {
       prev[index].selected = o;
       if (index == 0) {
-        prev[index].childOption = o == "Yes" ? firstOpQes : [];
+        prev[index].childOption = o == "yes" ? firstOpQes : [];
       } else if (index == 1) {
-        prev[index].childOption = o == "Yes" ? secondOpQes : [];
+        prev[index].childOption = o == "yes" ? secondOpQes : [];
       } else if (index == 2) {
-        prev[index].childOption = o == "Yes" ? thirdOpQes : [];
+        prev[index].childOption = o == "yes" ? thirdOpQes : [];
       } else if (index == 3) {
-        prev[index].childOption = o == "Yes" ? forthOpQes : [];
+        prev[index].childOption = o == "yes" ? forthOpQes : [];
       }
       return [...prev];
     });
+  };
+
+  const toLowerCase = (str) => {
+    if (typeof str !== "string") {
+      console.error("Input must be a string");
+      return "";
+    }
+    return str.toLowerCase();
   };
 
   return (
@@ -290,8 +366,12 @@ const SocialInfo = (props) => {
                         }}
                         key={o}
                       >
-                        <CheckBox selected={o == i.selected} />
-                        <Typography>{` ${o}`}</Typography>
+                        <CheckBox
+                          selected={toLowerCase(o) == toLowerCase(i.selected)}
+                        />
+                        <Typography>{` ${capitalizeFirstLetter(
+                          o
+                        )}`}</Typography>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -323,7 +403,9 @@ const SocialInfo = (props) => {
                                   key={o}
                                 >
                                   <CheckBox selected={o == res.selected} />
-                                  <Typography>{` ${o}`}</Typography>
+                                  <Typography>{` ${capitalizeFirstLetter(
+                                    o
+                                  )}`}</Typography>
                                 </TouchableOpacity>
                               ) : (
                                 <InputText
@@ -350,7 +432,7 @@ const SocialInfo = (props) => {
             <View style={{ marginTop: 10, marginBottom: 10 }}>
               <Button
                 disabled={isInValid()}
-                label={"Next"}
+                label={isEdit == true ? "Update" : "Next"}
                 onPress={_onSubmit}
               />
               <Button

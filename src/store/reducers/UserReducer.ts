@@ -43,6 +43,7 @@ const initialState = {
     prescriptionData:[] as PrescriptionItemModel[],
     orderData:[] as OrderItemModel[],
     resultData:[] ,
+    attachmentsData:[] ,
     testResults:[] as TestResultItemModel[],
 };
 

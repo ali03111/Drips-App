@@ -50,6 +50,6 @@ export function* createMessageSaga({ payload }: any): any {
     );
     navigationRef.navigate("Chat" as never);
   } else {
-    errorHandler(response);
+    // errorHandler(response);
   }
 }

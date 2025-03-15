@@ -1,5 +1,11 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Modal,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../../../constants";
 import SafeAreaContainer from "../../../containers/SafeAreaContainer";
@@ -11,13 +17,18 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { MedicalHistoryModel } from "../../../store/models/MedicalHistory";
 import { isEmpty } from "lodash";
 import { navigate } from "../../../navigation/RootNavigation";
+import { WebView } from "react-native-webview";
 
 const MyMedicalHistory = (props) => {
   const { loader } = useSelector((state: RootState) => state.AppReducer);
   const medicalDetails: MedicalHistoryModel = useSelector(
     (state: RootState) => state.UserReducer.medicalHistory
   );
-  console.log("medicalDetails ====> ", medicalDetails);
+  const user = useSelector((state: any) => state.UserReducer.user);
+
+  const [showPayment, setPayment] = useState(undefined);
+
+  console.log("medicalDetails ====> ", user);
 
   const surgicalHistory = (medicalDetails && medicalDetails.Surgeries1) || [];
   const pastMedicalHistory =
@@ -167,7 +178,84 @@ const MyMedicalHistory = (props) => {
                   )}
                 </>
               )}
+
+              <View
+                style={{
+                  backgroundColor: COLORS.primary,
+                  width: "100%",
+                  height: "0.2%",
+                  marginVertical: 10,
+                }}
+              />
+              <>
+                <View style={styles.titleContainer}>
+                  <Typography color="#fe4e91" size={16}>
+                    Social History
+                  </Typography>
+                  <Icon.Button
+                    name="create-outline"
+                    color={COLORS.primary}
+                    iconStyle={{ marginRight: 0 }}
+                    backgroundColor="transparent"
+                    onPress={() => setPayment(true)}
+                  >
+                    Edit
+                  </Icon.Button>
+                </View>
+              </>
+              <View
+                style={{
+                  backgroundColor: COLORS.primary,
+                  width: "100%",
+                  height: "0.2%",
+                  marginVertical: 10,
+                }}
+              />
+              <>
+                <View style={styles.titleContainer}>
+                  <Typography color="#fe4e91" size={16}>
+                    Self Assessment
+                  </Typography>
+                  <Icon.Button
+                    name="create-outline"
+                    color={COLORS.primary}
+                    iconStyle={{ marginRight: 0 }}
+                    backgroundColor="transparent"
+                    onPress={() =>
+                      props?.navigation?.navigate("SelfAssessment", true)
+                    }
+                  >
+                    Edit
+                  </Icon.Button>
+                </View>
+              </>
               <View style={{ height: 50 }} />
+
+              {showPayment && (
+                <Modal
+                  // onRequestClose={_fetchAppointmentDetails}
+                  transparent
+                  animationType="slide"
+                >
+                  <SafeAreaContainer style={styles.paymentContainer}>
+                    <InnerHeader
+                      onBackPress={() => {
+                        setPayment(false);
+                        // _fetchAppointmentDetails();
+                      }}
+                      backBtn
+                      title="Social History"
+                    />
+                    <View style={{ flex: 1 }}>
+                      <WebView
+                        source={{
+                          uri: `https://webvortech.com/drips/custom-portal/api/social-history-form?id=${user?.user_id}`,
+                        }}
+                      />
+                    </View>
+                  </SafeAreaContainer>
+                </Modal>
+              )}
             </ScrollView>
           )}
         </View>
@@ -194,6 +282,10 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     paddingVertical: 10,
+  },
+  paymentContainer: {
+    flex: 1,
+    backgroundColor: COLORS.primary,
   },
 });
 

@@ -369,16 +369,19 @@ const styles = StyleSheet.create({
   avatarContainer: {
     borderWidth: 5,
     borderColor: "#fff",
-    width: 110,
-    height: 110,
+    // width: 110,
+    // height: 110,
     borderRadius: 55,
     marginBottom: 10,
     alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
+    alignSelf: "center",
   },
   avatarBtn: {
     backgroundColor: "#fff",

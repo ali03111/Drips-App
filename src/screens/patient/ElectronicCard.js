@@ -390,7 +390,7 @@ const ElectronicCard = (props) => {
                 marginTop: 20,
               }}
             >
-              {apointmentDetails.past == 0 && (
+              {apointmentDetails.status == 1 && (
                 <Button
                   btnStyle={styles.actionButton}
                   label={"Chat"}
@@ -426,7 +426,7 @@ const ElectronicCard = (props) => {
 
               {/* {voiceCallStatus && ( */}
               {apointmentDetails.appointment_type != null &&
-                apointmentDetails.past == 0 && (
+                apointmentDetails.status == 1 && (
                   <Button
                     btnStyle={styles.actionButton}
                     label={`Start ${capitalizeFirstLetter(
