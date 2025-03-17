@@ -140,7 +140,7 @@ const Consultations = ({ navigation, route }) => {
                   </Typography>
 
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Present Complain: `}
+                    {`Present \n Complain: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {(item.problem && startCase(item.problem)) || "N/A"}
                     </Typography>

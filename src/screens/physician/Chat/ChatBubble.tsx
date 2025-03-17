@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "../../../components/atoms";
 import { COLORS } from "../../../constants";
 import { RootState } from "../../../store/reducers";
-import { logger } from "react-native-logs";
+// import { logger } from "react-native-logs";
+// import { format, utcToZonedTime } from "date-fns-tz";
 
 interface ChatBubbleProps {
   item: any;
@@ -39,60 +40,39 @@ function convertToCustomTimeFormat(isoDate: Date) {
 }
 
 const ChatBubble = (props: ChatBubbleProps) => {
-  const log = logger.createLogger();
-
   function convertToLocalTimeAndroid(utcDateStr) {
-    log.info("Input date string:", utcDateStr);
-
-    if (!utcDateStr || isNaN(new Date(utcDateStr).getTime())) {
-      log.error("Invalid input date string:", utcDateStr);
-      return "Invalid Date";
-    }
+    console.log("Input date string:", utcDateStr);
 
     try {
-      const userTimeZone =
-        Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || "UTC";
-      log.info("User time zone:", userTimeZone);
-
-      const utcDate = new Date(utcDateStr);
-      log.info("Parsed UTC date:", utcDate);
+      // Convert the input string to a format that Date can parse
+      const formattedDateStr = utcDateStr.replace(" ", "T") + "Z"; // Convert to ISO 8601 format
+      const utcDate = new Date(formattedDateStr);
+      console.log("Parsed UTC date:", utcDate);
 
       if (isNaN(utcDate.getTime())) {
-        log.error("Parsed date is invalid:", utcDate);
+        console.log("Parsed date is invalid:", utcDate);
         return "Invalid Date";
       }
 
-      const localTime = utcDate.toLocaleTimeString("en-US", {
-        timeZone: userTimeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-      log.info("Formatted local time:", localTime);
+      // Convert UTC time to local time zone
+      const localDate = new Date(
+        utcDate.toLocaleString("en-US", { timeZone: "UTC" })
+      );
+      console.log("Local date:", localDate);
+
+      // Manually format the time without seconds
+      const hours = localDate.getHours(); // Use getHours() for local time
+      const minutes = localDate.getMinutes(); // Use getMinutes() for local time
+      const ampm = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      const localTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+
+      console.log("Formatted local time:", localTime);
 
       return localTime;
     } catch (error) {
-      log.error("Error in convertToLocalTime:", error);
-      return "Invalid Date";
-    }
-  }
-
-  function convertToLocalTime(utcDateStr) {
-    if (!utcDateStr || isNaN(new Date(utcDateStr).getTime())) {
-      return "Invalid Date";
-    }
-
-    try {
-      const userTimeZone =
-        Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || "UTC";
-      const utcDate = new Date(utcDateStr + "Z"); // Ensure UTC format
-      return utcDate.toLocaleTimeString("en-US", {
-        timeZone: userTimeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-    } catch (error) {
+      console.log("Error in convertToLocalTime:", error);
       return "Invalid Date";
     }
   }
@@ -100,7 +80,11 @@ const ChatBubble = (props: ChatBubbleProps) => {
   const { index, item } = props;
   const { user } = useSelector((state: RootState) => state.UserReducer);
   const { message_from, message, created_at = null } = item;
-  console.log("slkvbklsblvkbsklvbksdbvsd", created_at);
+  console.log(
+    "slkvbklsblvkbsklvbksdbvsd",
+    convertToLocalTimeAndroid(created_at.toString()),
+    created_at
+  );
   if (message_from === user.user_id) {
     return (
       <View
@@ -121,15 +105,13 @@ const ChatBubble = (props: ChatBubbleProps) => {
           color={COLORS.darkGray}
           style={{
             position: "absolute",
-            bottom: -15,
+            bottom: -16,
             right: 0,
           }}
         >
-          {/* {(Platform.OS == "ios"
-            ? convertToLocalTime(created_at)
-            : convertToLocalTimeAndroid(created_at)) == "Invalid Date"
-            ? null
-            : "Sending..."} */}
+          {convertToLocalTimeAndroid(created_at) != "Invalid Date"
+            ? convertToLocalTimeAndroid(created_at)
+            : "Sending..."}
         </Typography>
         {/* <Typography
           textType="light"
@@ -165,21 +147,20 @@ const ChatBubble = (props: ChatBubbleProps) => {
         ]}
       >
         <Typography color="#1D2733">{message}</Typography>
-        {/* <Typography
+        <Typography
           textType="light"
           size={10}
           color={COLORS.darkGray}
           style={{
             position: "absolute",
-            bottom: -15,
+            bottom: -16,
             left: 5,
           }}
         >
-          {created_at &&
-            (Platform.OS == "ios"
-              ? convertToLocalTime(created_at)
-              : convertToLocalTimeAndroid(created_at))}
-        </Typography> */}
+          {convertToLocalTimeAndroid(created_at) != "Invalid Date"
+            ? convertToLocalTimeAndroid(created_at)
+            : "Sending..."}
+        </Typography>
       </View>
     );
   }

@@ -339,10 +339,14 @@ const ElectronicCard = (props) => {
                     <View style={{ flexDirection: "row" }}>
                       <Typography
                         size={12}
-                        style={{ width: 70 }}
+                        style={{
+                          width: 70,
+                          color: "black",
+                          fontWeight: "bold",
+                        }}
                         textType="light"
                       >
-                        {i.title}:{" "}
+                        {i.title}:
                       </Typography>
                       <Typography size={12} textType="light">
                         {getInfoValue(i)}
@@ -555,7 +559,7 @@ const INFO = [
     value: "99",
   },
   {
-    title: "Present Complain",
+    title: "Present \nComplain",
     type: "problem",
     value: "99",
   },

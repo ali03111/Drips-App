@@ -48,7 +48,8 @@ const ProfileSettings = (props) => {
   );
   console.log(
     "useruseruseruseruseruseruseruseruseruseruseruseruseruser",
-    doctorDetails
+    doctorDetails,
+    user
   );
 
   const actionSheet: any = useRef();

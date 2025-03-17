@@ -87,13 +87,40 @@ const PhysicianDetail = (props) => {
                 <Typography size={16} textType="semiBold">
                   {item.name}
                 </Typography>
-                <Typography size={12} color={COLORS.placeholderColor}>
+                {/* <Typography size={12} color={COLORS.placeholderColor}>
                   Medical School: {item.medical_school || "N/A"}
-                </Typography>
+                </Typography> */}
+                <View>
+                  <Typography size={12} color={COLORS.black}>
+                    Medical School:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                  >
+                    {item.medical_school || "N/A"}
+                  </Typography>
+                </View>
                 {/* <View style={{ flex: 1 }} /> */}
-                <Typography size={12} color={COLORS.placeholderColor}>
+
+                <View style={{ flexDirection: "row" }}>
+                  <Typography size={12} color={COLORS.black}>
+                    Speciality:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                    style={{ width: wp("40") }}
+                  >
+                    {item?.speciality_name || "N/A"}
+                  </Typography>
+                </View>
+
+                {/* <Typography size={12} color={COLORS.placeholderColor}>
                   Speciality: {item?.speciality_name || "N/A"}
-                </Typography>
+                </Typography> */}
                 {/* <Typography>{item.customer_status}</Typography> */}
 
                 {/* bookingType!=='booking' && <View
@@ -132,12 +159,22 @@ const PhysicianDetail = (props) => {
               </View>
             </View>
 
-            <Typography
+            {/* <Typography
               color={COLORS.placeholderColor}
               style={{ marginTop: 20 }}
             >
               Residency: {item.residency || "N/A"}
-            </Typography>
+            </Typography> */}
+
+            <View style={{ flexDirection: "row", marginTop: 20 }}>
+              <Typography color={COLORS.black}>Residency: </Typography>
+              <Typography
+                color={COLORS.placeholderColor}
+                style={{ width: wp("65") }}
+              >
+                {item.residency || "N/A"}
+              </Typography>
+            </View>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Typography size={12} color={COLORS.rating}>

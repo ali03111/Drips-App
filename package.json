@@ -64,7 +64,6 @@
     "react-native-get-random-values": "^1.11.0",
     "react-native-image-crop-picker": "^0.38.0",
     "react-native-images-to-pdf": "^0.2.1",
-    "react-native-logs": "^5.3.0",
     "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-network-logger": "^1.14.0",
     "react-native-permissions": "^5.2.5",

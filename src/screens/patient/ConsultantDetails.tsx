@@ -136,12 +136,32 @@ const ConsultantDetails = (props) => {
                 <Typography size={16} textType="semiBold">
                   {doctorDetails.name}
                 </Typography>
-                <Typography size={12} color={COLORS.placeholderColor}>
-                  Medical School: {doctorDetails.medical_school || "N/A"}
-                </Typography>
-                <Typography size={12} color={COLORS.placeholderColor}>
-                  Speciality: {doctorDetails?.speciality_name || "N/A"}
-                </Typography>
+                <View>
+                  <Typography size={12} color={COLORS.black}>
+                    Medical School:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                    // style={{ width: wp("30") }}
+                  >
+                    {doctorDetails.medical_school || "N/A"}
+                  </Typography>
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Typography size={12} color={COLORS.black}>
+                    Speciality:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                    style={{ width: wp("40") }}
+                  >
+                    {doctorDetails?.speciality_name || "N/A"}
+                  </Typography>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
@@ -211,12 +231,15 @@ const ConsultantDetails = (props) => {
               </View>
             </View>
 
-            <Typography
-              color={COLORS.placeholderColor}
-              style={{ marginTop: 20 }}
-            >
-              Residency: {doctorDetails.residency || "N/A"}
-            </Typography>
+            <View style={{ flexDirection: "row", marginTop: 20 }}>
+              <Typography color={COLORS.black}>Residency: </Typography>
+              <Typography
+                color={COLORS.placeholderColor}
+                style={{ width: wp("65") }}
+              >
+                {doctorDetails.residency || "N/A"}
+              </Typography>
+            </View>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Typography size={12} color={COLORS.rating}>

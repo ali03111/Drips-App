@@ -212,6 +212,7 @@ const ProfileSettings = (props) => {
               }}
             >
               <Image
+                // source={IMAGES.avatar_placeholder}
                 source={userProfile}
                 defaultSource={IMAGES.avatar_placeholder}
                 style={styles.avatar}

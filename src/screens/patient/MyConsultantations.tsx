@@ -99,9 +99,10 @@ const MyConsultantations = (props) => {
                   <View style={styles.imageContainer}>
                     <Image
                       source={_getImage(item)}
+                      // source={IMAGES.avatar_placeholder}
                       defaultSource={IMAGES.avatar_placeholder}
                       style={styles.profileImg}
-                      resizeMode={"cover"}
+                      resizeMode={"contain"}
                     />
                   </View>
                   <View style={styles.detailsContainer}>
