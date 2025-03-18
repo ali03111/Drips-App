@@ -26,6 +26,7 @@ import { getPatientApointmentsAction } from "../../store/actions/UserActions";
 import { ApointmentItemModel } from "../../store/models";
 import FaIcon from "react-native-vector-icons/FontAwesome5";
 import { startCase } from "lodash";
+import { hp, wp } from "../../utils/responsive";
 const MyConsultantations = (props) => {
   const dispatch = useDispatch();
   const { apointmentList } = useSelector(
@@ -52,10 +53,11 @@ const MyConsultantations = (props) => {
     });
   };
 
-  const _getImage = (item: ApointmentItemModel): ImageSourcePropType => {
-    return { uri: IMAGE_URL + item.doctorimage } || { uri: "" };
-    if (item.images && item.images.length > 0) return { uri: item.images[0] };
-    else return { uri: "" };
+  const _getImage = (item: ApointmentItemModel) => {
+    // return IMAGES.avatar_placeholder;
+    return item.doctorimage
+      ? { uri: IMAGE_URL + item.doctorimage }
+      : IMAGES.avatar_placeholder;
   };
 
   return (
@@ -96,15 +98,15 @@ const MyConsultantations = (props) => {
                   }
                   style={{ flexDirection: "row" }}
                 >
-                  <View style={styles.imageContainer}>
-                    <Image
-                      source={_getImage(item)}
-                      // source={IMAGES.avatar_placeholder}
-                      defaultSource={IMAGES.avatar_placeholder}
-                      style={styles.profileImg}
-                      resizeMode={"contain"}
-                    />
-                  </View>
+                  {/* <View style={styles.imageContainer}> */}
+                  <Image
+                    source={_getImage(item)}
+                    // source={IMAGES.avatar_placeholder}
+                    // defaultSource={IMAGES.avatar_placeholder}
+                    style={styles.profileImg}
+                    resizeMode={"contain"}
+                  />
+                  {/* </View> */}
                   <View style={styles.detailsContainer}>
                     <View style={styles.cardDetail}>
                       <Typography size={14} textType="semiBold">
@@ -173,8 +175,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   imageContainer: {
-    width: screenWidth(30),
-    ...commonStyles.boxShadow,
+    width: wp("30"),
+    // ...commonStyles.boxShadow,
     backgroundColor: COLORS.white,
     justifyContent: "center",
     alignItems: "center",
@@ -182,10 +184,10 @@ const styles = StyleSheet.create({
   },
   profileImg: {
     borderWidth: 0.5,
-    width: screenWidth(30),
-    height: 145,
+    width: wp("30"),
+    height: hp("17"),
     backgroundColor: COLORS.lightGray,
-    resizeMode: "cover",
+    // resizeMode: "cover",
     borderColor: "#fff",
     // position: 'absolute',
     borderRadius: 10,

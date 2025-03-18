@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
+  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
@@ -30,6 +31,7 @@ import { removeItem } from "../utils/localStorage";
 import { onUserLogout } from "../utils/ZegoCloudConfig";
 import { updateScreenStates } from "../store/actions/ChatActions";
 import { fetchPhysicianPatients } from "../store/actions/PhysicianActions";
+import { hp } from "../utils/responsive";
 
 export const DrawerContent = (props) => {
   const dispatch = useDispatch();
@@ -67,12 +69,15 @@ export const DrawerContent = (props) => {
         <TouchableOpacity style={styles.header} activeOpacity={1}>
           <Image
             source={imagePath}
+            // source={IMAGES.avatar_placeholder}
             defaultSource={IMAGES.avatar_placeholder}
+            resizeMode="contain"
             style={{
-              height: 60,
-              width: 60,
-              borderRadius: 30,
-              resizeMode: "cover",
+              borderRadius: Math.round(
+                Dimensions.get("window").width + Dimensions.get("window").height
+              ),
+              width: Dimensions.get("window").width * 0.15,
+              height: Dimensions.get("window").width * 0.15,
             }}
           />
           <View style={{ marginLeft: 10, flex: 1 }}>

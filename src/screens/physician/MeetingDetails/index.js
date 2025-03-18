@@ -448,12 +448,17 @@ const MeetingDetail = ({ navigation, route }) => {
                   <View style={{ flexDirection: "row" }}>
                     <Typography
                       size={12}
-                      style={{ width: 70 }}
+                      style={{ width: wp("18") }}
                       textType="light"
                     >
                       {i.title}:{" "}
                     </Typography>
-                    <Typography size={12} textType="light" numberOfLines={2}>
+                    <Typography
+                      size={12}
+                      textType="light"
+                      numberOfLines={2}
+                      style={{ width: wp("40") }}
+                    >
                       {getInfoValue(i)}
                     </Typography>
                   </View>
@@ -783,12 +788,6 @@ const MeetingDetail = ({ navigation, route }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ ...styles.footerButton, width: wp("90") }}
-                onPress={() => endConsultation()}
-              >
-                <Text style={{ color: "white" }}>End Consultation</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ ...styles.footerButton, width: wp("90") }}
                 onPress={() =>
                   navigation.navigate("Attachments", {
                     ...patientDetails,
@@ -797,6 +796,12 @@ const MeetingDetail = ({ navigation, route }) => {
                 }
               >
                 <Text style={{ color: "white" }}>Attachments</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ ...styles.footerButton, width: wp("90") }}
+                onPress={() => endConsultation()}
+              >
+                <Text style={{ color: "white" }}>End Consultation</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -1003,7 +1008,7 @@ const INFO = [
     value: "99",
   },
   {
-    title: "Symptoms",
+    title: "Symptom",
     type: "problems",
     value: "99",
   },

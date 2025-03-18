@@ -21,6 +21,7 @@ import {
 } from "../../store/actions/UserActions";
 import { RootState } from "../../store/reducers";
 import { hp, wp } from "../../utils/responsive";
+import FaIcon from "react-native-vector-icons/FontAwesome5";
 
 const PhysicianDetail = (props) => {
   const dispatch = useDispatch();
@@ -32,8 +33,9 @@ const PhysicianDetail = (props) => {
   const { item, bookingType }: { item: ConsultantItem; bookingType?: string } =
     props.route.params;
   const address = item.address || "N/A";
-  const imagePath =
-    (item.pic && { uri: IMAGE_URL + item.pic }) || IMAGES.avatar_placeholder;
+  const imagePath = item.pic
+    ? { uri: IMAGE_URL + item.pic }
+    : IMAGES.avatar_placeholder;
   const updatePaymentUrl = (type: string) => {
     let url = `${PAYMENT_URL}${item.user_id}?type=${type}`;
     setPaymentUrl(url);
@@ -76,11 +78,27 @@ const PhysicianDetail = (props) => {
         <View style={styles.container}>
           <View style={styles.card}>
             <View style={{ flexDirection: "row" }}>
+              {/* {item.pic ? (
+                <FaIcon
+                  name="user-circle"
+                  size={hp("10")}
+                  color={COLORS.primary}
+                />
+              ) : (
+                <Image
+                  defaultSource={IMAGES.avatar_placeholder}
+                  // source={IMAGES.avatar_placeholder}
+                  source={imagePath}
+                  style={styles.profileImg}
+                  resizeMode="cover"
+                />
+              )} */}
               <Image
-                defaultSource={IMAGES.avatar_placeholder}
+                // defaultSource={IMAGES.avatar_placeholder}
+                // source={IMAGES.avatar_placeholder}
                 source={imagePath}
                 style={styles.profileImg}
-                resizeMode="cover"
+                resizeMode="contain"
               />
 
               <View style={styles.cardDetail}>
@@ -258,7 +276,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -20,
   },
   card: {
-    ...commonStyles.boxShadow,
+    // ...commonStyles.boxShadow,
     backgroundColor: "#fff",
     marginVertical: 15,
     borderRadius: 10,
@@ -266,8 +284,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   profileImg: {
-    width: 110,
-    height: 145,
+    width: wp("30"),
+    height: hp("17"),
     borderRadius: 10,
   },
   cardDetail: {

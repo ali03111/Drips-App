@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, IMAGES, IMAGE_URL } from "../../constants";
@@ -38,6 +39,7 @@ import moment from "moment";
 import DropdownModal from "../../components/atoms/DropdownModal";
 import DropdownListItem from "../../components/atoms/DropdownListItem";
 import { DoctorDetailsModel } from "../../store/reducers/ConsultantReducer";
+import { hp, wp } from "../../utils/responsive";
 const ProfileSettings = (props) => {
   const dispatch = useDispatch();
   const { user }: any = useSelector((state: RootState) => state.UserReducer);
@@ -264,7 +266,8 @@ const ProfileSettings = (props) => {
             }}
           >
             <Image
-              source={userProfile}
+              source={user?.pic ? userProfile : IMAGES.avatar_placeholder}
+              // source={userProfile}
               defaultSource={IMAGES.avatar_placeholder}
               style={styles.avatar}
               resizeMode="cover"
@@ -379,10 +382,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
     alignSelf: "center",
+    borderRadius: Math.round(
+      Dimensions.get("window").width + Dimensions.get("window").height
+    ),
+    width: Dimensions.get("window").width * 0.25,
+    height: Dimensions.get("window").width * 0.25,
   },
   avatarBtn: {
     backgroundColor: "#fff",

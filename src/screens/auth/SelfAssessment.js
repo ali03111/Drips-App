@@ -29,7 +29,7 @@ const SelfAssessment = (props) => {
 
   const { user } = useSelector((state) => state.UserReducer);
 
-  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", user);
+  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", isEdit);
 
   const populateSelectedValues = (
     queries,
@@ -85,7 +85,7 @@ const SelfAssessment = (props) => {
   };
 
   useEffect(() => {
-    if (isEdit) getSocialData();
+    if (isEdit == true) getSocialData();
   }, []);
 
   const [queries, setQueries] = useState([
@@ -165,10 +165,10 @@ const SelfAssessment = (props) => {
           userUserDataAction(
             signupStep,
             validateData,
-            isEdit ? "null" : "BloodType"
+            isEdit == true ? "null" : "BloodType"
           )
         );
-        props?.navigation.goBack();
+        if (isEdit == true) props?.navigation.goBack();
       } else {
         setErrors(err);
       }

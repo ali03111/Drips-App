@@ -254,24 +254,24 @@ android {
     }
 
     flavorDimensions "default"
-    // productFlavors {
-    //     production {
-    //         minSdkVersion rootProject.ext.minSdkVersion
-    //         applicationId "com.app.drips"
-    //         targetSdkVersion rootProject.ext.targetSdkVersion
-    //         resValue "string", "app_name", "Drips Medical"
-    //         signingConfig signingConfigs.debug
-    //         resValue "string", "build_config_package", "com.app.drips"
-    //     }
-    //     dev {
-    //         minSdkVersion rootProject.ext.minSdkVersion
-    //         applicationId "com.app.drips"
-    //         targetSdkVersion rootProject.ext.targetSdkVersion
-    //         resValue "string", "app_name", "Drips Medical Dev"
-    //         signingConfig signingConfigs.debug
-    //         resValue "string", "build_config_package", "com.app.drips.dev"
-    //     }
-    // }
+    productFlavors {
+        production {
+            minSdkVersion rootProject.ext.minSdkVersion
+            applicationId "com.app.drips"
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "app_name", "Drips Medical"
+            signingConfig signingConfigs.debug
+            resValue "string", "build_config_package", "com.app.drips"
+        }
+        dev {
+            minSdkVersion rootProject.ext.minSdkVersion
+            applicationId "com.app.drips"
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "app_name", "Drips Medical Dev"
+            signingConfig signingConfigs.debug
+            resValue "string", "build_config_package", "com.app.drips.dev"
+        }
+    }
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->

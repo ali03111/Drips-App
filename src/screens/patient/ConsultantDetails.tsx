@@ -37,6 +37,12 @@ const ConsultantDetails = (props) => {
   const { doctorDetails, apointmentDetails } = useSelector(
     (state: RootState) => state.ConsultantReducer
   );
+
+  console.log(
+    "apointmentDetailsapointmentDetailsapointmentDetailsapointmentDetailsapointmentDetails",
+    apointmentDetails
+  );
+
   const [showPayment, setPayment] = useState<any>(undefined);
   const [paymentUrl, setPaymentUrl] = useState("");
   const { item }: { item: any } = props.route.params;
@@ -126,10 +132,11 @@ const ConsultantDetails = (props) => {
           <View style={styles.card}>
             <View style={{ flexDirection: "row" }}>
               <Image
-                defaultSource={IMAGES.avatar_placeholder}
+                // defaultSource={IMAGES.avatar_placeholder}
+                // source={IMAGES.avatar_placeholder}
                 source={imagePath}
                 style={styles.profileImg}
-                resizeMode="cover"
+                resizeMode="contain"
               />
 
               <View style={styles.cardDetail}>
@@ -463,7 +470,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -20,
   },
   card: {
-    ...commonStyles.boxShadow,
+    // ...commonStyles.boxShadow,
     backgroundColor: "#fff",
     marginVertical: 15,
     borderRadius: 10,
@@ -471,8 +478,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   profileImg: {
-    width: 110,
-    height: 145,
+    width: wp("30"),
+    height: hp("20"),
     borderRadius: 10,
   },
   cardDetail: {

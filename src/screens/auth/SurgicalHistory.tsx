@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Text,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { IMAGES, COLORS, headerHeight } from "../../constants";
@@ -115,6 +116,13 @@ const SurgicalHistory = (props) => {
                     diagnosed with:
                   </Typography>
 
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={onAddMore}
+                  >
+                    {/* <Icon size={20} name="add" color={COLORS.primary} /> */}
+                    <Text style={styles.buttonText}>Add more +</Text>
+                  </TouchableOpacity>
                   {form.map((item, index) => (
                     <InputText
                       {...item}
@@ -151,13 +159,13 @@ const SurgicalHistory = (props) => {
                     />
                   ))}
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.buttonContainer}
                     onPress={onAddMore}
                   >
                     <Icon size={20} name="add" color={COLORS.primary} />
                     <Typography style={styles.buttonText}>Add More</Typography>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <View>
                     <Button
                       disabled={isInValid()}
@@ -209,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: COLORS.primary,
+    color: COLORS.text,
     fontSize: 15,
     marginLeft: 5,
   },

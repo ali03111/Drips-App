@@ -179,6 +179,7 @@ const SelectPhysician = (props) => {
                     <View style={styles.imageContainer}>
                       <Image
                         source={image_url}
+                        // source={IMAGES.avatar_placeholder}
                         defaultSource={IMAGES.avatar_placeholder}
                         style={styles.profileImg}
                         resizeMode={"cover"}
@@ -400,8 +401,8 @@ const styles = StyleSheet.create({
     borderRightColor: "#ccc",
   },
   profileImg: {
-    width: "100%",
-    height: screenHeight(20),
+    width: wp("40"),
+    height: hp("20"),
     resizeMode: "cover",
   },
   detailsContainer: {

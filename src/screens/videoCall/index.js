@@ -6,6 +6,7 @@ import {
   PermissionsAndroid,
   Platform,
   Text,
+  Alert,
 } from "react-native";
 import Daily, { DailyMediaView } from "@daily-co/react-native-daily-js";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,14 +21,13 @@ const VideoCall = ({ route }) => {
   const { item } = route.params; // callType: "audio" or "video"
   const { consultation_id, doctor_id, patient_id, callType, meeting_url } =
     item;
-  console.log(
-    "meeting_urlmeeting_urlmeeting_urlmeeting_urlmeeting_url",
-    meeting_url
-  );
+  console.log("meeting_urlmeeting_urlmeeting_urlmeeting_urlmeeting_url", item);
   const userType = useSelector((state) => state.AppReducer.userType);
   const id = userType === 1 ? patient_id : doctor_id;
   const callID = `consultation-${consultation_id}`;
   const dispatch = useDispatch();
+
+  console.log("userTypeuserTypeuserTypeuserTypeuserTypeuserType", userType);
 
   const callObjectRef = useRef(null);
   const [participants, setParticipants] = useState([]);
@@ -66,74 +66,74 @@ const VideoCall = ({ route }) => {
     return true;
   };
 
-  useEffect(() => {
-    let callObject;
+  // useEffect(() => {
+  //   let callObject;
 
-    const initCall = async () => {
-      const hasPermissions = await requestPermissions();
-      if (!hasPermissions) return;
-      // "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js"
+  //   const initCall = async () => {
+  //     const hasPermissions = await requestPermissions();
+  //     if (!hasPermissions) return;
+  //     // "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js"
 
-      console.log(
-        "Loading Daily.co bundle from:",
-        "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js"
-      );
+  //     console.log(
+  //       "Loading Daily.co bundle from:",
+  //       "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js"
+  //     );
 
-      callObject = Daily.createCallObject({
-        // dailyConfig: {},
-        //  "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js",
-        videoSource: true,
-      });
-      callObjectRef.current = callObject;
+  //     callObject = Daily.createCallObject({
+  //       // dailyConfig: {},
+  //       //  "https://c.daily.co/call-machine/versioned/0.75.2/static/call-machine-object-bundle.js",
+  //       videoSource: true,
+  //     });
+  //     callObjectRef.current = callObject;
 
-      // Set up event listeners
-      const updateParticipants = () => {
-        setParticipants(Object.values(callObject.participants()));
-      };
+  //     // Set up event listeners
+  //     const updateParticipants = () => {
+  //       setParticipants(Object.values(callObject.participants()));
+  //     };
 
-      callObject.on("participant-joined", updateParticipants);
-      callObject.on("participant-updated", updateParticipants);
-      callObject.on("participant-left", updateParticipants);
+  //     callObject.on("participant-joined", updateParticipants);
+  //     callObject.on("participant-updated", updateParticipants);
+  //     callObject.on("participant-left", updateParticipants);
 
-      callObject.on("camera-error", (error) => {
-        console.error("Camera error:", error);
-        // dispatch(showToast(`Camera error: ${error.message}`));
-      });
+  //     callObject.on("camera-error", (error) => {
+  //       console.error("Camera error:", error);
+  //       // dispatch(showToast(`Camera error: ${error.message}`));
+  //     });
 
-      callObject.on("microphone-error", (error) => {
-        console.error("Microphone error:", error);
-        // dispatch(showToast(`Microphone error: ${error.message}`));
-      });
+  //     callObject.on("microphone-error", (error) => {
+  //       console.error("Microphone error:", error);
+  //       // dispatch(showToast(`Microphone error: ${error.message}`));
+  //     });
 
-      try {
-        await callObject.startCamera({
-          subscribeToTracksAutomatically: true,
-        });
+  //     try {
+  //       await callObject.startCamera({
+  //         subscribeToTracksAutomatically: true,
+  //       });
 
-        // Ensure audio/video is set correctly before joining
-        await callObject.setLocalAudio(true);
-        await callObject.setLocalVideo(callType === "Video");
-        await callObject.load();
-        await callObject.join({
-          url: meeting_url,
-          subscribeToTracksAutomatically: true,
-        });
-      } catch (error) {
-        console.error("Error joining call:", error);
-        // dispatch(showToast(`Error joining call: ${error}`));
-      }
-    };
+  //       // Ensure audio/video is set correctly before joining
+  //       await callObject.setLocalAudio(true);
+  //       await callObject.setLocalVideo(callType === "Video");
+  //       await callObject.load();
+  //       await callObject.join({
+  //         url: meeting_url,
+  //         subscribeToTracksAutomatically: true,
+  //       });
+  //     } catch (error) {
+  //       console.error("Error joining call:", error);
+  //       // dispatch(showToast(`Error joining call: ${error}`));
+  //     }
+  //   };
 
-    initCall();
+  //   initCall();
 
-    return () => {
-      if (callObject) {
-        callObject.leave();
-        callObject.destroy();
-        callObjectRef.current = null;
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (callObject) {
+  //       callObject.leave();
+  //       callObject.destroy();
+  //       callObjectRef.current = null;
+  //     }
+  //   };
+  // }, []);
 
   const toggleMute = () => {
     if (callObjectRef.current) {
@@ -164,13 +164,69 @@ const VideoCall = ({ route }) => {
     }
   };
 
+  const webviewRef = useRef(null);
+
+  console.log(
+    "sdlkbvlkasdbl;vbsdlvbdsbvo;wdb;vldsbl;ewnds",
+    `https://webvortech.com/drips/custom-portal/api/patient/meeting/${item?.id}`
+  );
+
+  const injectedJS = `
+  (function() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+      .then((stream)
+=> {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ success: true, message: "Microphone access granted" }));
+      })
+      .catch((error) => {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ success: false, message: error.message }));
+      });
+  })();
+`;
   return (
     <View style={styles.container}>
       <WebView
-        source={{ uri: meeting_url }}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        style={styles.webview}
+        ref={webviewRef}
+        source={{
+          uri:
+            // userType == 1
+            //   ? `https://webvortech.com/drips/custom-portal/api/patient/meeting/1005`
+            //   : `https://webvortech.com/drips/custom-portal/api/physician/meeting/1005`,
+            userType == 1
+              ? `https://webvortech.com/drips/custom-portal/api/patient/meeting/${item?.id}`
+              : `https://webvortech.com/drips/custom-portal/api/physician/meeting/${item?.id}`,
+        }}
+        // javaScriptEnabled={true}
+        // domStorageEnabled={true}
+        // originWhitelist={["*"]} // Allow all URLs
+        // injectedJavaScript={injectedJS}
+        // // injectedJavaScript={`
+        // //   (function() {
+        // //     window.postMessage = function(data) {
+        // //       window.ReactNativeWebView.postMessage(data);
+        // //     };
+        // //   })();
+        // // `}
+        // style={styles.webview}
+        // onMessage={(event) => {
+        //   console.log("Received message:", event);
+        // }}
+        // onLoadStart={() => webviewRef.current?.clearCache(true)}
+        // mediaPlaybackRequiresUserAction={true} // Important for auto-playing media
+        // allowsInlineMediaPlayback={true} // Required for iOS
+        // onError={(syntheticEvent) => {
+        //   console.log("WebView error:", syntheticEvent);
+        //   // const { nativeEvent } = syntheticEvent;
+        // }}
+
+        javaScriptEnabled={true} // Ensure JavaScript is enabled
+        mediaPlaybackRequiresUserAction={false} // Allow automatic mic access (some browsers require interaction)
+        injectedJavaScript={injectedJS}
+        onMessage={(event) => {
+          const data = JSON.parse(event.nativeEvent.data);
+          Alert.alert("Mic Permission", data.message);
+          // console.log("Mic Permission Response:", data);
+        }}
       />
       {/* {participants.length > 0 && (
         <DailyMediaView
@@ -215,7 +271,7 @@ const VideoCall = ({ route }) => {
             </TouchableOpacity>
           </>
         )} */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             ...styles.footerButton,
             width: wp("90"),
@@ -224,7 +280,7 @@ const VideoCall = ({ route }) => {
           onPress={() => handleHangUp()}
         >
           <Text style={{ color: "white" }}>Go Back</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <TouchableOpacity
           onPress={handleHangUp}
           style={[styles.button, styles.hangupButton]}

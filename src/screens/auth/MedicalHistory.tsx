@@ -118,6 +118,13 @@ const MedicalHistory = (props) => {
                     diagnosed with:
                   </Typography>
 
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={onAddMore}
+                  >
+                    {/* <Icon size={20} name="add" color={COLORS.primary} /> */}
+                    <Text style={styles.buttonText}>Add more +</Text>
+                  </TouchableOpacity>
                   {form.map((i, index) => (
                     <InputText
                       {...i}
@@ -147,13 +154,13 @@ const MedicalHistory = (props) => {
                     />
                   ))}
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.buttonContainer}
                     onPress={onAddMore}
                   >
                     <Icon size={20} name="add" color={COLORS.primary} />
-                    <Text style={styles.buttonText}>Add More</Text>
-                  </TouchableOpacity>
+                    <Text style={styles.buttonText}>Add more +</Text>
+                  </TouchableOpacity> */}
                   <View style={{ bottom: 10 }}>
                     <Button
                       label="Next"
@@ -192,8 +199,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: COLORS.primary,
+    color: COLORS.text,
     fontSize: 15,
+    marginLeft: 5,
   },
 });
 

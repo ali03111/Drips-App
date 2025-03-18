@@ -22,7 +22,6 @@ import { errorHandler } from "../../utils/utils";
 import { disableLoader, enableLoader } from "../../store/actions/AppActions";
 
 const SocialInfo = (props) => {
-  const isEdit = props?.route?.params;
   const { user } = useSelector((state) => state.UserReducer);
   console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", user);
 
@@ -79,9 +78,9 @@ const SocialInfo = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (isEdit) getSocialData();
-  }, []);
+  // useEffect(() => {
+  //   if (isEdit) getSocialData();
+  // }, []);
 
   function capitalizeFirstLetter(string) {
     return string?.charAt(0)?.toUpperCase() + string?.slice(1);
@@ -432,7 +431,7 @@ const SocialInfo = (props) => {
             <View style={{ marginTop: 10, marginBottom: 10 }}>
               <Button
                 disabled={isInValid()}
-                label={isEdit == true ? "Update" : "Next"}
+                label={"Next"}
                 onPress={_onSubmit}
               />
               <Button

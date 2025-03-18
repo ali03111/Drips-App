@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, IMAGES, IMAGE_URL } from "../../constants";
@@ -35,6 +36,7 @@ import { startCase } from "lodash";
 import moment from "moment";
 import DropdownModal from "../../components/atoms/DropdownModal";
 import DropdownListItem from "../../components/atoms/DropdownListItem";
+import { hp, wp } from "../../utils/responsive";
 const ProfileSettings = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.UserReducer);
@@ -212,12 +214,42 @@ const ProfileSettings = (props) => {
               }}
             >
               <Image
+                defaultSource={IMAGES.avatar_placeholder}
+                // source={IMAGES.avatar_placeholder}
+                source={user?.pic ? userProfile : IMAGES.avatar_placeholder}
+                style={styles.avatar}
+                resizeMode="cover"
+              />
+              {/* <FaIcon
+                name="user-circle"
+                size={hp("8")}
+                style={{ alignSelf: "center" }}
+                // color={COLORS.primary}
+              /> */}
+              {/* {user?.pic ? (
+                <FaIcon
+                  name="user-circle"
+                  size={5}
+                  style={{ alignSelf: "center" }}
+                  // color={COLORS.primary}
+                />
+              ) : (
+                <Image
+                  defaultSource={IMAGES.avatar_placeholder}
+                  // source={IMAGES.avatar_placeholder}
+                  source={userProfile}
+                  style={styles.avatar}
+                  resizeMode="cover"
+                />
+              )} */}
+
+              {/* <Image
                 // source={IMAGES.avatar_placeholder}
                 source={userProfile}
                 defaultSource={IMAGES.avatar_placeholder}
                 style={styles.avatar}
-                resizeMode="cover"
-              />
+                resizeMode="center"
+              /> */}
 
               <View style={styles.avatarBtn}>
                 <FaIcon name="camera" color={COLORS.primary} size={15} />
@@ -329,10 +361,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
     alignSelf: "center",
+    borderRadius: Math.round(
+      Dimensions.get("window").width + Dimensions.get("window").height
+    ),
+    width: Dimensions.get("window").width * 0.25,
+    height: Dimensions.get("window").width * 0.25,
   },
   avatarBtn: {
     backgroundColor: "#fff",
