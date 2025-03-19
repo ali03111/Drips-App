@@ -122,7 +122,7 @@ const PhysicianDetail = (props) => {
                 </View>
                 {/* <View style={{ flex: 1 }} /> */}
 
-                <View style={{ flexDirection: "row" }}>
+                <View>
                   <Typography size={12} color={COLORS.black}>
                     Speciality:{" "}
                   </Typography>

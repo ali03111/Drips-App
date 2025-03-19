@@ -60,7 +60,7 @@ const ProfileSettings = (props) => {
   const inputRefs: any = useRef([]);
   const [errors, setErrors] = useState({});
   const [userProfile, setProfile] = useState({
-    uri: IMAGE_URL + user.pic,
+    uri: user?.pic ? IMAGE_URL + user.pic : null,
     type: null,
   });
 
@@ -266,7 +266,11 @@ const ProfileSettings = (props) => {
             }}
           >
             <Image
-              source={user?.pic ? userProfile : IMAGES.avatar_placeholder}
+              source={
+                Boolean(user?.pic || userProfile?.uri)
+                  ? userProfile
+                  : IMAGES.avatar_placeholder
+              }
               // source={userProfile}
               defaultSource={IMAGES.avatar_placeholder}
               style={styles.avatar}

@@ -38,11 +38,25 @@ export const DrawerContent = (props) => {
   const { userType } = useSelector((state) => state.UserReducer);
   const { user } = useSelector((state) => state.UserReducer);
 
+  const { doctorDetails } = useSelector((state) => state.ConsultantReducer);
+
   const [items, setItems] = useState(
     (userType === 1 && PATIENTMENU) || (userType === 2 && PHYSICIANMENU)
   );
+
+  console.log(
+    "useruseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
+    doctorDetails
+  );
   let imagePath =
-    (user.pic && { uri: IMAGE_URL + user.pic }) || IMAGES.avatar_placeholder;
+    (userType == 1 && user?.pic) || (userType == 2 && doctorDetails?.pic)
+      ? {
+          uri:
+            IMAGE_URL +
+            ((userType == 1 && user?.pic) ||
+              (userType == 2 && doctorDetails?.pic)),
+        }
+      : IMAGES.avatar_placeholder;
 
   const onLogout = () => {
     Alert.alert("LOGOUT!", "Are you sure you want to logout?", [

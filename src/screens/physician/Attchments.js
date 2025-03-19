@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -50,11 +50,27 @@ const Attachments = (props) => {
     dispatch(fetchAttachments(props.route.params.id));
   };
 
+  const [attachmentsList, setAttachmentsList] = useState([]);
+
+  const fetechAttacmentsApi = async () => {
+    dispatch(enableLoader());
+    const response = await get(
+      `/get-attachments?consultation_id=${props.route.params.id}`
+    );
+    if (response.status && response.code === "200") {
+      setAttachmentsList(response?.data);
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+
   useEffect(() => {
-    _fetchPrescription();
+    fetechAttacmentsApi();
   }, []);
 
-  console.log("sldbvlsbdlvbsdlvbsdkbvsdbvbsdvksdbvlksdbklvds", attachmentsData);
+  // console.log("sldbvlsbdlvbsdlvbsdkbvsdbvbsdvksdbvlksdbklvds", attachmentsData);
 
   const requestStoragePermission = async () => {
     if (Platform.OS === "android") {
@@ -152,7 +168,7 @@ const Attachments = (props) => {
           <FlatList
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: 20 }}
-            data={attachmentsData}
+            data={attachmentsList}
             ListEmptyComponent={() => (
               <ErrorListView title={"No Attachments"} />
             )}
@@ -209,7 +225,7 @@ const styles = StyleSheet.create({
     paddingVertical: heightPercentageToDP("1"),
   },
   profileImage: {
-    width: wp("90"),
+    width: wp("83"),
     height: hp("23"),
     marginRight: 15,
     borderRadius: 10,

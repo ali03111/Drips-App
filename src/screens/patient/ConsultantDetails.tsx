@@ -156,7 +156,7 @@ const ConsultantDetails = (props) => {
                     {doctorDetails.medical_school || "N/A"}
                   </Typography>
                 </View>
-                <View style={{ flexDirection: "row" }}>
+                <View>
                   <Typography size={12} color={COLORS.black}>
                     Speciality:{" "}
                   </Typography>

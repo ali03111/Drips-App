@@ -457,7 +457,7 @@ const MeetingDetail = ({ navigation, route }) => {
                       size={12}
                       textType="light"
                       numberOfLines={2}
-                      style={{ width: wp("40") }}
+                      style={{ width: wp("37") }}
                     >
                       {getInfoValue(i)}
                     </Typography>
