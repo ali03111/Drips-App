@@ -49,13 +49,6 @@ const ElectronicCard = (props) => {
   );
   const item = props?.route?.params?.item || undefined;
 
-  console.log(
-    "patientDetailspatientDetailspatientDetailspatientDetails",
-    patientDetails,
-    apointmentDetails,
-    medicalDetails
-  );
-
   const _fetchAppointmentDetails = () => {
     const id = item.id;
     let data = {
@@ -68,6 +61,7 @@ const ElectronicCard = (props) => {
     let data = {
       id: userType === 1 ? user.user_id : item.patient_id,
     };
+    console.log("sdkjvbjksdbvksbdkvbsdkvbklsdv", data);
     dispatch(fetchPatientDetailsAction(data));
   };
 
@@ -96,7 +90,9 @@ const ElectronicCard = (props) => {
   const getInfoValue = (item) => {
     switch (item.type) {
       case "name":
-        return `${patientDetails.fname} ${patientDetails.lname}`;
+        return `${patientDetails.fname ?? patientDetails?.name} ${
+          patientDetails.lname
+        }`;
       case "dob":
         return `${patientDetails.dob || "N/A"}`;
       case "gender":
@@ -136,11 +132,6 @@ const ElectronicCard = (props) => {
     }
     return arr;
   }
-
-  console.log(
-    "skjbvklsdbvklsbdklbsdkbdsklblds",
-    flattenArray(patientDetails.allergies)
-  );
 
   const renderOtherInfo = (item) => {
     let data = [];
@@ -295,7 +286,10 @@ const ElectronicCard = (props) => {
   };
 
   let userImageUrl =
-    (user.pic && { uri: IMAGE_URL + user.pic }) || IMAGES.avatar_placeholder;
+    ((user.pic || patientDetails.pic) && {
+      uri: IMAGE_URL + (user.pic || patientDetails.pic),
+    }) ||
+    IMAGES.avatar_placeholder;
 
   const voiceCallStatus =
     ["accepted", "Accepted"].includes(apointmentDetails.consultation_status) &&
@@ -348,7 +342,12 @@ const ElectronicCard = (props) => {
                       >
                         {i.title}:
                       </Typography>
-                      <Typography size={12} textType="light">
+                      <Typography
+                        size={12}
+                        textType="light"
+                        style={{ width: wp("39") }}
+                        numberOfLines={12}
+                      >
                         {getInfoValue(i)}
                       </Typography>
                     </View>

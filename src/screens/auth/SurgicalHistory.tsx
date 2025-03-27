@@ -96,7 +96,10 @@ const SurgicalHistory = (props) => {
             <View style={{ flex: 1 }}>
               <View style={{ height: headerHeight + 40 }} />
               <View style={styles.container}>
-                <ScrollView keyboardShouldPersistTaps="handled">
+                <ScrollView
+                  keyboardShouldPersistTaps="handled"
+                  contentContainerStyle={{ flexGrow: 1 }}
+                >
                   <Image
                     source={IMAGES.splash}
                     style={styles.logo}
@@ -112,8 +115,7 @@ const SurgicalHistory = (props) => {
                     size={12}
                     textType="light"
                   >
-                    List all surgical conditions you have been previously
-                    diagnosed with:
+                    List all surgical operations you have had:
                   </Typography>
 
                   <TouchableOpacity

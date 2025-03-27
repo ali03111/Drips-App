@@ -7,6 +7,7 @@ import {
   Platform,
   Text,
   Alert,
+  Button,
 } from "react-native";
 import Daily, { DailyMediaView } from "@daily-co/react-native-daily-js";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +17,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { WebView } from "react-native-webview";
 import { COLORS } from "../../constants";
 import { hp, wp } from "../../utils/responsive";
+import InCallManager from "react-native-incall-manager";
+import {
+  mediaDevices,
+  RTCView,
+  RTCPeerConnection,
+} from "@daily-co/react-native-webrtc";
+import { switchAudioDevice } from "@videosdk.live/react-native-sdk";
 
 const VideoCall = ({ route }) => {
   const { item } = route.params; // callType: "audio" or "video"
@@ -33,6 +41,67 @@ const VideoCall = ({ route }) => {
   const [participants, setParticipants] = useState([]);
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(callType === "Video");
+
+  // async function enableEarpiece() {
+  //   try {
+  //     const audioContext = new AudioContext();
+  //     // const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  //     const stream = await mediaDevices.getUserMedia({ audio: true });
+
+  //     const audioSource = audioContext.createMediaStreamSource(stream);
+  //     const gainNode = audioContext.createGain();
+  //     gainNode.gain.value = isSpeakerOn ? 1 : 0; // 1 = Speaker on, 0 = Speaker off
+
+  //     audioSource.connect(gainNode);
+  //     gainNode.connect(audioContext.destination);
+  //   } catch (error) {
+  //     console.error("Error toggling speaker:", error);
+  //   }
+  //   console.error("Error setting audio output:", error);
+  // }
+
+  useEffect(() => {
+    // Switch audio output to earpiece on component mount
+    switchAudioDevice("EARPIECE");
+  }, []);
+
+  const handleSpeakerToggle = (useSpeaker) => {
+    const device = useSpeaker ? "SPEAKER_PHONE" : "EARPIECE";
+    switchAudioDevice(device);
+  };
+
+  // Set audio routing based on call type
+  const setAudioRoute = async () => {
+    if (callType === "audio") {
+      // Use earpiece for audio calls
+      await InCallManager.setForceSpeakerphoneOn(false);
+      await InCallManager.setSpeakerphoneOn(false);
+      console.log("Audio call: Earpiece enabled");
+    } else if (callType === "video") {
+      // Use speaker for video calls
+      await InCallManager.setForceSpeakerphoneOn(true);
+      await InCallManager.setSpeakerphoneOn(true);
+      console.log("Video call: Speaker enabled");
+    }
+  };
+
+  useEffect(async () => {
+    // await enableEarpiece();
+    // Start the audio call in earpiece mode
+    InCallManager.start({ media: "audio", auto: true });
+    await setAudioRoute();
+    await InCallManager.chooseAudioRoute("EARPIECE");
+    InCallManager.setForceSpeakerphoneOn(false); // Disable speaker
+    InCallManager.setSpeakerphoneOn(false); // Ensure speaker is off
+
+    return () => {
+      InCallManager.stop(); // Clean up when the component unmounts
+    };
+  }, []);
+
+  const toggleSpeaker = (isSpeakerOn) => {
+    inCallManager.setForceSpeakerphoneOn(isSpeakerOn);
+  };
 
   // Request Permissions
   const requestPermissions = async () => {
@@ -172,17 +241,118 @@ const VideoCall = ({ route }) => {
   );
 
   const injectedJS = `
-  (function() {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-      .then((stream)
-=> {
-          window.ReactNativeWebView.postMessage(JSON.stringify({ success: true, message: "Microphone access granted" }));
-      })
-      .catch((error) => {
-          window.ReactNativeWebView.postMessage(JSON.stringify({ success: false, message: error.message }));
-      });
-  })();
-`;
+    (function() {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream)
+  => {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ success: true, message: "Microphone access granted" }));
+        })
+        .catch((error) => {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ success: false, message: error.message }));
+        });
+    })();
+  `;
+
+  // JavaScript to inject into the WebView
+  //   const injectedJS = `
+  //   (function() {
+  //     // Ensure microphone and camera access
+  //     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+  //       .then((stream) => {
+  //         console.log("Microphone access granted");
+
+  //         // Force audio to use the earpiece
+  //         const audioElements = document.getElementsByTagName("audio");
+  //         const videoElements = document.getElementsByTagName("video");
+
+  //         // Route audio to earpiece
+  //         // for (let audio of audioElements) {
+  //         //   }
+  //           audio.setAttribute("playsinline", true); // Ensure audio plays inline (earpiece)
+
+  //         // Mute video elements (if any)
+  //         // for (let video of videoElements) {
+  //         //   video.setAttribute("muted", true);
+  //         // }
+
+  //         // Notify React Native that the setup is complete
+  //         window.ReactNativeWebView.postMessage(JSON.stringify({
+  //           success: true,
+  //           message: "Microphone access granted and audio routed to earpiece"
+  //         }));
+  //       })
+  //       .catch((error) => {
+  //         console.error("Microphone access error:", error);
+  //         window.ReactNativeWebView.postMessage(JSON.stringify({
+  //           success: false,
+  //           message: error.message
+  //         }));
+  //       });
+  //   })();
+  // `;
+
+  //   const injectedJS = `
+  // (function() {
+  //     navigator.mediaDevices.getUserMedia({ audio: true })
+  //     .then((stream) => {
+  //         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  //         const source = audioContext.createMediaStreamSource(stream);
+  //         const gainNode = audioContext.createGain();
+
+  //         // Set gain to 0 to effectively mute speaker
+  //         gainNode.gain.value = 0;
+
+  //         source.connect(gainNode);
+  //         gainNode.connect(audioContext.destination);
+
+  //         window.ReactNativeWebView.postMessage(JSON.stringify({
+  //             success: true,
+  //             message: "Microphone access granted, speaker disabled."
+  //         }));
+  //     })
+  //     .catch((error) => {
+  //         window.ReactNativeWebView.postMessage(JSON.stringify({
+  //             success: false,
+  //             message: error.message
+  //         }));
+  //     });
+  // })();
+  // `;
+
+  //   const injectedJS = `
+  //   (function() {
+  //       navigator.mediaDevices.getUserMedia({ audio: true })
+  //       .then((stream) => {
+  //           const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  //           const mediaStreamSource = audioContext.createMediaStreamSource(stream);
+
+  //           // Create an analyser to access audio data
+  //           const analyser = audioContext.createAnalyser();
+  //           mediaStreamSource.connect(analyser);
+
+  //           const dataArray = new Uint8Array(analyser.fftSize);
+
+  //           function captureAudioData() {
+  //               analyser.getByteFrequencyData(dataArray);
+  //               window.ReactNativeWebView.postMessage(JSON.stringify({
+  //                   success: true,
+  //                   message: "Microphone access granted",
+  //                   audioData: Array.from(dataArray) // Send audio data as an array
+  //               }));
+  //               requestAnimationFrame(captureAudioData);
+  //           }
+
+  //           captureAudioData();
+  //       })
+  //       .catch((error) => {
+  //           window.ReactNativeWebView.postMessage(JSON.stringify({
+  //               success: false,
+  //               message: error.message
+  //           }));
+  //       });
+  //   })();
+  // `;
+
   return (
     <View style={styles.container}>
       <WebView
@@ -222,11 +392,11 @@ const VideoCall = ({ route }) => {
         javaScriptEnabled={true} // Ensure JavaScript is enabled
         mediaPlaybackRequiresUserAction={false} // Allow automatic mic access (some browsers require interaction)
         injectedJavaScript={injectedJS}
-        onMessage={(event) => {
-          const data = JSON.parse(event.nativeEvent.data);
-          Alert.alert("Mic Permission", data.message);
-          // console.log("Mic Permission Response:", data);
-        }}
+        // onMessage={(event) => {
+        //   const data = JSON.parse(event.nativeEvent.data);
+        //   // Alert.alert("Mic Permission", data.message);
+        //   console.log("Mic Permission Response:", data);
+        // }}
       />
       {/* {participants.length > 0 && (
         <DailyMediaView
@@ -250,6 +420,11 @@ const VideoCall = ({ route }) => {
       ))} */}
 
       <View style={styles.controls}>
+        {/* <Button title="Use Speaker" onPress={() => handleSpeakerToggle(true)} /> */}
+        {/* <Button
+          title="Use Earpiece"
+          onPress={() => handleSpeakerToggle(false)}
+        /> */}
         {/* <TouchableOpacity onPress={toggleMute} style={styles.button}>
           <Icon
             name={isMuted ? "microphone-off" : "microphone"}

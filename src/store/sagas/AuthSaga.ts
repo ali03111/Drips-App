@@ -84,7 +84,10 @@ export function* updateUserData(action: any): any {
     yield put( updateUserStates(authObj) );
     setItem('signup_data', authObj);
     setItem('signup_step', action.step);
-    if(!action.payload.pic ){
+    // if(!action.payload.pic)
+    //   navigate(action.routeName as never);
+
+    if(!action.payload?.pic){
       action.routeName != "null" && navigate(action.routeName as never);}
     else{
     onUserLogin({

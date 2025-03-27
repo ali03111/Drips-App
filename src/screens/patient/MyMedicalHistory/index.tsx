@@ -66,7 +66,7 @@ const MyMedicalHistory = (props) => {
               {pastMedicalHistory && (
                 <>
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Past Medical History
                     </Typography>
                     <Icon.Button
@@ -97,7 +97,7 @@ const MyMedicalHistory = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Allergies
                     </Typography>
                   </View>
@@ -119,7 +119,7 @@ const MyMedicalHistory = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Surgical History
                     </Typography>
                   </View>
@@ -140,7 +140,7 @@ const MyMedicalHistory = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Family Medical Condition
                     </Typography>
                   </View>
@@ -161,7 +161,7 @@ const MyMedicalHistory = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Current Medication
                     </Typography>
                   </View>
@@ -189,7 +189,7 @@ const MyMedicalHistory = (props) => {
               />
               <>
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Social History
                   </Typography>
                   <Icon.Button
@@ -213,7 +213,7 @@ const MyMedicalHistory = (props) => {
               />
               <>
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Self Assessment
                   </Typography>
                   <Icon.Button
@@ -222,7 +222,33 @@ const MyMedicalHistory = (props) => {
                     iconStyle={{ marginRight: 0 }}
                     backgroundColor="transparent"
                     onPress={() =>
-                      props?.navigation?.navigate("SelfAssessment", true)
+                      props?.navigation?.navigate("SelfAssessmentAuth", true)
+                    }
+                  >
+                    Edit
+                  </Icon.Button>
+                </View>
+              </>
+              <View
+                style={{
+                  backgroundColor: COLORS.primary,
+                  width: "100%",
+                  height: "0.2%",
+                  marginVertical: 10,
+                }}
+              />
+              <>
+                <View style={styles.titleContainer}>
+                  <Typography color={COLORS.primary} size={16}>
+                    Change Blood Type
+                  </Typography>
+                  <Icon.Button
+                    name="create-outline"
+                    color={COLORS.primary}
+                    iconStyle={{ marginRight: 0 }}
+                    backgroundColor="transparent"
+                    onPress={() =>
+                      props?.navigation?.navigate("BloodTypeAuth", true)
                     }
                   >
                     Edit

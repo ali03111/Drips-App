@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,21 +11,71 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IMAGES, COLORS } from "../../constants";
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import { navigate } from "../../navigation/RootNavigation";
-import { updateAppStates } from "../../store/actions/AppActions";
+import {
+  disableLoader,
+  enableLoader,
+  updateAppStates,
+} from "../../store/actions/AppActions";
 import { CheckBox } from "../../components/icons";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import RNPickerSelect from "react-native-picker-select";
 import DropdownModal from "../../components/atoms/DropdownModal";
 import DropdownListItem from "../../components/atoms/DropdownListItem";
+import { get } from "../../store/services/Http";
+import { errorHandler } from "../../utils/utils";
 
 const BloodType = (props) => {
   const signupStep = "step10";
   const dispatch = useDispatch();
+  const isEdit = props?.route?.params;
+
+  const { user } = useSelector((state) => state.UserReducer);
+
+  const getSocialData = async () => {
+    dispatch(enableLoader());
+    // const response = await get(`patient-detail?id=1810`);
+    const response = await get(
+      `/patient-detail?user_type=1&id=${user?.user_id}`
+    );
+    console.log("responseresponseresponseresponseresponse", response);
+    if (response.status && response.code === "200") {
+      setApiBody({
+        bloodType:
+          response?.patientinfo[0]?.blood_type != "not_selected"
+            ? response?.patientinfo[0]?.blood_type
+            : `Don't Know`,
+        genotype:
+          response?.patientinfo[0]?.genotype != "not_selected"
+            ? response?.patientinfo[0]?.genotype
+            : `Don't Know`,
+      });
+      // populateSelectedValues(
+      //   queries,
+      //   "firstOpQes",
+      //   "secondOpQes",
+      //   "thirdOpQes",
+      //   "forthOpQes",
+      //   response?.patientinfo[0]
+      // );
+
+      // setQueires(prev=>(
+
+      // ))
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
+
+  useEffect(() => {
+    if (isEdit == true) getSocialData();
+  }, []);
 
   const [modalState, setModalState] = useState(null);
   const [apiBody, setApiBody] = useState({
@@ -50,7 +100,7 @@ const BloodType = (props) => {
     },
     genotype: {
       ModalTitle: "Select GenoType",
-      modalArry: ["Don't know", "AS", "AA", "AC", "CC", "SS", "SC"],
+      modalArry: ["Don't know", "AA", "AS", "AC", "SS", "SC", "CC"],
     },
   };
 
@@ -64,9 +114,10 @@ const BloodType = (props) => {
           blood_type: bloodType,
           genotype,
         },
-        "UploadProfile"
+        isEdit == true ? "null" : "SelfAssessment"
       )
     );
+    if (isEdit == true) props?.navigation.goBack();
   };
 
   const isInValid = () => {
@@ -92,6 +143,9 @@ const BloodType = (props) => {
             <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
               Blood Type:
             </Typography>
+            <Typography>
+              Please check your blood group (leave blank if you don't know)
+            </Typography>
 
             <ScrollView
               contentContainerStylestyle={{
@@ -103,7 +157,7 @@ const BloodType = (props) => {
               }}
               showsVerticalScrollIndicator={false}
             >
-              <Typography>Please check your blood group</Typography>
+              {/* <Typography>Please check your blood group</Typography> */}
               <InputText
                 onPress={() => setModalState("bloodType")}
                 isPressable //   {...i}
@@ -111,7 +165,9 @@ const BloodType = (props) => {
                 style={{ marginTop: 15 }}
                 value={bloodType}
               />
-              <Typography>Please check your geno group</Typography>
+              <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
+                GenoType:
+              </Typography>
               <InputText
                 onPress={() => setModalState("genotype")}
                 isPressable //   {...i}
@@ -149,7 +205,7 @@ const BloodType = (props) => {
             <View style={{ marginTop: 10 }}>
               <Button
                 disabled={isInValid()}
-                label={"Next"}
+                label={isEdit == true ? "Update" : "Next"}
                 onPress={() => _onSubmit()}
               />
               <Button

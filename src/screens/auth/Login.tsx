@@ -36,7 +36,7 @@ const Login = (props) => {
   //adeobabamideled@gmail.com
   //mackasauser@gmail.com
   const [password, setPassword] = useState(
-    __DEV__ ? (userType === 1 ? "Pass@123" : "123123123") : ""
+    __DEV__ ? (userType === 1 ? "Pass@123" : "123123") : ""
   );
 
   const [secureEntry, setSecureEntry] = useState(true);

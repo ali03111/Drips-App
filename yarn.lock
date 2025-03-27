@@ -2797,6 +2797,72 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@videosdk.live/js-sdk@npm:0.1.5":
+  version: 0.1.5
+  resolution: "@videosdk.live/js-sdk@npm:0.1.5"
+  checksum: 9e243ee8ef8807a32107c47c8bd011fd5b5dd47b974be0dc327e7dcb8af35d0e0446bddb5ab3cf157b7f1247bd5e831f4e2b090e31e51635756e3ac216ffecef
+  languageName: node
+  linkType: hard
+
+"@videosdk.live/react-native-foreground-service@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@videosdk.live/react-native-foreground-service@npm:0.0.4"
+  checksum: 78ddaedfdddbcbb92223b8de2c429ad1c7b44884e42097fe05480176d6ffcad3fd8b98ed4973af4cb77d9eb5b0c9c00fee45b1605a5d94bdf79f218821804c5e
+  languageName: node
+  linkType: hard
+
+"@videosdk.live/react-native-incallmanager@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@videosdk.live/react-native-incallmanager@npm:0.1.3"
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: afac3c182d43ae64232053cf86d275761c4ebf8d0f60a7073e166b70b8f5c75e351dea3d27dcfaee3ca60a81c2ef75019baf60bac34526357be5e4e987f97206
+  languageName: node
+  linkType: hard
+
+"@videosdk.live/react-native-sdk@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@videosdk.live/react-native-sdk@npm:0.2.0"
+  dependencies:
+    "@videosdk.live/react-native-foreground-service": ^0.0.4
+    "@videosdk.live/react-native-incallmanager": ^0.1.3
+    "@videosdk.live/react-native-webrtc": ^0.0.16
+    "@videosdk.live/react-sdk": ^0.2.0
+    axios: ^1.6.2
+  peerDependencies:
+    "@videosdk.live/react-native-foreground-service": 0.0.4
+    "@videosdk.live/react-native-incallmanager": ^0.1.3
+    "@videosdk.live/react-native-webrtc": ^0.0.16
+    "@videosdk.live/react-sdk": ^0.2.0
+  checksum: c6f7d16ef604702c955ffcaa47ea6076a7c8fc12ba1085c5d9a8f7924caf0fa6efaebef25c2b9b5e9b3cc58d5a52b2451fb61461fcdaa7b995a588b254406270
+  languageName: node
+  linkType: hard
+
+"@videosdk.live/react-native-webrtc@npm:^0.0.16":
+  version: 0.0.16
+  resolution: "@videosdk.live/react-native-webrtc@npm:0.0.16"
+  dependencies:
+    base64-js: 1.5.1
+    debug: 4.3.4
+    event-target-shim: 6.0.2
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: 5e99ab7b8074fe20497cfcff132716116076734f5f8bc693286d6d8b6662885cfb59cc48a72ea6c0dfb4cf19048e018a440da08370b27ff7c34932be31111e2a
+  languageName: node
+  linkType: hard
+
+"@videosdk.live/react-sdk@npm:^0.2.0":
+  version: 0.2.1
+  resolution: "@videosdk.live/react-sdk@npm:0.2.1"
+  dependencies:
+    "@videosdk.live/js-sdk": 0.1.5
+    events: ^3.3.0
+  peerDependencies:
+    react: ^16.13.1 || ^17 || ^18
+  checksum: 35860741b8ae824123aa54e44e0f96bf1abc5698c2fbf9d80f4932501dcae7484dce57c1f4684c5122f8a7460b8a2a6410e8522e319b91d943f7b52856be8d3b
+  languageName: node
+  linkType: hard
+
 "@zegocloud/react-native-callkeep@npm:4.3.9, @zegocloud/react-native-callkeep@npm:^4.3.9":
   version: 4.3.9
   resolution: "@zegocloud/react-native-callkeep@npm:4.3.9"
@@ -2875,6 +2941,7 @@ __metadata:
     "@react-navigation/native-stack": ^6.9.5
     "@types/react": ^18.0.17
     "@types/react-native": ^0.69.6
+    "@videosdk.live/react-native-sdk": ^0.2.0
     "@zegocloud/react-native-callkeep": ^4.3.9
     "@zegocloud/zego-uikit-prebuilt-call-rn": ^4.2.2
     "@zegocloud/zego-uikit-rn": ^2.2.0
@@ -2898,6 +2965,7 @@ __metadata:
     react-native-get-random-values: ^1.11.0
     react-native-image-crop-picker: ^0.38.0
     react-native-images-to-pdf: ^0.2.1
+    react-native-incall-manager: ^4.2.0
     react-native-modal-datetime-picker: ^13.1.2
     react-native-network-logger: ^1.14.0
     react-native-permissions: ^5.2.5
@@ -3339,6 +3407,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.6.2":
+  version: 1.8.4
+  resolution: "axios@npm:1.8.4"
+  dependencies:
+    follow-redirects: ^1.15.6
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: e901dc1730bdcd769839b3d93ae6d6457a53d79b19a0eb623ebfea333441259ab51e63ca118baa47a5156567401466ac739f31087b4ee5e6770ab2e227484538
+  languageName: node
+  linkType: hard
+
 "babel-core@npm:^7.0.0-bridge.0":
   version: 7.0.0-bridge.0
   resolution: "babel-core@npm:7.0.0-bridge.0"
@@ -3723,6 +3802,16 @@ __metadata:
     union-value: ^1.0.0
     unset-value: ^1.0.0
   checksum: 9114b8654fe2366eedc390bad0bcf534e2f01b239a888894e2928cb58cdc1e6ea23a73c6f3450dcfd2058aa73a8a981e723cd1e7c670c047bf11afdc65880107
+  languageName: node
+  linkType: hard
+
+"call-bind-apply-helpers@npm:^1.0.1, call-bind-apply-helpers@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "call-bind-apply-helpers@npm:1.0.2"
+  dependencies:
+    es-errors: ^1.3.0
+    function-bind: ^1.1.2
+  checksum: b2863d74fcf2a6948221f65d95b91b4b2d90cfe8927650b506141e669f7d5de65cea191bf788838bc40d13846b7886c5bc5c84ab96c3adbcf88ad69a72fcdc6b
   languageName: node
   linkType: hard
 
@@ -4512,6 +4601,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dunder-proto@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "dunder-proto@npm:1.0.1"
+  dependencies:
+    call-bind-apply-helpers: ^1.0.1
+    es-errors: ^1.3.0
+    gopd: ^1.2.0
+  checksum: 149207e36f07bd4941921b0ca929e3a28f1da7bd6b6ff8ff7f4e2f2e460675af4576eeba359c635723dc189b64cdd4787e0255897d5b135ccc5d15cb8685fc90
+  languageName: node
+  linkType: hard
+
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -4694,6 +4794,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-define-property@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "es-define-property@npm:1.0.1"
+  checksum: 0512f4e5d564021c9e3a644437b0155af2679d10d80f21adaf868e64d30efdfbd321631956f20f42d655fedb2e3a027da479fad3fa6048f768eb453a80a5f80a
+  languageName: node
+  linkType: hard
+
+"es-errors@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "es-errors@npm:1.3.0"
+  checksum: ec1414527a0ccacd7f15f4a3bc66e215f04f595ba23ca75cdae0927af099b5ec865f9f4d33e9d7e86f512f252876ac77d4281a7871531a50678132429b1271b5
+  languageName: node
+  linkType: hard
+
+"es-object-atoms@npm:^1.0.0, es-object-atoms@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "es-object-atoms@npm:1.1.1"
+  dependencies:
+    es-errors: ^1.3.0
+  checksum: 214d3767287b12f36d3d7267ef342bbbe1e89f899cfd67040309fc65032372a8e60201410a99a1645f2f90c1912c8c49c8668066f6bdd954bcd614dda2e3da97
+  languageName: node
+  linkType: hard
+
 "es-set-tostringtag@npm:^2.0.1":
   version: 2.0.1
   resolution: "es-set-tostringtag@npm:2.0.1"
@@ -4702,6 +4825,18 @@ __metadata:
     has: ^1.0.3
     has-tostringtag: ^1.0.0
   checksum: ec416a12948cefb4b2a5932e62093a7cf36ddc3efd58d6c58ca7ae7064475ace556434b869b0bbeb0c365f1032a8ccd577211101234b69837ad83ad204fff884
+  languageName: node
+  linkType: hard
+
+"es-set-tostringtag@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "es-set-tostringtag@npm:2.1.0"
+  dependencies:
+    es-errors: ^1.3.0
+    get-intrinsic: ^1.2.6
+    has-tostringtag: ^1.0.2
+    hasown: ^2.0.2
+  checksum: 789f35de4be3dc8d11fdcb91bc26af4ae3e6d602caa93299a8c45cf05d36cc5081454ae2a6d3afa09cceca214b76c046e4f8151e092e6fc7feeb5efb9e794fc6
   languageName: node
   linkType: hard
 
@@ -5052,7 +5187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"events@npm:^3.1.0":
+"events@npm:^3.1.0, events@npm:^3.3.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
   checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
@@ -5343,6 +5478,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.9
+  resolution: "follow-redirects@npm:1.15.9"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 859e2bacc7a54506f2bf9aacb10d165df78c8c1b0ceb8023f966621b233717dab56e8d08baadc3ad3b9db58af290413d585c999694b7c146aaf2616340c3d2a6
+  languageName: node
+  linkType: hard
+
 "for-each@npm:^0.3.3":
   version: 0.3.3
   resolution: "for-each@npm:0.3.3"
@@ -5393,6 +5538,18 @@ __metadata:
     combined-stream: ^1.0.8
     mime-types: ^2.1.12
   checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "form-data@npm:4.0.2"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    es-set-tostringtag: ^2.1.0
+    mime-types: ^2.1.12
+  checksum: e887298b22c13c7c9c5a8ba3716f295a479a13ca78bfd855ef11cbce1bcf22bc0ae2062e94808e21d46e5c667664a1a1a8a7f57d7040193c1fefbfb11af58aab
   languageName: node
   linkType: hard
 
@@ -5476,6 +5633,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"function-bind@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "function-bind@npm:1.1.2"
+  checksum: 2b0ff4ce708d99715ad14a6d1f894e2a83242e4a52ccfcefaee5e40050562e5f6dafc1adbb4ce2d4ab47279a45dc736ab91ea5042d843c3c092820dfe032efb1
+  languageName: node
+  linkType: hard
+
 "function.prototype.name@npm:^1.1.5":
   version: 1.1.5
   resolution: "function.prototype.name@npm:1.1.5"
@@ -5528,10 +5692,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-intrinsic@npm:^1.2.6":
+  version: 1.3.0
+  resolution: "get-intrinsic@npm:1.3.0"
+  dependencies:
+    call-bind-apply-helpers: ^1.0.2
+    es-define-property: ^1.0.1
+    es-errors: ^1.3.0
+    es-object-atoms: ^1.1.1
+    function-bind: ^1.1.2
+    get-proto: ^1.0.1
+    gopd: ^1.2.0
+    has-symbols: ^1.1.0
+    hasown: ^2.0.2
+    math-intrinsics: ^1.1.0
+  checksum: 301008e4482bb9a9cb49e132b88fee093bff373b4e6def8ba219b1e96b60158a6084f273ef5cafe832e42cd93462f4accb46a618d35fe59a2b507f2388c5b79d
+  languageName: node
+  linkType: hard
+
 "get-package-type@npm:^0.1.0":
   version: 0.1.0
   resolution: "get-package-type@npm:0.1.0"
   checksum: bba0811116d11e56d702682ddef7c73ba3481f114590e705fc549f4d868972263896af313c57a25c076e3c0d567e11d919a64ba1b30c879be985fc9d44f96148
+  languageName: node
+  linkType: hard
+
+"get-proto@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "get-proto@npm:1.0.1"
+  dependencies:
+    dunder-proto: ^1.0.1
+    es-object-atoms: ^1.0.0
+  checksum: 4fc96afdb58ced9a67558698b91433e6b037aaa6f1493af77498d7c85b141382cf223c0e5946f334fb328ee85dfe6edd06d218eaf09556f4bc4ec6005d7f5f7b
   languageName: node
   linkType: hard
 
@@ -5664,6 +5856,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gopd@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "gopd@npm:1.2.0"
+  checksum: cc6d8e655e360955bdccaca51a12a474268f95bb793fc3e1f2bdadb075f28bfd1fd988dab872daf77a61d78cbaf13744bc8727a17cfb1d150d76047d805375f3
+  languageName: node
+  linkType: hard
+
 "graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.3, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.1.9, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
@@ -5722,12 +5921,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"has-symbols@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "has-symbols@npm:1.1.0"
+  checksum: b2316c7302a0e8ba3aaba215f834e96c22c86f192e7310bdf689dd0e6999510c89b00fbc5742571507cebf25764d68c988b3a0da217369a73596191ac0ce694b
+  languageName: node
+  linkType: hard
+
 "has-tostringtag@npm:^1.0.0":
   version: 1.0.0
   resolution: "has-tostringtag@npm:1.0.0"
   dependencies:
     has-symbols: ^1.0.2
   checksum: cc12eb28cb6ae22369ebaad3a8ab0799ed61270991be88f208d508076a1e99abe4198c965935ce85ea90b60c94ddda73693b0920b58e7ead048b4a391b502c1c
+  languageName: node
+  linkType: hard
+
+"has-tostringtag@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "has-tostringtag@npm:1.0.2"
+  dependencies:
+    has-symbols: ^1.0.3
+  checksum: 999d60bb753ad714356b2c6c87b7fb74f32463b8426e159397da4bde5bca7e598ab1073f4d8d4deafac297f2eb311484cd177af242776bf05f0d11565680468d
   languageName: node
   linkType: hard
 
@@ -5776,6 +5991,15 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: b9ad53d53be4af90ce5d1c38331e712522417d017d5ef1ebd0507e07c2fbad8686fffb8e12ddecd4c39ca9b9b47431afbb975b8abf7f3c3b82c98e9aad052792
+  languageName: node
+  linkType: hard
+
+"hasown@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "hasown@npm:2.0.2"
+  dependencies:
+    function-bind: ^1.1.2
+  checksum: e8516f776a15149ca6c6ed2ae3110c417a00b62260e222590e54aa367cbcd6ed99122020b37b7fbdf05748df57b265e70095d7bf35a47660587619b15ffb93db
   languageName: node
   linkType: hard
 
@@ -7591,6 +7815,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"math-intrinsics@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "math-intrinsics@npm:1.1.0"
+  checksum: 0e513b29d120f478c85a70f49da0b8b19bc638975eca466f2eeae0071f3ad00454c621bf66e16dd435896c208e719fc91ad79bbfba4e400fe0b372e7c1c9c9a2
+  languageName: node
+  linkType: hard
+
 "mdn-data@npm:2.0.14":
   version: 2.0.14
   resolution: "mdn-data@npm:2.0.14"
@@ -9147,6 +9378,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
 "psl@npm:^1.1.33":
   version: 1.9.0
   resolution: "psl@npm:1.9.0"
@@ -9394,6 +9632,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 8c3e6bd8c30a4b70dd8a59d94867808539133a598f169d8f7652b287342e217e6c69442da465e8df7e76c780cd7117515da66cff97aedaabc99085ce194b8647
+  languageName: node
+  linkType: hard
+
+"react-native-incall-manager@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "react-native-incall-manager@npm:4.2.0"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 96a8d48f2fca4a56a04650be54efe48db21c52a1ef5dff7ccd05d529cef939123f0a1c54ec2e05597aaad173425a5ef992dfd715c7244759004606e944bf6f15
   languageName: node
   linkType: hard
 

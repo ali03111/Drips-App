@@ -71,7 +71,7 @@ export function* getDoctorDetailsReq(action: any): any {
     else
     yield put( updateConsultantData({ physicianProfile: response.doctorinfo[0] }) ); */
   } else {
-    errorHandler(response);
+    // errorHandler(response);
     // onBack();
   }
 }

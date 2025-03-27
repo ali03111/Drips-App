@@ -135,6 +135,19 @@ const PhysicianDetail = (props) => {
                     {item?.speciality_name || "N/A"}
                   </Typography>
                 </View>
+                <View>
+                  <Typography size={12} color={COLORS.black}>
+                    Residency:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                    style={{ width: wp("40") }}
+                  >
+                    {item?.residency || "N/A"}
+                  </Typography>
+                </View>
 
                 {/* <Typography size={12} color={COLORS.placeholderColor}>
                   Speciality: {item?.speciality_name || "N/A"}
@@ -184,7 +197,7 @@ const PhysicianDetail = (props) => {
               Residency: {item.residency || "N/A"}
             </Typography> */}
 
-            <View style={{ flexDirection: "row", marginTop: 20 }}>
+            {/* <View style={{ flexDirection: "row", marginTop: 20 }}>
               <Typography color={COLORS.black}>Residency: </Typography>
               <Typography
                 color={COLORS.placeholderColor}
@@ -192,7 +205,7 @@ const PhysicianDetail = (props) => {
               >
                 {item.residency || "N/A"}
               </Typography>
-            </View>
+            </View> */}
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Typography size={12} color={COLORS.rating}>
@@ -291,7 +304,7 @@ const styles = StyleSheet.create({
   cardDetail: {
     flex: 1,
     marginLeft: 10,
-    paddingVertical: 10,
+    // paddingVertical: 10,
   },
   actionBtn: {
     margin: 3,

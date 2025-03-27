@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ff2076",
+    backgroundColor: COLORS.primary,
     paddingVertical: heightPercentageToDP("1"),
   },
   profileImage: {

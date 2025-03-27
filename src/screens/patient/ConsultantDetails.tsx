@@ -169,7 +169,20 @@ const ConsultantDetails = (props) => {
                     {doctorDetails?.speciality_name || "N/A"}
                   </Typography>
                 </View>
-                <View
+                <View>
+                  <Typography size={12} color={COLORS.black}>
+                    Residency:{" "}
+                  </Typography>
+                  <Typography
+                    size={12}
+                    color={COLORS.placeholderColor}
+                    numberOfLines={5}
+                    style={{ width: wp("40") }}
+                  >
+                    {doctorDetails.residency || "N/A"}
+                  </Typography>
+                </View>
+                {/* <View
                   style={{
                     flexDirection: "row",
                     flexWrap: "wrap",
@@ -186,7 +199,7 @@ const ConsultantDetails = (props) => {
                       </Typography>
                     </TouchableOpacity>
                   )}
-                </View>
+                </View> */}
                 {/* <Typography>{item.customer_status}</Typography> */}
                 {/* {apointmentDetails.payment_status === "success" && (
                   <View
@@ -238,7 +251,7 @@ const ConsultantDetails = (props) => {
               </View>
             </View>
 
-            <View style={{ flexDirection: "row", marginTop: 20 }}>
+            {/* <View style={{ flexDirection: "row", marginTop: 20 }}>
               <Typography color={COLORS.black}>Residency: </Typography>
               <Typography
                 color={COLORS.placeholderColor}
@@ -246,7 +259,7 @@ const ConsultantDetails = (props) => {
               >
                 {doctorDetails.residency || "N/A"}
               </Typography>
-            </View>
+            </View> */}
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Typography size={12} color={COLORS.rating}>
@@ -361,6 +374,29 @@ const ConsultantDetails = (props) => {
               );
             }}
           /> */}
+
+          {apointmentDetails.payment_status === "success" && (
+            <View style={{ marginHorizontal: 20 }}>
+              <Button label={"Chat"} onPress={_onChatPress} />
+              {/* {apointmentDetails.consultation_status.toLowerCase() ===
+  "video" && (
+  <Button
+    label={`Join Video Call`}
+    onPress={() => {
+      navigate(
+        "VideoCall" as never,
+        {
+          item: {
+            ...item,
+            callType: "Video",
+          },
+        } as never
+      );
+    }}
+  />
+)} */}
+            </View>
+          )}
 
           {apointmentDetails.payment_status === "success" &&
             apointmentDetails.appointment_type != null && (
@@ -485,7 +521,7 @@ const styles = StyleSheet.create({
   cardDetail: {
     flex: 1,
     marginLeft: 10,
-    paddingVertical: 10,
+    // paddingVertical: 10,
   },
   actionBtn: {
     marginVertical: 5,

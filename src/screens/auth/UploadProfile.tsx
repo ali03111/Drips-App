@@ -42,10 +42,10 @@ const UploadProfile = (props) => {
         "UploadProfile"
       )
     );
+    // dispatch(updateUserStates({ token: true }));
   };
   /* 
   {
-              dispatch( updateUserStates({token: true}) )
             }
              */
   return (

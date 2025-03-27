@@ -62,6 +62,7 @@ import MedicalHistoryPhysician from "../screens/physician/MedicalHistoryPhysicia
 import GeneralTestResults from "../screens/physician/GeneralTestResults";
 import ConsultationNotes from "../screens/physician/ConsultationNotes";
 import Attachments from "../screens/physician/Attchments";
+import EccPaymentScreen from "../screens/patient/EccPaymentScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -156,13 +157,22 @@ const CustomerDrawer = () => (
   </Drawer.Navigator>
 );
 const PatientNavigation = () => {
+  const { user, userType, token } = useSelector(
+    (state: RootState) => state.UserReducer
+  );
   return (
     <PatientStack.Navigator
-      initialRouteName="Home"
+      initialRouteName={user?.ecc_payment == 0 ? "EccPaymentScreen" : "Home"}
       screenOptions={{
         headerShown: false,
       }}
     >
+      {user?.ecc_payment == 0 && (
+        <PatientStack.Screen
+          name="EccPaymentScreen"
+          component={EccPaymentScreen}
+        />
+      )}
       <PatientStack.Screen name="Home" component={CustomerDrawer} />
       <PatientStack.Screen name="ElectronicCard" component={ElectronicCard} />
       <PatientStack.Screen
@@ -177,7 +187,8 @@ const PatientNavigation = () => {
       <PatientStack.Screen name="MyOrders" component={MyOrder} />
       <PatientStack.Screen name="TestResults" component={TestResults} />
       <PatientStack.Screen name="ProfileSettings" component={ProfileSettings} />
-      <Stack.Screen name="SelfAssessment" component={SelfAssessment} />
+      <Stack.Screen name="SelfAssessmentAuth" component={SelfAssessment} />
+      <Stack.Screen name="BloodTypeAuth" component={BloodType} />
       <Stack.Screen name="Attachments" component={Attachments} />
       <PatientStack.Screen
         name="MyConsultantations"
@@ -187,7 +198,7 @@ const PatientNavigation = () => {
         name="ConsultantDetails"
         component={ConsultantDetails}
       />
-      <Stack.Screen name="SocialInfo" component={SocialInfo} />
+      {/* <Stack.Screen name="SocialInfo" component={SocialInfo} /> */}
       <PatientStack.Screen name="SelectPhysician" component={SelectPhysician} />
       <PatientStack.Screen name="PhysicianDetail" component={PhysicianDetail} />
       <PatientStack.Screen name="Pricing" component={Pricing} />

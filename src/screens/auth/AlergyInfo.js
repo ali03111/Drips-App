@@ -16,6 +16,7 @@ import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
 const AlergyInfo = (props) => {
   const signupStep = "step2";
@@ -73,7 +74,7 @@ const AlergyInfo = (props) => {
             </Typography>
 
             <View style={styles.card}>
-              <Typography align="center">
+              <Typography>
                 Are you allergic to any medication or do you have any type of
                 allergies?
               </Typography>
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginVertical: 10,
-    textAlign: "center",
+    // textAlign: "center",
   },
   container: (isLength) => ({
     backgroundColor: "#fff",
@@ -183,16 +184,17 @@ const styles = StyleSheet.create({
     // paddingBottom: 100,
   }),
   card: {
-    borderWidth: 1,
-    borderColor: COLORS.primary,
+    // borderWidth: 1,
+    // borderColor: COLORS.primary,
     borderRadius: 10,
-    padding: 20,
+    // padding: 20,
     paddingBottom: 10,
   },
   optionsContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginTop: 10,
+    width: widthPercentageToDP("30"),
   },
   options: {
     flexDirection: "row",

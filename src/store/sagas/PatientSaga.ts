@@ -40,13 +40,21 @@ export function* getPatientProfile(action): any {
   const { user,userType,token } = yield select( selectUserState );
   yield put(enableLoader());
   let body:any = {
-    id:user.user_id
+    id:user.user_id,
+    user_type:userType
   }
   if(action.payload){
     body = action.payload
   }
-  const response = yield call(getPatientProfileApi,body);
+  const response = yield call(getPatientProfileApi,{
+    id: action.payload?.id ? action.payload?.id: user.user_id,
+    user_type:action.payload?.id ? 1: userType
+  });
   yield put(disableLoader());
+  console.log("klsvbklsdbvklsdbkvbsdbvksdbvlksdbkvbsdkvdfgdfgdfgdfgdfbl;bsd.",response,{
+    id: action.payload?.id ? action.payload?.id: user.user_id,
+    user_type:action.payload?.id ? 1: userType
+  },userType)
   if(response.code === '200' ){
     const data = response.patientinfo[0] && response.patientinfo[0] || null;
     if(data){
@@ -56,9 +64,12 @@ export function* getPatientProfile(action): any {
           token,
           userType
         };
+console.log("klsvbklsdbvklsdbkvbsdbvksdbvlksdbkvbsdkvbl;bsd.",response)
+        
         setItem('user_data', authObj);
         yield put( updateUserStates(authObj) );
       }else{
+        console.log
         yield put( updateConsultantData({
           patientDetails:data
         }) );

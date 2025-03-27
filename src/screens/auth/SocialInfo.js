@@ -20,6 +20,7 @@ import { CheckBox } from "../../components/icons";
 import { get } from "../../store/services/Http";
 import { errorHandler } from "../../utils/utils";
 import { disableLoader, enableLoader } from "../../store/actions/AppActions";
+import { hp } from "../../utils/responsive";
 
 const SocialInfo = (props) => {
   const { user } = useSelector((state) => state.UserReducer);
@@ -95,24 +96,28 @@ const SocialInfo = (props) => {
       selected: "",
       options: ["yes", "no"],
       childOption: [],
+      heading: "Smoking",
     },
     {
       refName: "do_u_Alcohol",
       label: `Do you drink Alcohol?`,
       selected: "",
       options: ["yes", "no"],
+      heading: "Alcohol",
     },
     {
       refName: "do_u_marijuana",
       label: `Do you use any Recreational Drugs Like Marijuana?`,
       selected: "",
       options: ["yes", "no"],
+      heading: "Recreational Drugs",
     },
     {
       refName: "are_you_employed",
       label: `Are you Employed?`,
       selected: "",
       options: ["yes", "no"],
+      heading: "Employment",
     },
   ]);
 
@@ -349,6 +354,13 @@ const SocialInfo = (props) => {
             > */}
             {queries.map((i, index) => (
               <>
+                <Typography
+                  textType="bold"
+                  color="black"
+                  style={{ marginVertical: hp("1") }}
+                >
+                  {i.heading}
+                </Typography>
                 <View style={styles.queryCard} key={index}>
                   <Typography textType="light">{i.label}</Typography>
                   <View
@@ -428,7 +440,7 @@ const SocialInfo = (props) => {
             ))}
             {/* </View> */}
 
-            <View style={{ marginTop: 10, marginBottom: 10 }}>
+            <View style={{ marginTop: 10, marginBottom: hp("3") }}>
               <Button
                 disabled={isInValid()}
                 label={"Next"}

@@ -136,6 +136,7 @@ import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
 const FamilyHistory = (props) => {
   const signupStep = "step5";
@@ -202,12 +203,13 @@ const FamilyHistory = (props) => {
             />
 
             <Typography color={COLORS.primary} style={styles.heading}>
-              Past Family History
+              Family History
             </Typography>
 
             <View style={styles.card}>
-              <Typography align="center">
-                List all medical conditions in your family (Parents & Siblings):
+              <Typography>
+                List all the medical conditions in your family (Parents and
+                Siblings).
               </Typography>
 
               {/* <View style={styles.optionsContainer}>
@@ -304,7 +306,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginVertical: 10,
-    textAlign: "center",
+    // textAlign: "center",
   },
   container: (isLength) => ({
     backgroundColor: "#fff",
@@ -315,16 +317,17 @@ const styles = StyleSheet.create({
     // paddingBottom: 100,
   }),
   card: {
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-    borderRadius: 10,
-    padding: 20,
+    // borderWidth: 1,
+    // borderColor: COLORS.primary,
+    // borderRadius: 10,
+    // padding: 20,
     paddingBottom: 10,
   },
   optionsContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginTop: 10,
+    // width: widthPercentageToDP("30"),
   },
   options: {
     flexDirection: "row",

@@ -193,7 +193,7 @@ const EditMedicalHistory = (props) => {
             {pastMedicalHistory && (
               <>
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Past Medical History
                   </Typography>
                   <Icon.Button
@@ -237,7 +237,7 @@ const EditMedicalHistory = (props) => {
               <>
                 <View style={{ height: 10 }} />
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Allergies
                   </Typography>
                   <Icon.Button
@@ -281,7 +281,7 @@ const EditMedicalHistory = (props) => {
               <>
                 <View style={{ height: 10 }} />
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Surgical History
                   </Typography>
                   <Icon.Button
@@ -325,7 +325,7 @@ const EditMedicalHistory = (props) => {
               <>
                 <View style={{ height: 10 }} />
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Current Medication
                   </Typography>
                   <Icon.Button
@@ -369,7 +369,7 @@ const EditMedicalHistory = (props) => {
               <>
                 <View style={{ height: 10 }} />
                 <View style={styles.titleContainer}>
-                  <Typography color="#fe4e91" size={16}>
+                  <Typography color={COLORS.primary} size={16}>
                     Family Medical Condition
                   </Typography>
                   <Icon.Button

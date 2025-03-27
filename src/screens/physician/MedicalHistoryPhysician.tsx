@@ -25,12 +25,12 @@ const MedicalHistoryPhysician = (props) => {
     surgicalHistory: [],
     MedicalHistory: [],
     allergies: [],
-    Current_medication: [],
+    Current_medication1: [],
     family_medical_condition: [],
   });
 
   const {
-    Current_medication,
+    Current_medication1,
     MedicalHistory,
     allergies,
     family_medical_condition,
@@ -159,7 +159,7 @@ const MedicalHistoryPhysician = (props) => {
                   )}
                 </>
               )}
-              {Current_medication && (
+              {Current_medication1 && (
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
@@ -168,12 +168,12 @@ const MedicalHistoryPhysician = (props) => {
                     </Typography>
                   </View>
 
-                  {Current_medication?.map((i) => (
+                  {Current_medication1?.map((i) => (
                     <View style={commonStyles.cardWithShadow}>
                       <Typography>{i}</Typography>
                     </View>
                   ))}
-                  {Current_medication?.length === 0 && (
+                  {Current_medication1?.length === 0 && (
                     <Typography style={styles.emptyText}>
                       No Current History Found
                     </Typography>

@@ -29,7 +29,7 @@ const SelfAssessment = (props) => {
 
   const { user } = useSelector((state) => state.UserReducer);
 
-  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", isEdit);
+  console.log("sldjkbvlksbdklvbsdklbvsdbvkbs.d", user);
 
   const populateSelectedValues = (
     queries,
@@ -62,7 +62,9 @@ const SelfAssessment = (props) => {
   const getSocialData = async () => {
     dispatch(enableLoader());
     // const response = await get(`patient-detail?id=1810`);
-    const response = await get(`/patient-detail?id=${user?.user_id}`);
+    const response = await get(
+      `/patient-detail?user_type=1&id=${user?.user_id}`
+    );
     console.log("responseresponseresponseresponseresponse", response);
     if (response.status && response.code === "200") {
       populateSelectedValues(
@@ -165,7 +167,7 @@ const SelfAssessment = (props) => {
           userUserDataAction(
             signupStep,
             validateData,
-            isEdit == true ? "null" : "BloodType"
+            isEdit == true ? "null" : "UploadProfile"
           )
         );
         if (isEdit == true) props?.navigation.goBack();
@@ -228,6 +230,10 @@ const SelfAssessment = (props) => {
                   </View>
                 </View>
               ))}
+              <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
+                Note: Score of 3 or more suggest complexity in your medical
+                condition
+              </Typography>
             </ScrollView>
             <View style={{ marginTop: 10 }}>
               <Button

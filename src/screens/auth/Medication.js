@@ -16,6 +16,7 @@ import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InputText, Typography } from "../../components/atoms";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
 const Medication = (props) => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Medication = (props) => {
           Current_medication1:
             select === "Yes" ? medications.map((res) => res.alergic) : [],
         },
-        "SelfAssessment"
+        "BloodType"
       )
     );
   };
@@ -73,9 +74,7 @@ const Medication = (props) => {
             </Typography>
 
             <View style={styles.card}>
-              <Typography align="center">
-                Are you currently taking any medication?
-              </Typography>
+              <Typography>Are you currently taking any medication?</Typography>
 
               <View style={styles.optionsContainer}>
                 {["Yes", "No"].map((i, index) => (
@@ -93,6 +92,7 @@ const Medication = (props) => {
                   </TouchableOpacity>
                 ))}
               </View>
+              <Typography>List all active medications you take</Typography>
 
               {select === "Yes" && (
                 <>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginVertical: 10,
-    textAlign: "center",
+    // textAlign: "center",
   },
   container: (isLength) => ({
     backgroundColor: "#fff",
@@ -182,16 +182,18 @@ const styles = StyleSheet.create({
     // paddingBottom: 100,
   }),
   card: {
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-    borderRadius: 10,
-    padding: 20,
+    // borderWidth: 1,
+    // borderColor: COLORS.primary,
+    // borderRadius: 10,
+    // padding: 20,
     paddingBottom: 10,
   },
   optionsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
+    width: widthPercentageToDP("30"),
+    marginLeft: widthPercentageToDP("-2"),
   },
   options: {
     flexDirection: "row",

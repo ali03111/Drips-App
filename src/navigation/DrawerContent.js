@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -25,13 +25,18 @@ import {
   SearchIcon,
 } from "../components/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserStates } from "../store/actions/UserActions";
+import {
+  fetchDoctorDetailsAction,
+  updateUserStates,
+} from "../store/actions/UserActions";
 import { navigate, replace } from "./RootNavigation";
 import { removeItem } from "../utils/localStorage";
 import { onUserLogout } from "../utils/ZegoCloudConfig";
 import { updateScreenStates } from "../store/actions/ChatActions";
 import { fetchPhysicianPatients } from "../store/actions/PhysicianActions";
 import { hp } from "../utils/responsive";
+import { getPatientProfileApi } from "../store/services/Services";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 export const DrawerContent = (props) => {
   const dispatch = useDispatch();
@@ -44,19 +49,46 @@ export const DrawerContent = (props) => {
     (userType === 1 && PATIENTMENU) || (userType === 2 && PHYSICIANMENU)
   );
 
-  console.log(
-    "useruseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruser",
-    doctorDetails
+  const _fetchProfile = () => {
+    dispatch(fetchDoctorDetailsAction({ id: user.user_id }));
+  };
+  const isFouscued = props?.navigation?.isFocused();
+
+  const isfoc = useIsFocused();
+
+  const useFinc = async () => {
+    let body = {
+      id: user.user_id,
+      user_type: userType,
+    };
+    _fetchProfile();
+    const response = await getPatientProfileApi(body);
+
+    console.log("slkdbvlksbdklvbskdlbsdbvklsdbvklsdbklv", response);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      useFinc();
+    }, [])
   );
-  let imagePath =
-    (userType == 1 && user?.pic) || (userType == 2 && doctorDetails?.pic)
-      ? {
-          uri:
-            IMAGE_URL +
-            ((userType == 1 && user?.pic) ||
-              (userType == 2 && doctorDetails?.pic)),
-        }
-      : IMAGES.avatar_placeholder;
+
+  useEffect(() => {
+    useFinc();
+  }, [isFouscued, doctorDetails?.pic, user?.pic, isfoc]);
+
+  console.log(
+    "useruseruseruseruseruseruseruseruseruseruseruseruseruseruseruseruserskjdbvklsbdkl",
+    // props?.navigation?.toggleDrawer(),
+    isfoc
+  );
+  // let imagePath = Boolean(user?.pic || doctorDetails?.pic)
+  //   ? {
+  //       uri: IMAGE_URL + user?.pic,
+  //       // ((userType === 1 && user?.pic) ||
+  //       //   (userType === 2 && doctorDetails?.pic)),
+  //     }
+  //   : IMAGES.avatar_placeholder;
 
   const onLogout = () => {
     Alert.alert("LOGOUT!", "Are you sure you want to logout?", [
@@ -75,25 +107,39 @@ export const DrawerContent = (props) => {
     ]);
   };
 
+  const ImageView = useCallback(() => {
+    let imagePath = Boolean(user?.pic || doctorDetails?.pic)
+      ? {
+          uri:
+            IMAGE_URL +
+            ((userType === 1 && user?.pic) ||
+              (userType === 2 && doctorDetails?.pic)),
+        }
+      : IMAGES.avatar_placeholder;
+    return (
+      <Image
+        source={imagePath}
+        // source={IMAGES.avatar_placeholder}
+        defaultSource={IMAGES.avatar_placeholder}
+        resizeMode="contain"
+        style={{
+          borderRadius: Math.round(
+            Dimensions.get("window").width + Dimensions.get("window").height
+          ),
+          width: Dimensions.get("window").width * 0.15,
+          height: Dimensions.get("window").width * 0.15,
+        }}
+      />
+    );
+  }, [doctorDetails?.pic, user?.pic]);
+
   return (
     <DrawerContentScrollView
       style={{ flex: 1, backgroundColor: COLORS.primary, padding: 30 }}
     >
       <ScrollView>
         <TouchableOpacity style={styles.header} activeOpacity={1}>
-          <Image
-            source={imagePath}
-            // source={IMAGES.avatar_placeholder}
-            defaultSource={IMAGES.avatar_placeholder}
-            resizeMode="contain"
-            style={{
-              borderRadius: Math.round(
-                Dimensions.get("window").width + Dimensions.get("window").height
-              ),
-              width: Dimensions.get("window").width * 0.15,
-              height: Dimensions.get("window").width * 0.15,
-            }}
-          />
+          <ImageView />
           <View style={{ marginLeft: 10, flex: 1 }}>
             <Typography color="#fff" size={20}>
               {`${user.name} ${user.lname || ""}`}

@@ -27,6 +27,9 @@ const initialState = {
         address: "",
         services: [],
         locations: [],
+        height:"",
+        Weight:"",
+        country:""
     },
     wallet: {
         amount: 0,

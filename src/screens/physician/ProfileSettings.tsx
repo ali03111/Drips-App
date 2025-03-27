@@ -43,6 +43,9 @@ import { hp, wp } from "../../utils/responsive";
 const ProfileSettings = (props) => {
   const dispatch = useDispatch();
   const { user }: any = useSelector((state: RootState) => state.UserReducer);
+  const { userType }: any = useSelector(
+    (state: RootState) => state.UserReducer
+  );
   // const { physicianProfile }: any = useSelector((state: RootState) => state.ConsultantReducer);
 
   const { doctorDetails }: { doctorDetails: DoctorDetailsModel } = useSelector(
@@ -50,8 +53,8 @@ const ProfileSettings = (props) => {
   );
   console.log(
     "useruseruseruseruseruseruseruseruseruseruseruseruseruser",
-    doctorDetails,
-    user
+    doctorDetails
+    // user
   );
 
   const actionSheet: any = useRef();
@@ -60,7 +63,9 @@ const ProfileSettings = (props) => {
   const inputRefs: any = useRef([]);
   const [errors, setErrors] = useState({});
   const [userProfile, setProfile] = useState({
-    uri: user?.pic ? IMAGE_URL + user.pic : null,
+    uri: Boolean(user?.pic || doctorDetails?.pic)
+      ? IMAGE_URL + (doctorDetails?.pic || user?.pic)
+      : null,
     type: null,
   });
 
@@ -181,9 +186,16 @@ const ProfileSettings = (props) => {
           body.append(key, value);
         }
         body.append("id", user.user_id);
+        body.append("user_type", userType);
         if (userProfile.type) {
           body.append("pic", userProfile as any);
         }
+
+        console.log(
+          "bodybodybodybodybodybodybodybodybodybodybody",
+          JSON.stringify(body)
+        );
+
         dispatch(updateProfileAction(body));
       } else setErrors(err);
     });
