@@ -133,14 +133,19 @@ const Consultations = ({ navigation, route }) => {
                     Patient Medical Record DMS - #{item.id}
                   </Typography>
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Name: `}
+                    {`Patient Name: `}
                     <Typography size={12} color={"#5cb4c8"}>
                       {(item.name && startCase(item.name)) || "N/A"}
                     </Typography>
                   </Typography>
-
                   <Typography size={12} color={COLORS.halfWhite}>
-                    {`Present Complain: `}
+                    {`Consultation Type: `}
+                    <Typography size={12} color={"#5cb4c8"}>
+                      {item.booking_type}
+                    </Typography>
+                  </Typography>
+                  <Typography size={12} color={COLORS.halfWhite}>
+                    {`Presenting Complain: `}
                     <Typography size={12} color={"#5cb4c8"} numberOfLines={12}>
                       {(item.problem && startCase(item.problem)) || "N/A"}
                     </Typography>
@@ -152,18 +157,13 @@ const Consultations = ({ navigation, route }) => {
                       {item.appointment_type}
                     </Typography>
                   </Typography> */}
-                  <Typography size={12} color={COLORS.halfWhite}>
-                    {`Consultation Type: `}
-                    <Typography size={12} color={"#5cb4c8"}>
-                      {item.booking_type}
-                    </Typography>
-                  </Typography>
+           
                   {_renderTime(item) != "Invalid date" && (
                     <Typography size={12} style={{ marginTop: 10 }}>
                       {_renderTime(item)}
                     </Typography>
                   )}
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
@@ -174,7 +174,7 @@ const Consultations = ({ navigation, route }) => {
                     <Typography size={12} style={paymentStyle}>
                       {startCase(item.payment_status || "Pending")}
                     </Typography>
-                  </View>
+                  </View> */}
 
                   <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity

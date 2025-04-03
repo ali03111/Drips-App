@@ -131,6 +131,16 @@ const MyOrder = (props) => {
     }
   };
   console.log("orderDataorderDataorderDataorderDataorderData", orderData);
+
+
+  function removeCommaFromEnd(text) {
+    if(text){
+    if (text.endsWith(',')) {
+      return text.slice(0, -1); // Remove the last character (comma)
+    }
+    return text; // Return the text as is if there's no comma at the end
+  }}
+
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
@@ -150,7 +160,7 @@ const MyOrder = (props) => {
                   <Typography size={12}>
                     {`Problem: `}
                     <Typography size={12} color={"#5cb4c8"}>
-                      {item?.problem}
+                      {removeCommaFromEnd(item?.problem)}
                     </Typography>
                   </Typography>
                   <Typography>

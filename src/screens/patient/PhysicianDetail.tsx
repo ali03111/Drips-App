@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   },
   profileImg: {
     width: wp("30"),
-    height: hp("17"),
+    height: hp("20"),
     borderRadius: 10,
   },
   cardDetail: {

@@ -65,7 +65,7 @@ const MeetingDetail = ({ navigation, route }) => {
   console.log(
     "patientDetailspatientDetailspatientDetailspatientDetails",
 
-    title
+    patientDetails, apointmentDetails 
   );
 
   const fetchOrders = async () => {
@@ -87,8 +87,8 @@ const MeetingDetail = ({ navigation, route }) => {
     const response = await get(
       `/prescriptions-list?consultation_id=${apointmentDetails.id}`
     );
+    console.log("kvkjvkjvjkvkvjkvjvk",response)
     if (response.status && response.code === "200") {
-      console.log;
       setAllPrescription(response.data);
       dispatch(disableLoader());
     } else {
@@ -137,10 +137,14 @@ const MeetingDetail = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    _fetchPatientDetails();
-    _fetchAppointmentDetails();
+    const event = navigation.addListener('focus', () => {
+      // Screen was focused
+      _fetchPatientDetails();
+      _fetchAppointmentDetails();
+    })
     fetchOrders();
     fetchPrescription();
+    return event
   }, []);
 
   const postData = async (url, body) => {
@@ -154,10 +158,11 @@ const MeetingDetail = ({ navigation, route }) => {
       setMedDose(null);
       setMedName(null);
       setDuration(null);
+      setUpdateData(null);
       dispatch(disableLoader());
       fetchOrders();
       fetchPrescription();
-      setUpdateData(null);
+      fetchPrescription();
     } else {
       dispatch(disableLoader());
       errorHandler(response);
@@ -304,6 +309,14 @@ const MeetingDetail = ({ navigation, route }) => {
     (patientDetails.pic && { uri: IMAGE_URL + patientDetails.pic }) ||
     IMAGES.avatar_placeholder;
 
+    function removeCommaFromEnd(text) {
+      if(text){
+      if (text.endsWith(',')) {
+        return text.slice(0, -1); // Remove the last character (comma)
+      }
+      return text; // Return the text as is if there's no comma at the end
+    }}
+
   const getInfoValue = (item) => {
     switch (item.type) {
       case "name":
@@ -324,8 +337,10 @@ const MeetingDetail = ({ navigation, route }) => {
         return `${patientDetails.Bmi}`;
       case "bloodType":
         return `${patientDetails.blood_type ?? "Not availabe"}`;
+      case "genoType":
+        return `${patientDetails.genotype ?? "Not availabe"}`;
       case "problems":
-        return `${apointmentDetails.problem ?? "Not availabe"}`;
+        return `${removeCommaFromEnd(apointmentDetails.problem) ?? "Not availabe"}`;
       default:
         return "";
     }
@@ -342,6 +357,7 @@ const MeetingDetail = ({ navigation, route }) => {
       setMedDose(null);
       setMedName(null);
       setDuration(null);
+      setUpdateData(null)
       dispatch(disableLoader());
       fetchOrders();
       fetchPrescription();
@@ -441,15 +457,16 @@ const MeetingDetail = ({ navigation, route }) => {
                 source={userImageUrl}
                 style={styles.profileImage}
                 resizeMode={"cover"}
-                defaultSource={IMAGES.avatar_placeholder}
+                // defaultSource={IMAGES.avatar_placeholder}
               />
               <View>
                 {INFO.map((i) => (
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "row",alignItems:"center" }}>
                     <Typography
                       size={12}
                       style={{ width: wp("18") }}
-                      textType="light"
+                      textType="bold"
+                      color="black"
                     >
                       {i.title}:{" "}
                     </Typography>
@@ -468,13 +485,13 @@ const MeetingDetail = ({ navigation, route }) => {
 
             <View style={styles.timerContainer}>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>Hour</Text>
+                <Text style={{ color: "white" }}>{apointmentDetails?.hour ?? "00"}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>Minutes</Text>
+                <Text style={{ color: "white" }}>{apointmentDetails?.minute??"00"}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>Seconds</Text>
+                <Text style={{ color: "white" }}>{apointmentDetails?.seconds ?? "00"}</Text>
               </TouchableOpacity>
             </View>
 
@@ -539,11 +556,12 @@ const MeetingDetail = ({ navigation, route }) => {
                 placeholderTextColor={COLORS.darkGray}
                 value={duration}
                 onChangeText={(e) => setDuration(e)}
+                keyboardType="decimal-pad"
               />
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={() => {
-                  postData(
+                onPress={async() => {
+                await  postData(
                     updateData ? "/update-prescription" : "/add-prescription",
                     {
                       doctor_id: apointmentDetails.doctor_id,
@@ -555,6 +573,11 @@ const MeetingDetail = ({ navigation, route }) => {
                       id: updateData,
                     }
                   );
+                  setTimeout(() => {
+                    
+                    fetchPrescription()
+                    fetchOrders()  
+                  }, 1000);
                 }}
               >
                 <Text style={{ color: "white" }}>Save</Text>
@@ -666,8 +689,8 @@ const MeetingDetail = ({ navigation, route }) => {
               />
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={() =>
-                  postData(updateData ? "/update-order" : "/add-order", {
+                onPress={async() =>
+                 {await postData(updateData ? "/update-order" : "/add-order", {
                     doctor_id: apointmentDetails.doctor_id,
                     patient_id: patientDetails.user_id,
                     consultation_id: apointmentDetails.id,
@@ -675,6 +698,12 @@ const MeetingDetail = ({ navigation, route }) => {
                     ordernote: orderNote,
                     id: updateData,
                   })
+                  setTimeout(() => {
+                    
+                    fetchPrescription()
+                    fetchOrders()  
+                  }, 1000);
+                }
                 }
               >
                 <Text style={{ color: "white" }}>Save</Text>
@@ -691,7 +720,7 @@ const MeetingDetail = ({ navigation, route }) => {
                 justifyContent: "space-between",
               }}
             >
-              <Text style={{ ...styles.sectionTitle, marginBottom: 0 }}>
+              <Text style={{ ...styles.sectionTitle, marginBottom: hp('2') }}>
                 Order by doctor
               </Text>
               <TouchableOpacity
@@ -829,7 +858,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     marginBottom: 20,
   },
   profileImage: {
@@ -1005,6 +1034,11 @@ const INFO = [
   {
     title: "B-type",
     type: "bloodType",
+    value: "99",
+  },
+  {
+    title: "G-type",
+    type: "genoType",
     value: "99",
   },
   {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -21,6 +21,7 @@ import { userUserDataAction } from "../../store/actions/UserActions";
 import Icon from "react-native-vector-icons/Ionicons";
 import { RootState } from "../../store/reducers";
 import { showToast } from "../../store/actions/AppActions";
+import { hp } from "../../utils/responsive";
 
 const formItem = {
   label: "Medical History",
@@ -41,6 +42,9 @@ const MedicalHistory = (props) => {
   const inputRefs: any = useRef([]);
   const [errors, setErrors] = useState({});
   const [form, setForm] = useState([cloneDeep(formItem)]);
+
+  const [isKeyboard,setIsKeyboard] = useState(false)
+
 
   const _onSubmit = async () => {
     let validateData: any = {};
@@ -81,12 +85,32 @@ const MedicalHistory = (props) => {
 
   const isInValid = () => form.some((i) => i.value === "");
 
+
+  useEffect(() => {
+    // Listen for the keyboard show and hide events
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
+      setIsKeyboard(true)
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboard(false)
+    });
+
+    // Cleanup listeners on unmount
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+
   return (
     <SafeAreaContainer safeArea={false}>
       <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+        <ScrollView
+        scrollEnabled={false}
+          // behavior={Platform.OS === "ios" ? "padding" : "height"}
+          contentContainerStyle={{ flex: 1 ,justifyContent: "flex-end"}}
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ flex: 1 }}>
@@ -94,7 +118,7 @@ const MedicalHistory = (props) => {
               <View style={styles.container}>
                 <ScrollView
                   keyboardShouldPersistTaps="handled"
-                  contentContainerStyle={{ flexGrow: 1 }}
+                  contentContainerStyle={{ flexGrow: 1,paddingBottom:isKeyboard ? hp('50'):0, }}
                 >
                   <Image
                     source={IMAGES.splash}
@@ -177,7 +201,7 @@ const MedicalHistory = (props) => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+        </ScrollView>
       </ImageBackground>
     </SafeAreaContainer>
   );

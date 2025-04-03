@@ -94,6 +94,9 @@ const ConsultationNotes = (props) => {
     const response = await get(
       `/consulation-notes-lists?consultation_id=${item.id}`
     );
+
+    console.log("slkdbvlksdblvbsdklbslkdbvklsdbsdbl;ls;dvds",response)
+
     if (response.status && response.code === "200") {
       if (response?.subjectives?.complain_history)
         setComplain(response?.subjectives?.complain_history);
@@ -388,7 +391,7 @@ const ConsultationNotes = (props) => {
               <Text style={styles.startButtonText}>Update Objective</Text>
             </TouchableOpacity>
             <Text style={{ ...styles.sectionTitle, marginTop: hp("4") }}>
-              Diagnosis:
+              DIAGNOSIS:
             </Text>
             <View style={styles.input}>
               <TextInput
@@ -410,7 +413,7 @@ const ConsultationNotes = (props) => {
             >
               <Text style={styles.startButtonText}>Update Diagnosis</Text>
             </TouchableOpacity>
-            <Text style={{ ...styles.sectionTitle }}>Plan:</Text>
+            <Text style={{ ...styles.sectionTitle }}>PLAN:</Text>
             <View style={styles.input}>
               <TextInput
                 style={styles.inputStyle}
@@ -486,7 +489,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: hp("1.5"),
-    fontWeight: "bold",
+    // fontWeight: "bold",
     marginBottom: hp("1"),
     color: COLORS.black,
     // marginLeft: wp("3"),

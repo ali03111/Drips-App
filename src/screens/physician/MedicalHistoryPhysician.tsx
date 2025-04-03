@@ -77,7 +77,7 @@ const MedicalHistoryPhysician = (props) => {
               {MedicalHistory && (
                 <>
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Past Medical History
                     </Typography>
                   </View>
@@ -99,7 +99,7 @@ const MedicalHistoryPhysician = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Allergies
                     </Typography>
                   </View>
@@ -121,7 +121,7 @@ const MedicalHistoryPhysician = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Surgical History
                     </Typography>
                   </View>
@@ -142,7 +142,7 @@ const MedicalHistoryPhysician = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Family History
                     </Typography>
                   </View>
@@ -163,7 +163,7 @@ const MedicalHistoryPhysician = (props) => {
                 <>
                   <View style={{ height: 10 }} />
                   <View style={styles.titleContainer}>
-                    <Typography color="#fe4e91" size={16}>
+                    <Typography color={COLORS.primary} size={16}>
                       Current medication
                     </Typography>
                   </View>

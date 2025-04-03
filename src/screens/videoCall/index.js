@@ -8,6 +8,7 @@ import {
   Text,
   Alert,
   Button,
+  Dimensions,
 } from "react-native";
 import Daily, { DailyMediaView } from "@daily-co/react-native-daily-js";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +26,7 @@ import {
 } from "@daily-co/react-native-webrtc";
 import { switchAudioDevice } from "@videosdk.live/react-native-sdk";
 
-const VideoCall = ({ route }) => {
+const VideoCall = ({ route ,navigation}) => {
   const { item } = route.params; // callType: "audio" or "video"
   const { consultation_id, doctor_id, patient_id, callType, meeting_url } =
     item;
@@ -355,6 +356,9 @@ const VideoCall = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      {/* <Button title="Use Speaker" onPress={() => navigation?.goBack()} /> */}
+
+
       <WebView
         ref={webviewRef}
         source={{
@@ -420,6 +424,14 @@ const VideoCall = ({ route }) => {
       ))} */}
 
       <View style={styles.controls}>
+
+      <TouchableOpacity onPress={() => navigation?.goBack()} style={styles.button}>
+          <Icon
+            name={"keyboard-backspace"}
+            size={hp('2')}
+            color="#fff"
+          />
+        </TouchableOpacity>
         {/* <Button title="Use Speaker" onPress={() => handleSpeakerToggle(true)} /> */}
         {/* <Button
           title="Use Earpiece"
@@ -482,17 +494,22 @@ const styles = StyleSheet.create({
   },
   controls: {
     position: "absolute",
-    bottom: 5,
+    bottom: 0,
     left: 0,
     right: 0,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
+    top:hp('2'),
+    paddingLeft:wp('2')
   },
   button: {
     backgroundColor: "#444",
-    padding: 15,
-    borderRadius: 50,
+    // padding: 15,
+    borderRadius: Math.round(
+      Dimensions.get('window').width + Dimensions.get('window').height,
+    ),
+    width: Dimensions.get('window').width * 0.11,
+    height: Dimensions.get('window').width * 0.11,
+    justifyContent:"center",
+    alignItems:"center"
   },
   hangupButton: {
     backgroundColor: "#ff0000",

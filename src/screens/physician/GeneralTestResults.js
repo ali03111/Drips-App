@@ -144,7 +144,7 @@ const GeneralTestResults = (props) => {
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
       <View style={styles.mainContainer}>
-        <InnerHeader title="Test Results" backBtn={true} />
+        <InnerHeader title="General Test Results" backBtn={true} />
         <View style={styles.container}>
           <FlatList
             style={{ flex: 1 }}

@@ -109,6 +109,8 @@ const ElectronicCard = (props) => {
         return `${patientDetails.Bmi}`;
       case "bloodType":
         return `${patientDetails.blood_type ?? "Not availabe"}`;
+      case "genoType":
+        return `${patientDetails.genotype ?? "Not availabe"}`;
       case "problem":
         return `${apointmentDetails.problem ?? "Not availabe"}`;
       default:
@@ -146,7 +148,7 @@ const ElectronicCard = (props) => {
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i) + ","}
+                {startCase(i)}
               </Typography>
             );
           });
@@ -172,7 +174,7 @@ const ElectronicCard = (props) => {
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i) + ","}
+                {startCase(i)}
               </Typography>
             );
           });
@@ -191,7 +193,7 @@ const ElectronicCard = (props) => {
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i) + ","}
+                {startCase(i)}
               </Typography>
             );
           });
@@ -220,10 +222,10 @@ const ElectronicCard = (props) => {
         return (
           <>
             <Typography align="center" size={12}>
-              {`Smoke ${patientDetails.currently_smoking}`}
+              {`Smoke ${patientDetails.do_you_smoke ?? "Not Defined"}`}
             </Typography>
             <Typography align="center" size={12}>
-              {`Alchole ${patientDetails.do_u_Alcohol}`}
+              {`Alchole ${patientDetails.do_u_Alcohol ?? "Not Defined"}`}
             </Typography>
           </>
         );
@@ -264,7 +266,7 @@ const ElectronicCard = (props) => {
           _data.map((i) => {
             data.push(
               <Typography align="center" size={12}>
-                {startCase(i) + ","}
+                {startCase(i)}
               </Typography>
             );
           });
@@ -330,7 +332,7 @@ const ElectronicCard = (props) => {
 
                 <View style={{ paddingVertical: 10, marginLeft: 20 }}>
                   {INFO.map((i) => (
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row",alignItems:"center" }}>
                       <Typography
                         size={12}
                         style={{
@@ -555,6 +557,11 @@ const INFO = [
   {
     title: "B-type",
     type: "bloodType",
+    value: "99",
+  },
+  {
+    title: "G-type",
+    type: "genoType",
     value: "99",
   },
   {

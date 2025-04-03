@@ -39,15 +39,42 @@ const EccPaymentScreen = () => {
           <View style={styles.container}>
             <Image
               source={IMAGES.splash}
-              style={{ width: "70%", height: 100 }}
+              style={{ width: "30%", height: 100 }}
               resizeMode={"contain"}
             />
 
-            <Typography size={20} style={{ marginTop: 10 }}>
-              Debit Card/ATM Information:
+            <Typography size={20} color={COLORS.primary} style={{fontWeight:"bold"}} >
+            {"Registration Fee \nECC Card"} 
+            </Typography>
+            <Typography size={15} color={COLORS.black} >
+            </Typography>
+            <Typography size={15} color={COLORS.black} >
+            One-Time Fee for Exclusive Benefits 
+            </Typography>
+            <Typography size={15} color={COLORS.black} >
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} >
+            Get your ECC Card and enjoy seamless pet| transportation and care services! Pay a onetime registration fee and unlock exclusive benefits. 
+            </Typography>
+            <Typography size={15} color={COLORS.black} >
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
+            • One-time payment - No hidden charges!
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
+            • Priority bookings & special discounts
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
+            • Hassle-free pet transport experience
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
+            Complete your payment now to activate your
+            ECC Card and get started! *
             </Typography>
 
-            <View style={{ marginTop: hp("20") }}>
+            <View style={{ marginTop: hp("10") }}>
               <Button label={"Pay Now"} onPress={() => setPayment(true)} />
             </View>
           </View>
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     marginTop: 80,
-    padding: 20,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 20,
     height: hp("80"),

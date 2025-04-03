@@ -49,7 +49,7 @@ const ProfileSettings = (props) => {
     isCountry: false,
     isGender: false,
   });
-  const [bmi, setBmi] = useState(null);
+  const [bmi, setBmi] = useState( user?.Bmi ?  user?.Bmi.toString() :null);
   console.log("useruseruseruseruseruseruser", user);
 
   const inputRefs: any = useRef([]);
@@ -602,7 +602,7 @@ const ProfileSettings = (props) => {
       value: user?.dob,
       error: "",
       keyboardType: "default",
-      refName: "DOB",
+      refName: "dob",
       focusName: "Gender",
       returnKeyType: "next",
       leftIconVisibility: false,
@@ -614,8 +614,20 @@ const ProfileSettings = (props) => {
       value: startCase(user?.gender),
       error: "",
       keyboardType: "default",
-      refName: "Gender",
+      refName: "gender",
       focusName: "address",
+      returnKeyType: "next",
+      leftIconVisibility: false,
+    },
+    {
+      label: "Marital Status",
+      placeholder: "Marital Status",
+      type: "text",
+      value: user?.marital_status,
+      error: "",
+      keyboardType: "default",
+      refName: "marital_status",
+      focusName: "marital_status",
       returnKeyType: "next",
       leftIconVisibility: false,
     },
@@ -635,7 +647,7 @@ const ProfileSettings = (props) => {
       label: "Weight (in Kg)",
       placeholder: "Weight (in Kg)",
       type: "text",
-      value: user?.Weight.toString(),
+      value:user?.Weight ?  user?.Weight.toString() : "",
       error: "",
       keyboardType: "number-pad",
       refName: "weight",
@@ -901,7 +913,7 @@ const ProfileSettings = (props) => {
                 style={{ marginTop: 15, flex: 1 }}
                 inputStyle={{ backgroundColor: "#eee" }}
                 editable={false}
-                value={bmi ?? user?.Bmi.toString()}
+                value={bmi ?? ( user?.Bmi ?  user?.Bmi.toString() : null)}
                 error={errors["bmi"]}
                 inputRef={(e: any) => (inputRefs.current["bmi"] = e)}
               />

@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -23,6 +23,7 @@ import { navigate } from "../../navigation/RootNavigation";
 import { updateAppStates } from "../../store/actions/AppActions";
 import * as Validator from "../../utils/Validator";
 import { registerAction } from "../../store/actions/UserActions";
+import { hp } from "../../utils/responsive";
 
 const CreatePassword = (props) => {
   let signUpFormData = props.route.params.signUpFormData || {};
@@ -83,14 +84,32 @@ const CreatePassword = (props) => {
     let formInValid = form.filter((i) => i.value === "") || [];
     return formInValid.length !== 0;
   };
+  const [isKeyboard,setIsKeyboard] = useState(false)
+
+  useEffect(() => {
+    // Listen for the keyboard show and hide events
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
+      setIsKeyboard(true)
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboard(false)
+    });
+
+    // Cleanup listeners on unmount
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
 
   return (
     <SafeAreaContainer safeArea={false}>
       <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
         <InnerHeader backBtn />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1, justifyContent: "flex-end" }}
+        <ScrollView
+          contentContainerStyle={{ flex: 1, justifyContent: "flex-end",paddingBottom:isKeyboard ? hp('35') :0 }}
         >
           <View style={styles.container}>
             <Image
@@ -133,7 +152,7 @@ const CreatePassword = (props) => {
               />
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </ScrollView>
       </ImageBackground>
     </SafeAreaContainer>
   );
