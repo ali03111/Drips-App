@@ -48,8 +48,9 @@ const ProfileSettings = (props) => {
   const [modalState, setModalState] = useState({
     isCountry: false,
     isGender: false,
+    isMarital: false,
   });
-  const [bmi, setBmi] = useState( user?.Bmi ?  user?.Bmi.toString() :null);
+  const [bmi, setBmi] = useState(user?.Bmi ? user?.Bmi.toString() : null);
   console.log("useruseruseruseruseruseruser", user);
 
   const inputRefs: any = useRef([]);
@@ -647,7 +648,7 @@ const ProfileSettings = (props) => {
       label: "Weight (in Kg)",
       placeholder: "Weight (in Kg)",
       type: "text",
-      value:user?.Weight ?  user?.Weight.toString() : "",
+      value: user?.Weight ? user?.Weight.toString() : "",
       error: "",
       keyboardType: "number-pad",
       refName: "weight",
@@ -692,6 +693,8 @@ const ProfileSettings = (props) => {
       leftIconVisibility: false,
     },
   ]);
+
+  const maritalArry = ["Married", "Single"];
 
   const _fetchProfile = () => {
     dispatch(fetchPatientDetailsAction());
@@ -856,12 +859,20 @@ const ProfileSettings = (props) => {
                   return (
                     <InputText
                       {...i}
-                      isPressable={i.refName.toLowerCase() === "gender"}
+                      isPressable={Boolean(
+                        i.refName.toLowerCase() === "gender" ||
+                          i.refName.toLowerCase() === "marital_status"
+                      )}
                       key={index}
                       onPress={() =>
                         setModalState({
                           isCountry: false,
-                          isGender: true,
+                          isGender: Boolean(
+                            i.refName.toLowerCase() === "gender"
+                          ),
+                          isMarital: Boolean(
+                            i.refName.toLowerCase() === "marital_status"
+                          ),
                         })
                       }
                       title={i.label}
@@ -913,7 +924,7 @@ const ProfileSettings = (props) => {
                 style={{ marginTop: 15, flex: 1 }}
                 inputStyle={{ backgroundColor: "#eee" }}
                 editable={false}
-                value={bmi ?? ( user?.Bmi ?  user?.Bmi.toString() : null)}
+                value={bmi ?? (user?.Bmi ? user?.Bmi.toString() : null)}
                 error={errors["bmi"]}
                 inputRef={(e: any) => (inputRefs.current["bmi"] = e)}
               />
@@ -938,6 +949,7 @@ const ProfileSettings = (props) => {
                         setModalState({
                           isCountry: true,
                           isGender: false,
+                          isMarital: false,
                         })
                       }
                       title={i.label}
@@ -982,23 +994,28 @@ const ProfileSettings = (props) => {
         )}
       </KeyboardAvoidingView>
       <BottomSheet ref={actionSheet} />
-      {Boolean(modalState.isCountry || modalState.isGender) && (
+      {Boolean(
+        modalState.isCountry || modalState.isGender || modalState.isMarital
+      ) && (
         <DropdownModal
           title={
             (modalState.isCountry && "Select Country") ||
-            (modalState.isGender && "Select Gender")
+            (modalState.isGender && "Select Gender") ||
+            (modalState.isMarital && "Select Marital status")
           }
           onClose={() =>
             setModalState({
               isCountry: false,
               isGender: false,
+              isMarital: false,
             })
           }
         >
           <FlatList
             data={
               (modalState.isCountry && countryArry) ||
-              (modalState.isGender && ["Male", "Female"])
+              (modalState.isGender && ["Male", "Female"]) ||
+              (modalState.isMarital && maritalArry)
             }
             ItemSeparatorComponent={() => <View style={styles.separtor} />}
             renderItem={({ item, index }) => (
@@ -1006,16 +1023,22 @@ const ProfileSettings = (props) => {
                 selected={
                   item ===
                   ((modalState.isCountry && form2[1]) ||
-                    (modalState.isGender && form[4].value))
+                    (modalState.isGender && form[4].value) ||
+                    (modalState.isMarital && form[5].value))
                 }
                 title={item}
                 onPress={() => {
                   setModalState({
                     isCountry: false,
                     isGender: false,
+                    isMarital: false,
                   });
                   if (modalState.isGender) {
                     form[4].value = item;
+
+                    setForm([...form]);
+                  } else if (modalState.isMarital) {
+                    form[5].value = item;
 
                     setForm([...form]);
                   } else if (modalState.isCountry) {

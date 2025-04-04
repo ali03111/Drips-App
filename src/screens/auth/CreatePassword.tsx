@@ -84,17 +84,23 @@ const CreatePassword = (props) => {
     let formInValid = form.filter((i) => i.value === "") || [];
     return formInValid.length !== 0;
   };
-  const [isKeyboard,setIsKeyboard] = useState(false)
+  const [isKeyboard, setIsKeyboard] = useState(false);
 
   useEffect(() => {
     // Listen for the keyboard show and hide events
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
-      setIsKeyboard(true)
-    });
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (e) => {
+        setIsKeyboard(true);
+      }
+    );
 
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setIsKeyboard(false)
-    });
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setIsKeyboard(false);
+      }
+    );
 
     // Cleanup listeners on unmount
     return () => {
@@ -103,13 +109,16 @@ const CreatePassword = (props) => {
     };
   }, []);
 
-
   return (
     <SafeAreaContainer safeArea={false}>
       <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
         <InnerHeader backBtn />
         <ScrollView
-          contentContainerStyle={{ flex: 1, justifyContent: "flex-end",paddingBottom:isKeyboard ? hp('35') :0 }}
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: "flex-end",
+            paddingBottom: 0,
+          }}
         >
           <View style={styles.container}>
             <Image
