@@ -375,10 +375,11 @@ const ConsultantDetails = (props) => {
             }}
           /> */}
 
-          {apointmentDetails.payment_status === "success" && (
-            <View style={{ marginHorizontal: 20 }}>
-              <Button label={"Chat"} onPress={_onChatPress} />
-              {/* {apointmentDetails.consultation_status.toLowerCase() ===
+          {apointmentDetails.payment_status === "success" &&
+            apointmentDetails?.status == 1 && (
+              <View style={{ marginHorizontal: 20 }}>
+                <Button label={"Chat"} onPress={_onChatPress} />
+                {/* {apointmentDetails.consultation_status.toLowerCase() ===
   "video" && (
   <Button
     label={`Join Video Call`}
@@ -395,11 +396,12 @@ const ConsultantDetails = (props) => {
     }}
   />
 )} */}
-            </View>
-          )}
+              </View>
+            )}
 
           {apointmentDetails.payment_status === "success" &&
-            apointmentDetails.appointment_type != null && (
+            apointmentDetails.appointment_type != null &&
+            apointmentDetails?.status == 1 && (
               <View style={{ margin: 20 }}>
                 <Button
                   label={`Join ${capitalizeFirstLetter(

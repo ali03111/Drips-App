@@ -137,6 +137,7 @@ import { Button, InputText, Typography } from "../../components/atoms";
 import { userUserDataAction } from "../../store/actions/UserActions";
 import { CheckBox } from "../../components/icons";
 import { widthPercentageToDP } from "react-native-responsive-screen";
+import { showToast } from "../../store/actions/AppActions";
 
 const FamilyHistory = (props) => {
   const signupStep = "step5";
@@ -158,6 +159,39 @@ const FamilyHistory = (props) => {
   //     }
   //   });
   // }
+
+  // const _onSubmit = async () => {
+  //   let validateData = {};
+  //   let isValid = true;
+  //   form.forEach((i, index) => {
+  //     if (isValid && !i.value) isValid = false;
+  //     validateData[`${i.refName}[${index}]`] = i.value;
+  //   });
+  //   if (isValid) {
+  //     validateData.email = user.email;
+  //     dispatch(
+  //       userUserDataAction(
+  //         signupStep,
+  //         {
+  //           // Is_family: select.toLowerCase(),
+  //           family_medical_condition: allergies.map((res) => res.alergic),
+  //         },
+  //         "SocialInfo"
+  //       )
+  //     );
+  //     // dispatch(
+  //     //   userUserDataAction(
+  //     //     signupStep,
+  //     //     { ...validateData, formData: true },
+  //     //     "FamilyHistory"
+  //     //   )
+  //     // );
+  //   } else {
+  //     dispatch(showToast("Please enter all items to continue"));
+  //   }
+  // };
+
+  const isInValid = () => allergies.some((i) => i?.alergic?.trim() === "");
 
   const _onSubmit = async () => {
     dispatch(
@@ -280,7 +314,7 @@ const FamilyHistory = (props) => {
             </View>
 
             <View style={styles.buttonContainer}>
-              <Button label="Next" onPress={_onSubmit} />
+              <Button label="Next" onPress={_onSubmit} disabled={isInValid()} />
               <Button
                 label="Back"
                 onPress={() => props.navigation.goBack()}
