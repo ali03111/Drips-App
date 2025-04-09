@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Modal,
   Text,
+  Pressable,
+  Keyboard,
+  TextInput,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +21,7 @@ import {
 import SafeAreaContainer from "../../containers/SafeAreaContainer";
 import { Button, InnerHeader, Typography } from "../../components/atoms";
 import { commonStyles } from "../../style";
-import { renderStars } from "../../utils/utils";
+import { errorHandler, renderStars } from "../../utils/utils";
 import { ConsultantItem } from "../../store/models";
 import { WebView } from "react-native-webview";
 import {
@@ -31,6 +34,13 @@ import { RootState } from "../../store/reducers";
 import { getChatDetailsAction } from "../../store/actions/ChatActions";
 import { navigate, reset } from "../../navigation/RootNavigation";
 import { hp, wp } from "../../utils/responsive";
+import { Rating, AirbnbRating } from "react-native-ratings";
+import {
+  disableLoader,
+  enableLoader,
+  showToast,
+} from "../../store/actions/AppActions";
+import { post } from "../../store/services/Http";
 
 const ConsultantDetails = (props) => {
   const dispatch = useDispatch();
@@ -45,6 +55,10 @@ const ConsultantDetails = (props) => {
 
   const [showPayment, setPayment] = useState<any>(undefined);
   const [paymentUrl, setPaymentUrl] = useState("");
+  const [ratingModal, setRatingModal] = useState(false);
+  const [ratingInput, setRatingInput] = useState(null);
+  const [ratingStar, setRatingStar] = useState(0);
+
   const { item }: { item: any } = props.route.params;
   console.log("ConsultantDetails item ==> ", item);
 
@@ -119,6 +133,45 @@ const ConsultantDetails = (props) => {
   function capitalizeFirstLetter(string) {
     return string?.charAt(0)?.toUpperCase() + string?.slice(1);
   }
+
+  const [keyboardStatus, setKeyboardStatus] = React.useState("");
+  React.useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("open");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("hide");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const _onRatePress = async () => {
+    setRatingModal(false);
+    dispatch(enableLoader());
+    const response = await post(
+      "/rate-consultation",
+      JSON.stringify({
+        consultation_id: apointmentDetails?.id,
+        patient_id: apointmentDetails?.patient_id,
+        doctor_id: apointmentDetails?.doctor_id,
+        rate: ratingStar,
+        message: ratingInput,
+      })
+    );
+    if (response.status && response.code === "200") {
+      _fetchAppointmentDetails();
+      _fetchDoctorDetails();
+      dispatch(disableLoader());
+      dispatch(showToast(response.message));
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
+  };
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -260,15 +313,24 @@ const ConsultantDetails = (props) => {
                 {doctorDetails.residency || "N/A"}
               </Typography>
             </View> */}
-
+            {apointmentDetails?.rating != null && (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Typography>Consultation Rating :</Typography>
+                <Typography size={12} color={COLORS.rating}>
+                  {" "}
+                  {apointmentDetails.rating || 0} (5){" "}
+                </Typography>
+                {renderStars(apointmentDetails.rating || 0)}
+              </View>
+            )}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Typography>Doctor Rating :</Typography>
               <Typography size={12} color={COLORS.rating}>
                 {" "}
-                {doctorDetails.customer_status || 1} (100){" "}
+                {apointmentDetails.average_rating || 0} (5){" "}
               </Typography>
-              {renderStars(doctorDetails.customer_status || 1)}
+              {renderStars(apointmentDetails.average_rating || 0)}
             </View>
-
             <View style={commonStyles.separator} />
             {apointmentDetails.payment_status === "success" &&
             apointmentDetails.appointment_type != null ? (
@@ -398,6 +460,33 @@ const ConsultantDetails = (props) => {
 )} */}
               </View>
             )}
+          {apointmentDetails.payment_status === "success" &&
+            apointmentDetails?.status == 0 &&
+            apointmentDetails?.rating == null && (
+              <View style={{ marginHorizontal: 20 }}>
+                <Button
+                  label={"Rate the doctor"}
+                  onPress={() => setRatingModal(true)}
+                />
+                {/* {apointmentDetails.consultation_status.toLowerCase() ===
+  "video" && (
+  <Button
+    label={`Join Video Call`}
+    onPress={() => {
+      navigate(
+        "VideoCall" as never,
+        {
+          item: {
+            ...item,
+            callType: "Video",
+          },
+        } as never
+      );
+    }}
+  />
+)} */}
+              </View>
+            )}
 
           {apointmentDetails.payment_status === "success" &&
             apointmentDetails.appointment_type != null &&
@@ -479,6 +568,96 @@ const ConsultantDetails = (props) => {
           </SafeAreaContainer>
         </Modal>
       )}
+      {ratingModal && (
+        <Modal
+          transparent
+          animationType="slide"
+          onRequestClose={() => {
+            setRatingModal(false);
+          }}
+          style={{
+            alignItems: "flex-end",
+            justifyContent: "flex-end",
+            alignContent: "flex-end",
+            flex: 1,
+          }}
+        >
+          <Pressable
+            onPress={() => {
+              if (keyboardStatus === "open") {
+                Keyboard.dismiss();
+                return;
+              }
+              setRatingModal(false);
+            }}
+            style={{ flex: 1, backgroundColor: "rgba(0,0,0,.5)" }}
+          />
+          <View
+            style={{
+              height: hp("35"),
+              backgroundColor: "white",
+              // alignSelf: "flex-end",
+            }}
+          >
+            <AirbnbRating
+              count={5}
+              defaultRating={0}
+              size={20}
+              onFinishRating={(e) => setRatingStar(e)}
+              value={ratingStar}
+            />
+            <View style={styles.input}>
+              <TextInput
+                style={styles.inputStyle}
+                placeholderTextColor={COLORS.darkGray}
+                multiline
+                value={ratingInput}
+                onChangeText={(e) => setRatingInput(e)}
+              />
+            </View>
+            <View
+              style={{
+                marginHorizontal: 20,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: wp("90"),
+              }}
+            >
+              <Button
+                label={"Cancel"}
+                onPress={() => setRatingModal(false)}
+                style={{ width: wp("40"), color: COLORS.gray }}
+                backgroundColor={COLORS.gray}
+                textColor="black"
+              />
+              <Button
+                label={"Submit"}
+                onPress={() => {
+                  _onRatePress();
+                }}
+                style={{ width: wp("40") }}
+              />
+              {/* {apointmentDetails.consultation_status.toLowerCase() ===
+  "video" && (
+  <Button
+    label={`Join Video Call`}
+    onPress={() => {
+      navigate(
+        "VideoCall" as never,
+        {
+          item: {
+            ...item,
+            callType: "Video",
+          },
+        } as never
+      );
+    }}
+  />
+)} */}
+            </View>
+          </View>
+        </Modal>
+      )}
     </SafeAreaContainer>
   );
 };
@@ -531,6 +710,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     justifyContent: "center",
     alignItems: "center",
+  },
+  inputStyle: {
+    color: "black",
+    flex: 1,
+    width: wp("85"),
+    overflow: "scroll",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    width: wp("90"),
+    alignSelf: "center",
+    height: hp("10"),
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginTop: hp("2"),
   },
 });
 

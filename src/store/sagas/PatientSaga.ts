@@ -119,6 +119,7 @@ export function* getConsultantDetails(action: any): any {
   if(response.code === '200' ){
     yield put( updateConsultantData({ apointmentDetails: response.data }) );
   } else {
+    console.log("lksdblvkbsdlkvblksdbvklsbdlkvbsldkbvksbvlksd",response)
     errorHandler(response);
   }
 }

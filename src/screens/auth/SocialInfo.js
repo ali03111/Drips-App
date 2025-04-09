@@ -142,7 +142,7 @@ const SocialInfo = (props) => {
       selected: "",
       type: "input",
       options: ["12"],
-      placeholder: "12",
+      placeholder: "Enter age",
       inputTyep: "number-pad",
     },
   ];
@@ -211,7 +211,9 @@ const SocialInfo = (props) => {
         ? "start_age"
         : "quit_age";
 
-      smokingQuery.childOption[2].placeholder = currentlySmoking ? "12" : "6";
+      smokingQuery.childOption[2].placeholder = currentlySmoking
+        ? "Enter age"
+        : "Enter age";
 
       return updatedQueries;
     });

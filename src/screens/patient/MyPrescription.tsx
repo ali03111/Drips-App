@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -27,15 +27,27 @@ import { get } from "../../store/services/Http";
 import { errorHandler } from "../../utils/utils";
 import RNFetchBlob from "rn-fetch-blob";
 import { heightPercentageToDP } from "react-native-responsive-screen";
+import { fetchPrescriptionsApi } from "../../store/services/Services";
 
 const MyPrescription = (props) => {
-  const { prescriptionData } = useSelector(
-    (state: RootState) => state.UserReducer
+  const { prescriptionData, user } = useSelector(
+    (state: any) => state.UserReducer
   );
   const dispatch = useDispatch();
 
-  const _fetchPrescription = () => {
-    dispatch(fetchPrescription());
+  const [attachmentsList, setAttachmentsList] = useState([]);
+
+  const _fetchPrescription = async () => {
+    // dispatch(fetchPrescription());
+    dispatch(enableLoader());
+    const response = await fetchPrescriptionsApi(user?.user_id);
+    if (response.status && response.code === "200") {
+      setAttachmentsList(response?.data);
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
   };
 
   useEffect(() => {
@@ -128,12 +140,13 @@ const MyPrescription = (props) => {
   );
 
   function removeCommaFromEnd(text) {
-    if(text){
-    if (text.endsWith(',')) {
-      return text.slice(0, -1); // Remove the last character (comma)
+    if (text) {
+      if (text.endsWith(",")) {
+        return text.slice(0, -1); // Remove the last character (comma)
+      }
+      return text; // Return the text as is if there's no comma at the end
     }
-    return text; // Return the text as is if there's no comma at the end
-  }}
+  }
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -145,7 +158,7 @@ const MyPrescription = (props) => {
             refreshing={false}
             onRefresh={() => _fetchPrescription()}
             contentContainerStyle={{ padding: 20 }}
-            data={prescriptionData}
+            data={attachmentsList}
             ListEmptyComponent={
               <ErrorListView title="No Prescriptions Found!" />
             }

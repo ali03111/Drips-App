@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -21,11 +21,6 @@ import {
 } from "react-native-credit-card-input";
 import { reset } from "../../navigation/RootNavigation";
 import moment from "moment";
-import { RootState } from "../../store/reducers";
-import {
-  fetchOrders,
-  fetchPrescription,
-} from "../../store/actions/UserActions";
 import { get } from "../../store/services/Http";
 import {
   disableLoader,
@@ -38,13 +33,23 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
+import { fetchOrdersApi } from "../../store/services/Services";
 
 const MyOrder = (props) => {
-  const { orderData } = useSelector((state: RootState) => state.UserReducer);
+  const { orderData, user } = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
-
-  const _fetchPrescription = () => {
-    dispatch(fetchOrders());
+  // const { user } = useSelector((state) => state.UserReducer);
+  const [attachmentsList, setAttachmentsList] = useState([]);
+  const _fetchPrescription = async () => {
+    dispatch(enableLoader());
+    const response = await fetchOrdersApi(user?.user_id);
+    if (response.status && response.code === "200") {
+      setAttachmentsList(response?.data);
+      dispatch(disableLoader());
+    } else {
+      dispatch(disableLoader());
+      errorHandler(response);
+    }
   };
 
   useEffect(() => {
@@ -73,7 +78,7 @@ const MyOrder = (props) => {
     return true;
   };
 
-  const BASE_URL = "https://webvortech.com/drips/custom-portal/api"; // 🔹 Replace with your API's base URL
+  const BASE_URL = "https://webvortech.com/drips/custom-portal/api";
 
   const downloadOrdersApi = async (id, patient_id, doctor_id) => {
     const hasPermission = await requestStoragePermission();
@@ -88,19 +93,16 @@ const MyOrder = (props) => {
     dispatch(enableLoader());
 
     try {
-      // Ensure full API URL
       const fileUrl = `${BASE_URL}/orderpdfview?id=${id}&download=pdf&patient_id=${patient_id}&doctor_id=${doctor_id}`;
 
       dispatch(showToast("Downloading Started..."));
       dispatch(disableLoader());
-      // Define file path
       const { dirs } = RNFetchBlob.fs;
       const filePath =
         Platform.OS === "android"
           ? `${dirs.DownloadDir}/order_${id}.pdf`
-          : `${dirs.DocumentDir}/order_${id}.pdf`; // iOS uses DocumentDir
+          : `${dirs.DocumentDir}/order_${id}.pdf`;
 
-      // Start the download
       const res = await RNFetchBlob.config({
         fileCache: true,
         path: filePath,
@@ -114,32 +116,24 @@ const MyOrder = (props) => {
       dispatch(showToast(`File saved to: ${res.path()}`));
 
       console.log("File saved to:", res.path());
-
-      // Open the PDF after download
-      // if (Platform.OS === "android") {
-      //   RNFetchBlob.android.actionViewIntent(res.path(), "application/pdf");
-      // } else {
-      //   RNFetchBlob.ios.openDocument(res.path());
-      // }
     } catch (error) {
       dispatch(disableLoader());
       console.error("Download Error:", error);
       dispatch(
         showToast(`Downloading completed please check your download folder`)
       );
-      // dispatch(showToast(`Download Failed ${error}`));
     }
   };
   console.log("orderDataorderDataorderDataorderDataorderData", orderData);
 
-
   function removeCommaFromEnd(text) {
-    if(text){
-    if (text.endsWith(',')) {
-      return text.slice(0, -1); // Remove the last character (comma)
+    if (text) {
+      if (text.endsWith(",")) {
+        return text.slice(0, -1);
+      }
+      return text;
     }
-    return text; // Return the text as is if there's no comma at the end
-  }}
+  }
 
   return (
     <SafeAreaContainer safeArea={true} mode={"light"}>
@@ -149,7 +143,7 @@ const MyOrder = (props) => {
           <FlatList
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: 20 }}
-            data={orderData}
+            data={attachmentsList}
             ListEmptyComponent={() => (
               <ErrorListView title={"No Orders Found"} />
             )}
@@ -205,7 +199,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
   },
   actionBtn: {
-    // width: widthPercentageToDP("40"),
     marginTop: 10,
     borderRadius: 10,
     paddingHorizontal: 15,

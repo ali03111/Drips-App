@@ -103,7 +103,7 @@ const PhysicianDetail = (props) => {
 
               <View style={styles.cardDetail}>
                 <Typography size={16} textType="semiBold">
-                  {item.name}
+                  {item.name} {item?.designation}
                 </Typography>
                 {/* <Typography size={12} color={COLORS.placeholderColor}>
                   Medical School: {item.medical_school || "N/A"}
@@ -210,9 +210,9 @@ const PhysicianDetail = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Typography size={12} color={COLORS.rating}>
                 {" "}
-                {item.customer_status || 1} (100){" "}
+                {item?.average_rating || 0} (5){" "}
               </Typography>
-              {renderStars(item.customer_status || 1)}
+              {renderStars(item?.average_rating || 0)}
             </View>
 
             <View style={commonStyles.separator} />

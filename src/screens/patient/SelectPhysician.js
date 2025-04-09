@@ -189,8 +189,11 @@ const SelectPhysician = (props) => {
                       <View style={styles.cardDetail}>
                         <View style={{ flex: 1 }}>
                           <Typography size={14} textType="semiBold">
-                            {item.name}
+                            {item.name} {item?.designation}
                           </Typography>
+                          {/* <Typography size={14} textType="semiBold">
+                            {item.name}
+                          </Typography> */}
                           <Typography
                             size={10}
                             numberOfLines={3}
@@ -209,9 +212,9 @@ const SelectPhysician = (props) => {
                         >
                           <Typography size={12} color={COLORS.rating}>
                             {" "}
-                            {item.customer_status || 1} (100){" "}
+                            {item.average_rating || 0} (5){" "}
                           </Typography>
-                          {renderStars(item.customer_status || 1)}
+                          {renderStars(item.average_rating || 0)}
                         </View>
                         <View
                           style={{
