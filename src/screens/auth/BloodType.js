@@ -125,6 +125,40 @@ const BloodType = (props) => {
     else return true;
   };
 
+  const getDisplayValue = (type, value) => {
+    if (!value) return value;
+
+    if (type === "bloodType") {
+      const bloodSymbols = {
+        "A+": "🩸 A+",
+        "A-": "🩸 A-",
+        "B+": "🩸 B+",
+        "B-": "🩸 B-",
+        "AB+": "🩸 AB+",
+        "AB-": "🩸 AB-",
+        "O+": "🩸 O+",
+        "O-": "🩸 O-",
+      };
+      return bloodSymbols[value] || value;
+    }
+
+    if (type === "genotype") {
+      const genotypeSymbols = {
+        AA: "🧬 AA",
+        AS: "🧬 AS",
+        AC: "🧬 AC",
+        SS: "🧬 SS",
+        SC: "🧬 SC",
+        CC: "🧬 CC",
+      };
+      return genotypeSymbols[value] || value;
+    }
+
+    return value;
+  };
+
+  console.log("bloodTypebloodTypebloodType", bloodType);
+
   return (
     <SafeAreaContainer safeArea={false}>
       <ImageBackground source={IMAGES.imgbg} style={{ flex: 1, padding: 20 }}>
@@ -164,6 +198,7 @@ const BloodType = (props) => {
                 title={"Select bloodtype"}
                 style={{ marginTop: 15 }}
                 value={bloodType}
+                isBlood={true}
               />
               <Typography color={COLORS.primary} style={{ marginVertical: 10 }}>
                 GenoType:

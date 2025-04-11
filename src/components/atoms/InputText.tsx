@@ -33,6 +33,7 @@ export const InputText = (props) => {
     allowSpacing = true,
     isPressable = false,
     onPress = null,
+    isBlood = false,
   } = props;
 
   const [active, setActive] = useState(false);
@@ -92,7 +93,7 @@ export const InputText = (props) => {
                 backgroundColor: editable ? COLORS.white : COLORS.lightGray,
               }}
             >
-              {startCase(value || placeholder)}
+              {isBlood ? value : startCase(value || placeholder)}
             </Typography>
           </TouchableOpacity>
         ) : (
@@ -110,6 +111,7 @@ export const InputText = (props) => {
             placeholderTextColor={placeholderColor}
             underlineColorAndroid="transparent"
             onChangeText={(e) => {
+              // onChangeText(!allowSpacing ? e.replace(/\s/g, "") : e);
               onChangeText(!allowSpacing ? e.replace(/\s/g, "") : e);
             }}
             onKeyPress={onKeyPress}
