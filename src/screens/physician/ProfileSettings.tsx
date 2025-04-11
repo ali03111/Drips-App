@@ -156,7 +156,17 @@ const ProfileSettings = (props) => {
       refName: "residency",
       returnKeyType: "next",
       leftIconVisibility: false,
-      editable: false,
+    },
+    {
+      label: "Designation",
+      placeholder: "Designation",
+      type: "text",
+      value: startCase(doctorDetails?.designation),
+      error: "",
+      keyboardType: "default",
+      refName: "designation",
+      returnKeyType: "next",
+      leftIconVisibility: false,
     },
     {
       label: "Language",

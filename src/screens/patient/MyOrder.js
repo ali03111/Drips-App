@@ -43,6 +43,10 @@ const MyOrder = (props) => {
   const _fetchPrescription = async () => {
     dispatch(enableLoader());
     const response = await fetchOrdersApi(user?.user_id);
+    console.log(
+      "lsdvlsbdlkbsdlbvlsdblkvbsdlkbvlksdblvsbdlvbsbdkbdsklbvklsdvsd",
+      response
+    );
     if (response.status && response.code === "200") {
       setAttachmentsList(response?.data);
       dispatch(disableLoader());
@@ -81,14 +85,14 @@ const MyOrder = (props) => {
   const BASE_URL = "https://webvortech.com/drips/custom-portal/api";
 
   const downloadOrdersApi = async (id, patient_id, doctor_id) => {
-    const hasPermission = await requestStoragePermission();
-    if (!hasPermission) {
-      Alert.alert(
-        "Permission Denied",
-        "You need to allow storage permission to download files."
-      );
-      return;
-    }
+    // const hasPermission = await requestStoragePermission();
+    // if (!hasPermission) {
+    //   Alert.alert(
+    //     "Permission Denied",
+    //     "You need to allow storage permission to download files."
+    //   );
+    //   return;
+    // }
 
     dispatch(enableLoader());
 
@@ -118,7 +122,7 @@ const MyOrder = (props) => {
       console.log("File saved to:", res.path());
     } catch (error) {
       dispatch(disableLoader());
-      console.error("Download Error:", error);
+      console.log("Download Error:", error);
       dispatch(
         showToast(`Downloading completed please check your download folder`)
       );

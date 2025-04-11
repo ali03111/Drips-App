@@ -11,6 +11,7 @@ import {
   Platform,
   FlatList,
   PermissionsAndroid,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS, IMAGE_URL, IMAGES } from "../../../constants";
@@ -65,7 +66,8 @@ const MeetingDetail = ({ navigation, route }) => {
   console.log(
     "patientDetailspatientDetailspatientDetailspatientDetails",
 
-    patientDetails, apointmentDetails 
+    patientDetails,
+    apointmentDetails
   );
 
   const fetchOrders = async () => {
@@ -87,7 +89,7 @@ const MeetingDetail = ({ navigation, route }) => {
     const response = await get(
       `/prescriptions-list?consultation_id=${apointmentDetails.id}`
     );
-    console.log("kvkjvkjvjkvkvjkvjvk",response)
+    console.log("kvkjvkjvjkvkvjkvjvk", response);
     if (response.status && response.code === "200") {
       setAllPrescription(response.data);
       dispatch(disableLoader());
@@ -117,35 +119,47 @@ const MeetingDetail = ({ navigation, route }) => {
     }
   };
 
-  const _fetchAppointmentDetails = () => {
-    const id = item?.id;
-    let data = {
-      id,
-    };
-    dispatch(getConsultantDetailAction(data));
+  const _fetchAppointmentDetails = async () => {
+    try {
+      const id = item?.id;
+      console.log("Fetching appointment details for ID:", id);
+      let data = { id };
+      await dispatch(getConsultantDetailAction(data));
+    } catch (error) {
+      console.log("Error in _fetchAppointmentDetails:", error);
+    }
   };
 
-  const _fetchPatientDetails = () => {
-    let data = {
-      id: userType === 1 ? user.user_id : item?.patient_id,
-    };
-    dispatch(fetchPatientDetailsAction(data));
+  const _fetchPatientDetails = async () => {
+    try {
+      let data = {
+        id: userType === 1 ? user.user_id : item?.patient_id,
+      };
+      console.log("Fetching patient details with data:", data);
+      await dispatch(fetchPatientDetailsAction(data));
+    } catch (error) {
+      console.log("Error in _fetchPatientDetails:", error);
+    }
   };
 
   useEffect(() => {
+    // Initial load
     _fetchPatientDetails();
-  }, []);
+    _fetchAppointmentDetails();
 
-  useEffect(() => {
-    const event = navigation.addListener('focus', () => {
-      // Screen was focused
+    // Set up focus listener for refreshes
+    const event = navigation.addListener("focus", () => {
       _fetchPatientDetails();
       _fetchAppointmentDetails();
-    })
+    });
+
+    return event;
+  }, []);
+
+  useEffect(() => {
     fetchOrders();
     fetchPrescription();
-    return event
-  }, []);
+  }, [apointmentDetails?.id]);
 
   const postData = async (url, body) => {
     dispatch(enableLoader());
@@ -194,14 +208,14 @@ const MeetingDetail = ({ navigation, route }) => {
   const BASE_URL = "https://webvortech.com/drips/custom-portal/api"; // 🔹 Replace with your API's base URL
 
   const downloadOrdersApi = async (id, patient_id, doctor_id) => {
-    const hasPermission = await requestStoragePermission();
-    if (!hasPermission) {
-      Alert.alert(
-        "Permission Denied",
-        "You need to allow storage permission to download files."
-      );
-      return;
-    }
+    // const hasPermission = await requestStoragePermission();
+    // if (!hasPermission) {
+    //   Alert.alert(
+    //     "Permission Denied",
+    //     "You need to allow storage permission to download files."
+    //   );
+    //   return;
+    // }
 
     dispatch(enableLoader());
 
@@ -241,7 +255,7 @@ const MeetingDetail = ({ navigation, route }) => {
       // }
     } catch (error) {
       dispatch(disableLoader());
-      console.error("Download Error:", error);
+      console.log("Download Error:", error);
       dispatch(
         showToast(`Downloading completed please check your download folder`)
       );
@@ -250,14 +264,14 @@ const MeetingDetail = ({ navigation, route }) => {
   };
 
   const downloadPrescriptiopnApi = async (id, patient_id, doctor_id) => {
-    const hasPermission = await requestStoragePermission();
-    if (!hasPermission) {
-      Alert.alert(
-        "Permission Denied",
-        "You need to allow storage permission to download files."
-      );
-      return;
-    }
+    // const hasPermission = await requestStoragePermission();
+    // if (!hasPermission) {
+    //   Alert.alert(
+    //     "Permission Denied",
+    //     "You need to allow storage permission to download files."
+    //   );
+    //   return;
+    // }
 
     dispatch(enableLoader());
 
@@ -297,7 +311,7 @@ const MeetingDetail = ({ navigation, route }) => {
       // }
     } catch (error) {
       dispatch(disableLoader());
-      console.error("Download Error:", error);
+      console.log("Download Error:", error);
       // dispatch(showToast("Download Failed"));
       dispatch(
         showToast(`Downloading completed please check your download folder`)
@@ -309,13 +323,14 @@ const MeetingDetail = ({ navigation, route }) => {
     (patientDetails.pic && { uri: IMAGE_URL + patientDetails.pic }) ||
     IMAGES.avatar_placeholder;
 
-    function removeCommaFromEnd(text) {
-      if(text){
-      if (text.endsWith(',')) {
+  function removeCommaFromEnd(text) {
+    if (text) {
+      if (text.endsWith(",")) {
         return text.slice(0, -1); // Remove the last character (comma)
       }
       return text; // Return the text as is if there's no comma at the end
-    }}
+    }
+  }
 
   const getInfoValue = (item) => {
     switch (item.type) {
@@ -340,7 +355,9 @@ const MeetingDetail = ({ navigation, route }) => {
       case "genoType":
         return `${patientDetails.genotype ?? "Not availabe"}`;
       case "problems":
-        return `${removeCommaFromEnd(apointmentDetails.problem) ?? "Not availabe"}`;
+        return `${
+          removeCommaFromEnd(apointmentDetails.problem) ?? "Not availabe"
+        }`;
       default:
         return "";
     }
@@ -357,7 +374,7 @@ const MeetingDetail = ({ navigation, route }) => {
       setMedDose(null);
       setMedName(null);
       setDuration(null);
-      setUpdateData(null)
+      setUpdateData(null);
       dispatch(disableLoader());
       fetchOrders();
       fetchPrescription();
@@ -375,8 +392,8 @@ const MeetingDetail = ({ navigation, route }) => {
       .join(" "); // Join back into a single string
   }
 
-  const renderItem = ({ item }) => (
-    <View style={styles.row}>
+  const renderItem = ({ item, index }) => (
+    <View style={styles.row} key={`${item?.id}-${index}`}>
       <View style={[styles.cell, styles.center]}>
         <Text style={styles.text}>{item?.text}</Text>
       </View>
@@ -405,8 +422,8 @@ const MeetingDetail = ({ navigation, route }) => {
       </View>
     </View>
   );
-  const renderPrescriptionItem = ({ item }) => (
-    <View style={styles.row}>
+  const renderPrescriptionItem = ({ item, index }) => (
+    <View style={styles.row} key={`${item?.id}-${index}`}>
       <View style={[styles.cell, styles.center]}>
         <Text style={styles.text}>{item?.medication_name}</Text>
       </View>
@@ -460,8 +477,11 @@ const MeetingDetail = ({ navigation, route }) => {
                 // defaultSource={IMAGES.avatar_placeholder}
               />
               <View>
-                {INFO.map((i) => (
-                  <View style={{ flexDirection: "row",alignItems:"center" }}>
+                {INFO.map((i, index) => (
+                  <View
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    key={index}
+                  >
                     <Typography
                       size={12}
                       style={{ width: wp("18") }}
@@ -485,13 +505,19 @@ const MeetingDetail = ({ navigation, route }) => {
 
             <View style={styles.timerContainer}>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>{apointmentDetails?.hour ?? "00"}</Text>
+                <Text style={{ color: "white" }}>
+                  {apointmentDetails?.hour ?? "00"}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>{apointmentDetails?.minute??"00"}</Text>
+                <Text style={{ color: "white" }}>
+                  {apointmentDetails?.minute ?? "00"}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.timerButton}>
-                <Text style={{ color: "white" }}>{apointmentDetails?.seconds ?? "00"}</Text>
+                <Text style={{ color: "white" }}>
+                  {apointmentDetails?.seconds ?? "00"}
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -560,8 +586,8 @@ const MeetingDetail = ({ navigation, route }) => {
               />
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={async() => {
-                await  postData(
+                onPress={async () => {
+                  await postData(
                     updateData ? "/update-prescription" : "/add-prescription",
                     {
                       doctor_id: apointmentDetails.doctor_id,
@@ -574,9 +600,8 @@ const MeetingDetail = ({ navigation, route }) => {
                     }
                   );
                   setTimeout(() => {
-                    
-                    fetchPrescription()
-                    fetchOrders()  
+                    fetchPrescription();
+                    fetchOrders();
                   }, 1000);
                 }}
               >
@@ -590,7 +615,7 @@ const MeetingDetail = ({ navigation, route }) => {
                 flexDirection: "row",
                 alignItems: "center",
                 alignContent: "center",
-                marginBottom: hp("4"),
+                marginBottom: hp("2"),
                 justifyContent: "space-between",
               }}
             >
@@ -640,7 +665,7 @@ const MeetingDetail = ({ navigation, route }) => {
                   {/* Table Data */}
                   <FlatList
                     data={allPrescription}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item, index) => `key-${item.id}-${index}`}
                     renderItem={renderPrescriptionItem}
                   />
                 </View>
@@ -662,7 +687,7 @@ const MeetingDetail = ({ navigation, route }) => {
                   alignSelf: "center",
                 }}
               >
-                <Text style={styles.sectionTitle}>Add Order</Text>
+                <Text style={{ ...styles.sectionTitle }}>Add Order</Text>
                 <FontAwesome
                   size={hp("2")}
                   color={COLORS.primary}
@@ -689,22 +714,20 @@ const MeetingDetail = ({ navigation, route }) => {
               />
               <TouchableOpacity
                 style={styles.addButton}
-                onPress={async() =>
-                 {await postData(updateData ? "/update-order" : "/add-order", {
+                onPress={async () => {
+                  await postData(updateData ? "/update-order" : "/add-order", {
                     doctor_id: apointmentDetails.doctor_id,
                     patient_id: patientDetails.user_id,
                     consultation_id: apointmentDetails.id,
                     text: orderText,
                     ordernote: orderNote,
                     id: updateData,
-                  })
+                  });
                   setTimeout(() => {
-                    
-                    fetchPrescription()
-                    fetchOrders()  
+                    fetchPrescription();
+                    fetchOrders();
                   }, 1000);
-                }
-                }
+                }}
               >
                 <Text style={{ color: "white" }}>Save</Text>
               </TouchableOpacity>
@@ -716,11 +739,11 @@ const MeetingDetail = ({ navigation, route }) => {
                 flexDirection: "row",
                 alignItems: "center",
                 alignContent: "center",
-                // marginBottom: hp("4"),
+                marginBottom: hp("2"),
                 justifyContent: "space-between",
               }}
             >
-              <Text style={{ ...styles.sectionTitle, marginBottom: hp('2') }}>
+              <Text style={{ ...styles.sectionTitle, marginBottom: 0 }}>
                 Order by doctor
               </Text>
               <TouchableOpacity
@@ -763,7 +786,7 @@ const MeetingDetail = ({ navigation, route }) => {
                     {/* Table Data */}
                     <FlatList
                       data={allOrders}
-                      keyExtractor={(item) => item.id}
+                      keyExtractor={(item, index) => `key-${item.id}-${index}`}
                       renderItem={renderItem}
                     />
                   </View>

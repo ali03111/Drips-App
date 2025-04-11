@@ -6,6 +6,7 @@ import {
   Button,
   StyleSheet,
   TouchableWithoutFeedback,
+  LogBox,
 } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -194,6 +195,21 @@ function HomeScreen(props) {
         props.navigation.navigate("LoginScreen");
       }
     });
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      LogBox.ignoreLogs([
+        "VirtualizedLists should never be nested",
+        "ViewPropTypes will be removed from React Native",
+        "Settings is not yet supported on Android",
+        "ViewPropTypes will be removed",
+        "exported from 'deprecated-react-native-prop-types'.",
+        "Sending...",
+        "Non-serializable values were found in the navigation state",
+      ]);
+      LogBox.ignoreAllLogs(true);
+    })();
   }, []);
 
   return (
