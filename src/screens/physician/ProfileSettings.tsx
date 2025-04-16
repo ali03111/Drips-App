@@ -139,7 +139,7 @@ const ProfileSettings = (props) => {
       label: "Speciality",
       placeholder: "Speciality",
       type: "text",
-      value: `${doctorDetails.Speciality}`,
+      value: `${doctorDetails.speciality_name}`,
       error: "",
       editable: false,
       keyboardType: "default",

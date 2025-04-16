@@ -401,6 +401,8 @@ PODS:
     - React-logger (= 0.70.6)
     - React-perflogger (= 0.70.6)
   - ReactNativeDailyJSScreenShareExtension (0.0.1)
+  - ReactNativeIncallManager (4.2.0):
+    - React-Core
   - rn-fetch-blob (0.12.0):
     - React-Core
   - RNCallKeep (4.3.9):
@@ -541,6 +543,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeIncallManager (from `../node_modules/react-native-incall-manager`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCallKeep (from `../node_modules/@zegocloud/react-native-callkeep`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
@@ -676,6 +679,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeIncallManager:
+    :path: "../node_modules/react-native-incall-manager"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNCallKeep:
@@ -780,6 +785,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
   ReactNativeDailyJSScreenShareExtension: 70af702672121fcd283d7d567def4e501ce207b1
+  ReactNativeIncallManager: bfc9c67358cd524882a7c4116dcb311ac2293d4b
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCallKeep: 7c86d916fbc6b2184a5cf47967a240928994547e
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a

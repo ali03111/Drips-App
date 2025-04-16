@@ -117,7 +117,9 @@ const CreatePassword = (props) => {
           contentContainerStyle={{
             flex: 1,
             justifyContent: "flex-end",
-            paddingBottom: 0,
+            paddingBottom: Boolean(isKeyboard && Platform.OS != "android")
+              ? hp("35")
+              : 0,
           }}
         >
           <View style={styles.container}>
