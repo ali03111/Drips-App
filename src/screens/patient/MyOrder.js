@@ -82,7 +82,7 @@ const MyOrder = (props) => {
     return true;
   };
 
-  const BASE_URL = "https://webvortech.com/drips/custom-portal/api";
+  const BASE_URL = "https://dripsmedical.com/custom-portal/api";
 
   const downloadOrdersApi = async (id, patient_id, doctor_id) => {
     // const hasPermission = await requestStoragePermission();

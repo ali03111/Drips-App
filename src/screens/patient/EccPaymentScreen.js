@@ -43,35 +43,57 @@ const EccPaymentScreen = () => {
               resizeMode={"contain"}
             />
 
-            <Typography size={20} color={COLORS.primary} style={{fontWeight:"bold"}} >
-            {"Registration Fee \nECC Card"} 
+            <Typography
+              size={20}
+              color={COLORS.primary}
+              style={{ fontWeight: "bold" }}
+            >
+              {"Registration Fee \nECC Card"}
             </Typography>
-            <Typography size={15} color={COLORS.black} >
+            <Typography size={15} color={COLORS.black}></Typography>
+            <Typography size={15} color={COLORS.black}>
+              One-Time Fee for Exclusive Benefits
             </Typography>
-            <Typography size={15} color={COLORS.black} >
-            One-Time Fee for Exclusive Benefits 
+            <Typography size={15} color={COLORS.black}></Typography>
+            <Typography size={12} color={COLORS.darkGray}>
+              Get your ECC Card and enjoy seamless pet| transportation and care
+              services! Pay a onetime registration fee and unlock exclusive
+              benefits.
             </Typography>
-            <Typography size={15} color={COLORS.black} >
+            <Typography size={15} color={COLORS.black}></Typography>
+            <Typography
+              size={12}
+              color={COLORS.darkGray}
+              style={{ marginVertical: hp("0.5") }}
+            >
+              • One-time payment - No hidden charges!
             </Typography>
-            <Typography size={12} color={COLORS.darkGray} >
-            Get your ECC Card and enjoy seamless pet| transportation and care services! Pay a onetime registration fee and unlock exclusive benefits. 
+            <Typography
+              size={12}
+              color={COLORS.darkGray}
+              style={{ marginVertical: hp("0.5") }}
+            >
+              • Priority bookings & special discounts
             </Typography>
-            <Typography size={15} color={COLORS.black} >
+            <Typography
+              size={12}
+              color={COLORS.darkGray}
+              style={{ marginVertical: hp("0.5") }}
+            >
+              • Hassle-free pet transport experience
             </Typography>
-            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
-            • One-time payment - No hidden charges!
-            </Typography>
-            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
-            • Priority bookings & special discounts
-            </Typography>
-            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
-            • Hassle-free pet transport experience
-            </Typography>
-            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
-            </Typography>
-            <Typography size={12} color={COLORS.darkGray} style={{marginVertical:hp('0.5')}} >
-            Complete your payment now to activate your
-            ECC Card and get started! *
+            <Typography
+              size={12}
+              color={COLORS.darkGray}
+              style={{ marginVertical: hp("0.5") }}
+            ></Typography>
+            <Typography
+              size={12}
+              color={COLORS.darkGray}
+              style={{ marginVertical: hp("0.5") }}
+            >
+              Complete your payment now to activate your ECC Card and get
+              started! *
             </Typography>
 
             <View style={{ marginTop: hp("10") }}>
@@ -94,7 +116,7 @@ const EccPaymentScreen = () => {
             <View style={{ flex: 1 }}>
               <WebView
                 source={{
-                  uri: `https://webvortech.com/drips/custom-portal/ecc-payment/${user?.user_id}`,
+                  uri: `https://dripsmedical.com/custom-portal/ecc-payment/${user?.user_id}`,
                 }}
               />
             </View>

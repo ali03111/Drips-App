@@ -80,7 +80,7 @@ const GeneralTestResults = (props) => {
     return true;
   };
 
-  const BASE_URL = "https://webvortech.com/drips/custom-portal/api"; // 🔹 Replace with your API's base URL
+  const BASE_URL = "https://dripsmedical.com/custom-portal/api"; // 🔹 Replace with your API's base URL
 
   const downloadOrdersApi = async (filePath) => {
     dispatch(enableLoader());

@@ -2,9 +2,9 @@ import { Dimensions, Platform } from "react-native";
 
 // export const BASEURL = 'https://dripsmedical.com/portal/api';
 // export const IMAGE_URL = "https://dripsmedical.com/portal/public/";
-export const BASEURL = "https://webvortech.com/drips/custom-portal/api";
-export const IMAGE_URL = "https://webvortech.com/drips/custom-portal/public/";
-export const PAYMENT_URL = "https://webvortech.com/drips/custom-portal/paynow";
+export const BASEURL = "https://dripsmedical.com/custom-portal/api";
+export const IMAGE_URL = "https://dripsmedical.com/custom-portal/public/";
+export const PAYMENT_URL = "https://dripsmedical.com/custom-portal/paynow";
 export const MAP_KEY = "AIzaSyAquzgo847shlU-SpPXLZMgShv6EW9pQmw";
 export const SRTIPE_PK =
   "pk_test_51KxRBHEcLpIir0EoFjCv1Z3T7EAF2kPfyVXZWr6P1Y1RJi2kaow1tElS37tVxFK6qt1VK9pnmkMjAyrjW7xvKBFE00vwvkxGZD";

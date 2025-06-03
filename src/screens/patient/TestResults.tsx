@@ -110,7 +110,7 @@ const TestResults = (props) => {
   const [activeSections, setActiveSections] = useState([]);
   const updateSections = (sections) => setActiveSections(sections);
 
-  const BASE_URL = "https://webvortech.com/drips/custom-portal/api"; // Your API base URL
+  const BASE_URL = "https://dripsmedical.com/custom-portal/api"; // Your API base URL
 
   const requestStoragePermission = async () => {
     if (Platform.OS === "android") {

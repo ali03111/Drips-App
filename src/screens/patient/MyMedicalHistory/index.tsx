@@ -275,7 +275,7 @@ const MyMedicalHistory = (props) => {
                     <View style={{ flex: 1 }}>
                       <WebView
                         source={{
-                          uri: `https://webvortech.com/drips/custom-portal/api/social-history-form?id=${user?.user_id}`,
+                          uri: `https://dripsmedical.com/custom-portal/api/social-history-form?id=${user?.user_id}`,
                         }}
                       />
                     </View>
