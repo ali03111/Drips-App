@@ -225,7 +225,7 @@ const PhysicianDetail = (props) => {
                 resizeMode="contain"
                 style={{ width: wp("5"), height: hp("2") }}
               />
-              <Typography>₦50</Typography>
+              <Typography>₦{item?.price_audio}</Typography>
             </View>
             <View style={commonStyles.separator} />
             <View
@@ -236,7 +236,7 @@ const PhysicianDetail = (props) => {
                 resizeMode="contain"
                 style={{ width: wp("5"), height: hp("2") }}
               />
-              <Typography>₦80</Typography>
+              <Typography>₦{item?.price}</Typography>
             </View>
             <View style={commonStyles.separator} />
             <View

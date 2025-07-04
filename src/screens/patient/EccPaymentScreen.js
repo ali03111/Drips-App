@@ -48,7 +48,7 @@ const EccPaymentScreen = () => {
               color={COLORS.primary}
               style={{ fontWeight: "bold" }}
             >
-              {"Registration Fee \nECC Card"}
+              {"ECC Registration Fee:"}
             </Typography>
             <Typography size={15} color={COLORS.black}></Typography>
             <Typography size={15} color={COLORS.black}>
@@ -56,9 +56,21 @@ const EccPaymentScreen = () => {
             </Typography>
             <Typography size={15} color={COLORS.black}></Typography>
             <Typography size={12} color={COLORS.darkGray}>
-              Get your ECC Card and enjoy seamless pet| transportation and care
-              services! Pay a onetime registration fee and unlock exclusive
-              benefits.
+              The Electronic Complaint Card (ECC) is a media enhanced digital
+              card that contains a summary of your medical and surgical history,
+              which allows you upload media files like your lab test results for
+              instant review by a doctor.
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray}></Typography>
+            <Typography size={12} color={COLORS.darkGray}>
+              It also allows a real-time edit of this information, with each
+              consultation providing the most up to date information of your
+              clinical status.
+            </Typography>
+            <Typography size={12} color={COLORS.darkGray}></Typography>
+            <Typography size={12} color={COLORS.darkGray}>
+              Registration of the ECC is a one-time fee for new users, and it
+              becomes a permanent folder in your medical records with DRIPS.
             </Typography>
             <Typography size={15} color={COLORS.black}></Typography>
             <Typography
@@ -66,21 +78,21 @@ const EccPaymentScreen = () => {
               color={COLORS.darkGray}
               style={{ marginVertical: hp("0.5") }}
             >
-              • One-time payment - No hidden charges!
+              • One-time payment - No subscriptions
             </Typography>
             <Typography
               size={12}
               color={COLORS.darkGray}
               style={{ marginVertical: hp("0.5") }}
             >
-              • Priority bookings & special discounts
+              • Allows access to your patient portal
             </Typography>
             <Typography
               size={12}
               color={COLORS.darkGray}
               style={{ marginVertical: hp("0.5") }}
             >
-              • Hassle-free pet transport experience
+              • Used each time when booking a consultation with a doctor
             </Typography>
             <Typography
               size={12}
@@ -92,11 +104,10 @@ const EccPaymentScreen = () => {
               color={COLORS.darkGray}
               style={{ marginVertical: hp("0.5") }}
             >
-              Complete your payment now to activate your ECC Card and get
-              started! *
+              *Complete your payment now to activate your ECC and get started
             </Typography>
 
-            <View style={{ marginTop: hp("10") }}>
+            <View style={{ marginTop: hp("3") }}>
               <Button label={"Pay Now"} onPress={() => setPayment(true)} />
             </View>
           </View>

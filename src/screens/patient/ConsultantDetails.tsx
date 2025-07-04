@@ -347,7 +347,7 @@ const ConsultantDetails = (props) => {
                       resizeMode="contain"
                       style={{ width: wp("5"), height: hp("2") }}
                     />
-                    <Typography>₦50</Typography>
+                    <Typography>₦{doctorDetails?.price_audio}</Typography>
                   </View>
                 )}
                 {apointmentDetails.appointment_type == "video" && (
@@ -362,7 +362,7 @@ const ConsultantDetails = (props) => {
                       resizeMode="contain"
                       style={{ width: wp("5"), height: hp("2") }}
                     />
-                    <Typography>₦80</Typography>
+                    <Typography>₦{doctorDetails?.price}</Typography>
                   </View>
                 )}
               </>

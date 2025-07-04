@@ -188,7 +188,11 @@ const SelectPhysician = (props) => {
                     <View style={styles.detailsContainer}>
                       <View style={styles.cardDetail}>
                         <View style={{ flex: 1 }}>
-                          <Typography size={14} textType="semiBold">
+                          <Typography
+                            size={14}
+                            textType="semiBold"
+                            numberOfLines={2}
+                          >
                             {item.name} {item?.designation}
                           </Typography>
                           {/* <Typography size={14} textType="semiBold">
