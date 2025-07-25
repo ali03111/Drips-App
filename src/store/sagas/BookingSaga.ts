@@ -64,7 +64,7 @@ export function* getDoctorDetailsReq(action: any): any {
     action.payload
   );
   yield put(disableLoader());
-  
+  console.log("lksdbvlksbdklvbskldbvklsd",response)
   if(response.code === '200'){
     yield put( updateConsultantData({ doctorDetails: response.doctorinfo[0] }) );
     /* if(userType===1)

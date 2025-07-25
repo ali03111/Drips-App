@@ -29,11 +29,13 @@ export const forgotPasswordApi = ( data:any ) => post(`/forget/password`, JSON.s
 export const getPatientProfileApi = (data:any) => post(`/patient-detail`, JSON.stringify(data));
 
 export const getSymptomsApi = ( ) => get(`/symtoms`);
-export const getConsultantDetailsApi = ( data: any ) => post(`/getAppointment`, JSON.stringify(data));
+export const getConsultantDetailsApi = ( data: any ) => get(`/getAppointment?id=${data}`);
+// export const getConsultantDetailsApi = ( data: any ) => get(`/getAppointment?id=${data}`, JSON.stringify(data));
 export const consultationReqApi = ( data: any ) => post(`/consultation`, data,{},true );
 export const bookApointmentApi = ( data: any ) => post(`/bookAppointment`, data,{},true );
 export const getPatientApointmentApi = ( data: any ) => post(`/getallAppointment`, JSON.stringify(data));
-export const getDoctorDetailsApi = ( data: any ) => post(`/doctor-detail`, JSON.stringify(data));
+export const getDoctorDetailsApi = ( data: any ) => post(`/doctor-detail?id=${data?.id}`);
+// export const getDoctorDetailsApi = ( data: any ) => post(`/doctor-detail`, JSON.stringify(data));
 export const getMedicalHistoryApi = ( data: any ) => get(`/patient_medical_history?patient_id=${data.patient_id}`);
 export const updateMedicalHistoryApi = ( data: any ) => post(`/patient-medical-history-edit`,data,{},true);
 export const fetchPrescriptionsApi = ( id: any ) => get(`/my-prescription?patient_id=${id}`);

@@ -113,8 +113,9 @@ export function* getConsultantDetails(action: any): any {
   yield put(enableLoader());
   const response = yield call(
     getConsultantDetailsApi,
-    action.payload
+    action.payload?.id
   );
+      console.log("lksdblvkbsdlkvblksdbvklsbdlkvbsldkbvksbvjdbfjksgdkjfsdgflksd",response, action.payload)
   yield put(disableLoader());
   if(response.code === '200' ){
     yield put( updateConsultantData({ apointmentDetails: response.data }) );
